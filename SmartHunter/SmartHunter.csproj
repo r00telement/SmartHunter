@@ -80,6 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Data\WidgetContext.cs" />
     <Compile Include="Game\Config\DebugConfig.cs" />
     <Compile Include="Game\Config\MonsterCrownConfig.cs" />
     <Compile Include="Game\Config\MonsterDataConfig.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Core\FileContainer.cs" />
     <Compile Include="Core\GenericEventArgs.cs" />
     <Compile Include="Core\KeyboardInputEventArgs.cs" />
+    <Compile Include="Game\Config\TeamWidgetConfig.cs" />
     <Compile Include="Game\Data\PlayerStatusEffect.cs" />
     <Compile Include="Game\Data\WidgetContexts\PlayerWidgetContext.cs" />
     <Compile Include="Game\InputControl.cs" />

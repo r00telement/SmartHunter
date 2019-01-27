@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 namespace SmartHunter.Game.Data.WidgetContexts
 {
-    public class PlayerWidgetContext : Bindable
+    public class PlayerWidgetContext : WidgetContext
     {
         private class PlayerStatusEffectSorter : IComparer
         {

@@ -1,5 +1,4 @@
 ﻿using SmartHunter.Core.Config;
-using System;
 using System.Text.RegularExpressions;
 
 namespace SmartHunter.Game.Config
@@ -12,6 +11,12 @@ namespace SmartHunter.Game.Config
         public float HidePartsAfterSeconds = 20f;
         public bool ShowUnchangedStatusEffects = false;
         public float HideStatusEffectsAfterSeconds = 20f;
+
+        public bool ShowHealthBar = true;
+        public bool ShowHealth = true;
+        public bool ShowCrown = true;
+        public bool ShowParts = true;
+        public bool ShowStatusEffects = true;
 
         public MonsterWidgetConfig(float x, float y) : base(x, y)
         {

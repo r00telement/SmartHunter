@@ -76,7 +76,7 @@ namespace SmartHunter.Core.Data
             CanSaveConfig = true;
         }
 
-        public void UpdateFromConfig()
+        public virtual void UpdateFromConfig()
         {
             X = m_WidgetConfig.X;
             Y = m_WidgetConfig.Y;

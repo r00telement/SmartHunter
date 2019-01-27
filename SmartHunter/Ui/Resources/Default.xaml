@@ -366,7 +366,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Heading}" VerticalAlignment="Bottom" />
 
-                        <Grid Height="20" Margin="6 0 0 0">
+                        <Grid Name="Crown" Height="20" Margin="6 0 0 0">
                             <ContentControl Name="Icon" ContentTemplate="{StaticResource A_Graphic_Crown}">
                                 <ContentControl.Background>
                                     <SolidColorBrush Color="{StaticResource A_Color_Crown_Gold_Body}" />
@@ -378,7 +378,7 @@
                         </Grid>
                     </StackPanel>
 
-                    <TextBlock Style="{StaticResource A_Style_TextBlock_Standard}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="12 0 0 0">
+                    <TextBlock Name="Health" Style="{StaticResource A_Style_TextBlock_Standard}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="12 0 0 0">
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
                                 <Binding Path="Health.Current" Mode="OneWay" />
@@ -389,19 +389,36 @@
                     </TextBlock>
                 </DockPanel>
 
-                <ContentControl Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="10" Margin="0 2 0 0">
+                <ContentControl Name="HealthBar" Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="10" Margin="0 2 0 0">
                     <ContentControl.Foreground>
                         <SolidColorBrush Color="{StaticResource A_Color_Monster_Bar}" />
                     </ContentControl.Foreground>
                 </ContentControl>
             </StackPanel>
 
-            <ItemsControl ItemsSource="{Binding RemovableParts}" />
-            <ItemsControl ItemsSource="{Binding Parts}" />
-            <ItemsControl ItemsSource="{Binding StatusEffects}" />
+            <ItemsControl Name="RemovableParts" ItemsSource="{Binding RemovableParts}" />
+            <ItemsControl Name="Parts" ItemsSource="{Binding Parts}" />
+            <ItemsControl Name="StatusEffects" ItemsSource="{Binding StatusEffects}" />
         </StackPanel>
 
         <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding DataContext.ShowHealthBar, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
+                <Setter TargetName="HealthBar" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding DataContext.ShowHealth, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
+                <Setter TargetName="Health" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding DataContext.ShowCrown, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
+                <Setter TargetName="Crown" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding DataContext.ShowParts, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
+                <Setter TargetName="RemovableParts" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="Parts" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding DataContext.ShowStatusEffects, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
+                <Setter TargetName="StatusEffects" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            
             <DataTrigger Binding="{Binding Crown, Converter={StaticResource A_Converter_EnumComparison}, ConverterParameter={x:Static data:MonsterCrown.None}}" Value="True">
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
             </DataTrigger>
@@ -480,6 +497,17 @@
         </Grid>
 
         <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding DataContext.ShowDamageNumber, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
+                <Setter TargetName="DescriptionBlock" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{1}">
+                            <Binding Path="Damage" Mode="OneWay" />
+                            <Binding Path="DamageFraction" Mode="OneWay" Converter="{StaticResource A_Converter_FractionToPercentage}" />
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
             <DataTrigger Binding="{Binding Damage}" Value="0">
                 <Setter TargetName="DescriptionBlock" Property="Visibility" Value="Collapsed" />
             </DataTrigger>

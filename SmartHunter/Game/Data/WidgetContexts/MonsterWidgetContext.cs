@@ -6,11 +6,46 @@ using System.Windows.Data;
 
 namespace SmartHunter.Game.Data.WidgetContexts
 {
-    public class MonsterWidgetContext : Bindable
+    public class MonsterWidgetContext : WidgetContext
     {
         public ObservableCollection<Monster> Monsters { get; private set; }
         public CollectionViewSource MonstersViewSource { get; private set; }
-        
+
+        bool m_ShowHealthBar = true;
+        public bool ShowHealthBar
+        {
+            get { return m_ShowHealthBar; }
+            set { SetProperty(ref m_ShowHealthBar, value); }
+        }
+
+        bool m_ShowHealth = true;
+        public bool ShowHealth
+        {
+            get { return m_ShowHealth; }
+            set { SetProperty(ref m_ShowHealth, value); }
+        }
+
+        bool m_ShowCrown = true;
+        public bool ShowCrown
+        {
+            get { return m_ShowCrown; }
+            set { SetProperty(ref m_ShowCrown, value); }
+        }
+
+        bool m_ShowParts = true;
+        public bool ShowParts
+        {
+            get { return m_ShowParts; }
+            set { SetProperty(ref m_ShowParts, value); }
+        }
+
+        bool m_ShowStatusEffects = true;
+        public bool ShowStatusEffects
+        {
+            get { return m_ShowStatusEffects; }
+            set { SetProperty(ref m_ShowStatusEffects, value); }
+        }
+
         public MonsterWidgetContext()
         {
             Monsters = new ObservableCollection<Monster>();
@@ -24,6 +59,8 @@ namespace SmartHunter.Game.Data.WidgetContexts
                 var monster = e.Item as Monster;
                 e.Accepted = ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchIncludeMonsterIdRegex(monster.Id);
             };
+
+            UpdateFromConfig();
         }
 
         public Monster UpdateAndGetMonster(ulong address, string id, float maxHealth, float currentHealth, float sizeScale)
@@ -45,6 +82,17 @@ namespace SmartHunter.Game.Data.WidgetContexts
             Monsters.Add(monster);
 
             return monster;
+        }
+
+        public override void UpdateFromConfig()
+        {
+            base.UpdateFromConfig();
+
+            ShowHealthBar = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowHealthBar;
+            ShowHealth = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowHealth;
+            ShowCrown = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowCrown;
+            ShowParts = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowParts;
+            ShowStatusEffects = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowStatusEffects;
         }
     }
 }

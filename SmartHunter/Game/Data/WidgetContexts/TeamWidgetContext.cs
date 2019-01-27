@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace SmartHunter.Game.Data.WidgetContexts
 {
-    public class TeamWidgetContext : Bindable
+    public class TeamWidgetContext : WidgetContext
     {
         private class PlayerSorter : IComparer
         {
@@ -50,6 +50,13 @@ namespace SmartHunter.Game.Data.WidgetContexts
         public ObservableCollection<Player> Players { get; private set; }
         public CollectionViewSource PlayersViewSource { get; private set; }
 
+        bool m_ShowDamageNumber = true;
+        public bool ShowDamageNumber
+        {
+            get { return m_ShowDamageNumber; }
+            set { SetProperty(ref m_ShowDamageNumber, value); }
+        }
+
         public TeamWidgetContext()
         {
             Players = new ObservableCollection<Player>();
@@ -59,6 +66,8 @@ namespace SmartHunter.Game.Data.WidgetContexts
             PlayersViewSource.IsLiveSortingRequested = true;
             PlayersViewSource.LiveSortingProperties.Add(nameof(Player.Damage));
             (PlayersViewSource.View as ListCollectionView).CustomSort = new PlayerSorter();
+
+            UpdateFromConfig();
         }
 
         public Player UpdateAndGetPlayer(int index, string name, int damage, bool isLocalPlayer)
@@ -119,6 +128,13 @@ namespace SmartHunter.Game.Data.WidgetContexts
                     otherPlayer.BarFraction = (float)otherPlayer.Damage / (float)highestDamagePlayer.Damage;
                 }
             }
+        }
+
+        public override void UpdateFromConfig()
+        {
+            base.UpdateFromConfig();
+
+            ShowDamageNumber = ConfigHelper.Main.Values.Overlay.TeamWidget.ShowDamageNumber;
         }
     }
 }

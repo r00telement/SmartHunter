@@ -2,18 +2,28 @@
 
 namespace SmartHunter.Core.Data
 {
-    public class ContextualWidget<T> : Widget where T : Bindable
+    public class ContextualWidget<TWidgetContext> : Widget where TWidgetContext : WidgetContext
     {
-        private T m_Context;
-        public T Context
+        private TWidgetContext m_Context;
+        public TWidgetContext Context
         {
             get { return m_Context; }
             set { SetProperty(ref m_Context, value); }
         }
 
-        public ContextualWidget(WidgetConfig widgetConfig, T context = null) : base(widgetConfig)
+        public ContextualWidget(WidgetConfig widgetConfig, TWidgetContext context = null) : base(widgetConfig)
         {
             m_Context = context;
+        }
+
+        public override void UpdateFromConfig()
+        {
+            base.UpdateFromConfig();
+
+            if (Context != null)
+            {
+                Context.UpdateFromConfig();
+            }
         }
     }
 }
