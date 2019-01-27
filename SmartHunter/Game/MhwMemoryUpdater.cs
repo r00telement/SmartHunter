@@ -57,6 +57,8 @@ namespace SmartHunter.Game
 
         protected override void UpdateMemory()
         {
+            UpdateVisibility();
+
             bool traceUniquePointers = ConfigHelper.Main.Values.Debug.TraceUniquePointers;
 
             bool monsterWidgetIsVisible = ConfigHelper.Main.Values.Overlay.MonsterWidget.IsVisible;
@@ -123,6 +125,21 @@ namespace SmartHunter.Game
                     OverlayViewModel.Instance.PlayerWidget.Context.StatusEffects.Clear();
                 }
             }            
+        }
+
+        void UpdateVisibility()
+        {
+            // Show or hide the overlay depending on whether the game process is active
+            var foregroundWindowHandle = WindowsApi.GetForegroundWindow();
+            if (ConfigHelper.Main.Values.Overlay.HideWhenGameWindowIsInactive && OverlayViewModel.Instance.IsVisible && foregroundWindowHandle != Process.MainWindowHandle)
+            {
+                OverlayViewModel.Instance.IsVisible = false;
+            }
+            else if (!OverlayViewModel.Instance.IsVisible && 
+                (!ConfigHelper.Main.Values.Overlay.HideWhenGameWindowIsInactive || foregroundWindowHandle == Process.MainWindowHandle))
+            {
+                OverlayViewModel.Instance.IsVisible = true;
+            }
         }
     }
 }

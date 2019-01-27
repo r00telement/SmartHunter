@@ -30,7 +30,9 @@
                 <ScaleTransform ScaleX="{Binding PlayerWidget.Scale}" ScaleY="{Binding PlayerWidget.Scale}" />
             </Grid.LayoutTransform>
 
-            <ContentControl Content="{StaticResource A_ContentControl_PlayerWidget}" DataContext="{Binding PlayerWidget.Context}" />
+            <Grid Visibility="{Binding IsVisible, Converter={StaticResource A_Converter_BoolToVisibility}}">
+                <ContentControl Content="{StaticResource A_ContentControl_PlayerWidget}" DataContext="{Binding PlayerWidget.Context}" />
+            </Grid>
         </Grid>
 
         <StackPanel DockPanel.Dock="Top" Background="#aa000000" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="{Binding CanManipulateWindows, Converter={StaticResource A_Converter_BoolToVisibility}}">

@@ -165,19 +165,19 @@ namespace SmartHunter.Core
 
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct WindowCompositionAttributeData
+        public struct WindowCompositionAttributeData
         {
             public WindowCompositionAttribute Attribute;
             public IntPtr Data;
             public int SizeOfData;
         }
 
-        internal enum WindowCompositionAttribute
+        public enum WindowCompositionAttribute
         {
             WCA_ACCENT_POLICY = 19
         }
 
-        internal enum AccentState
+        public enum AccentState
         {
             ACCENT_DISABLED = 0,
             ACCENT_ENABLE_GRADIENT = 1,
@@ -189,7 +189,7 @@ namespace SmartHunter.Core
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct AccentPolicy
+        public struct AccentPolicy
         {
             public AccentState AccentState;
             public uint AccentFlags;
@@ -198,7 +198,7 @@ namespace SmartHunter.Core
         }
 
         [DllImport("user32.dll")]
-        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+        public static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
 
         public enum KeyboardMessage
@@ -242,14 +242,14 @@ namespace SmartHunter.Core
         public static extern IntPtr CallNextHookEx(IntPtr hHook, int code, IntPtr wParam, IntPtr lParam);
 
 
-        internal enum PROCESS_DPI_AWARENESS
+        public enum PROCESS_DPI_AWARENESS
         {
             PROCESS_DPI_UNAWARE = 0,
             PROCESS_SYSTEM_DPI_AWARE = 1,
             PROCESS_PER_MONITOR_DPI_AWARE = 2
         }
 
-        internal enum DPI_AWARENESS_CONTEXT
+        public enum DPI_AWARENESS_CONTEXT
         {
             DPI_AWARENESS_CONTEXT_UNAWARE = 16,
             DPI_AWARENESS_CONTEXT_SYSTEM_AWARE = 17,
@@ -258,12 +258,16 @@ namespace SmartHunter.Core
         }
 
         [DllImport("user32.dll", SetLastError = true)]
-        internal static extern bool SetProcessDpiAwarenessContext(int dpiFlag);
+        public static extern bool SetProcessDpiAwarenessContext(int dpiFlag);
 
         [DllImport("SHCore.dll", SetLastError = true)]
-        internal static extern bool SetProcessDpiAwareness(PROCESS_DPI_AWARENESS awareness);
+        public static extern bool SetProcessDpiAwareness(PROCESS_DPI_AWARENESS awareness);
 
         [DllImport("user32.dll")]
-        internal static extern bool SetProcessDPIAware();
+        public static extern bool SetProcessDPIAware();
+
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
     }
 }

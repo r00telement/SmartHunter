@@ -36,7 +36,14 @@ namespace SmartHunter.Game.Data.ViewModels
             get { return m_CanManipulateWindows; }
             set { SetProperty(ref m_CanManipulateWindows, value); }
         }
-        
+
+        bool m_IsVisible = true;
+        public bool IsVisible
+        {
+            get { return m_IsVisible; }
+            set { SetProperty(ref m_IsVisible, value); }
+        }
+
         public OverlayViewModel()
         {
             TeamWidget = new ContextualWidget<TeamWidgetContext>(ConfigHelper.Main.Values.Overlay.TeamWidget, new TeamWidgetContext());
