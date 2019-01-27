@@ -271,7 +271,7 @@ namespace SmartHunter.Game.Config
                 new MonsterCrownConfig(CrownPreset.Standard))
             },
             {
-                "9985",
+                "em117_00",
                 new MonsterConfig("LOC_MONSTER_KULVE_TAROTH",
                 new string[]
                 {
