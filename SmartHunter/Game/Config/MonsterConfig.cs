@@ -2,7 +2,7 @@
 // https://docs.google.com/spreadsheets/d/1zoRCvF4qKUZCgMGQw3vdtjVS-laX7-px6k1oPCJMg5E
 
 // Monster Crown Sizes
-// https://docs.google.com/spreadsheets/d/1zoRCvF4qKUZCgMGQw3vdtjVS-laX7-px6k1oPCJMg5E
+// https://docs.google.com/spreadsheets/d/1w4puqT7mlzG-Zfh1Ztgk0a35vmba-h-HW2o1G00qFA8
 
 namespace SmartHunter.Game.Config
 {
