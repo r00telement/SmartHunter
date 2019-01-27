@@ -1,0 +1,34 @@
+﻿using SmartHunter.Core;
+using SmartHunter.Game.Helpers;
+using System.Windows.Data;
+
+namespace SmartHunter.Ui.Converters
+{
+    public class LocalizerConverter : IValueConverter
+    {
+        public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string stringId = null;
+            if (value != null && value is string)
+            {
+                stringId = value as string;
+            }
+            else if (parameter != null && parameter is string)
+            {
+                stringId = parameter as string;
+            }
+            else
+            {
+                Log.WriteLine($"Localization Error: No string id provided");
+                return LocalizationHelper.MissingStringId;
+            }
+
+            return LocalizationHelper.GetString(stringId);
+        }
+
+        public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+}

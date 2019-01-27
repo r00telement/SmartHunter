@@ -1,0 +1,710 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    mc:Ignorable="d"
+                    xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=PresentationFramework"
+                    xmlns:converters="clr-namespace:SmartHunter.Ui.Converters"
+                    xmlns:coreData="clr-namespace:SmartHunter.Core.Data"
+                    xmlns:data="clr-namespace:SmartHunter.Game.Data">
+
+    <!--Base Resources-->
+
+    <converters:PlayerToPlayerIndexConverter x:Key="A_Converter_PlayerToPlayerIndex" />
+    <converters:FractionToPercentageConverter x:Key="A_Converter_FractionToPercentage" />
+    <converters:BoolToVisibilityConverter x:Key="A_Converter_BoolToVisibility" />
+    <converters:LocalizerConverter x:Key="A_Converter_Localizer" />
+    <converters:NumberComparisonConverter x:Key="A_Converter_NumberGreater" Comparison="Greater" />
+    <converters:NumberComparisonConverter x:Key="A_Converter_NumberNotEqual" Comparison="NotEqual" />
+    <converters:EnumComparisonConverter x:Key="A_Converter_EnumComparison" />
+    <converters:ColorTransformConverter x:Key="A_Converter_BackgroundColorTransform" SaturationAdjustment="-0.66" BrightnessAdjustment="0.66" OpacityOverride="0.3" />
+
+    <Color x:Key="A_Color_Player_0">#BB3333</Color>
+    <Color x:Key="A_Color_Player_1">#3366CC</Color>
+    <Color x:Key="A_Color_Player_2">#CCBB11</Color>
+    <Color x:Key="A_Color_Player_3">#33BB33</Color>
+
+    <Color x:Key="A_Color_Monster_Bar">#CC0000</Color>
+    <Color x:Key="A_Color_Monster_Part_Bar">#CC0000</Color>
+    <Color x:Key="A_Color_Monster_StatusEffect_Bar">#00CCCC</Color>
+
+    <Color x:Key="A_Color_PlayerStatusEffect_Group_Horn">#FFE1A9</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Group_Coral">#B0D0FF</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Group_Debuff">#EC7A7A</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Group_Buff">#DAFDBC</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Group_Equipment">#FFFFFFFF</Color>
+
+    <Color x:Key="A_Color_Crown_Mini_Body">#eed000</Color>
+    <Color x:Key="A_Color_Crown_Mini_Gem">#00dd00</Color>
+    <Color x:Key="A_Color_Crown_Gold_Body">#eed000</Color>
+    <Color x:Key="A_Color_Crown_Gold_Gem">#dd0000</Color>
+    <Color x:Key="A_Color_Crown_Silver_Body">#eeeeee</Color>
+    <Color x:Key="A_Color_Crown_Silver_Gem">#dd0000</Color>
+
+    <Style x:Key="A_Style_TextBlock_Heading" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Roboto" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="White" />
+
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="LineHeight" Value="20" />
+    </Style>
+
+    <Style x:Key="A_Style_TextBlock_Standard" TargetType="TextBlock" BasedOn="{StaticResource A_Style_TextBlock_Heading}">
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="LineHeight" Value="16" />
+    </Style>
+
+    <DataTemplate x:Key="A_DataTemplate_BarProgress">
+        <Grid>
+            <Grid Name="BarBackground" Background="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentControl}, Converter={StaticResource A_Converter_BackgroundColorTransform}}" />
+            <Grid Name="BarForeground" Background="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentControl}}">
+                <Grid.RenderTransform>
+                    <ScaleTransform ScaleX="{Binding .}" />
+                </Grid.RenderTransform>
+            </Grid>
+
+            <Grid>
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#00000000" Offset="0" />
+                        <GradientStop Color="#44000000" Offset="1" />
+                    </LinearGradientBrush>
+                </Grid.Background>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="A_DataTemplate_CircleProgress" DataType="{x:Type coreData:Progress}">
+        <Grid>
+            <Grid ClipToBounds="False">
+                <Grid.OpacityMask>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <Canvas Width="0" Height="0" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                <Canvas.RenderTransform>
+                                    <TranslateTransform X="-50" Y="-50" />
+                                </Canvas.RenderTransform>
+                                <Viewbox Width="100" Height="100">
+                                    <Grid>
+                                        <Path Data="{Binding ArcData}" Fill="#00000000" />
+                                        <Path Data="{Binding ArcDataRemainder}" Fill="#000000" />
+                                    </Grid>
+                                </Viewbox>
+                            </Canvas>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Grid.OpacityMask>
+
+                <Ellipse StrokeThickness="4" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentControl}, Converter={StaticResource A_Converter_BackgroundColorTransform}}" />
+            </Grid>
+
+            <Grid ClipToBounds="False">
+                <Grid.OpacityMask>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <Canvas Width="0" Height="0" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                <Canvas.RenderTransform>
+                                    <TranslateTransform X="-50" Y="-50" />
+                                </Canvas.RenderTransform>
+                                <Viewbox Width="100" Height="100">
+                                    <Grid>
+                                        <Path Data="{Binding ArcDataRemainder}" Fill="#00000000" />
+                                        <Path Data="{Binding ArcData}" Fill="#000000" />
+                                    </Grid>
+                                </Viewbox>
+                            </Canvas>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Grid.OpacityMask>
+
+                <Ellipse StrokeThickness="4" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentControl}}" />
+            </Grid>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="A_Graphic_Crown">
+        <Viewbox>
+            <Canvas RenderTransform="1.0, 0.0, 0.0, 1.0, 0, 0" Width="512.001" Height="512.001">
+                <!-- Rim -->
+                <Path Data="F1 M512.001,512.001z M0,0z M471.688,448.561L40.311,448.561C31.475,448.561,24.311,441.397,24.311,432.562L24.311,350.881C24.311,342.045,31.475,334.882,40.311,334.882L471.687,334.882C480.523,334.882,487.687,342.046,487.687,350.881L487.687,432.562C487.687,441.398,480.525,448.561,471.688,448.561z" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType=ContentControl}}" />
+                <Path Data="F1 M512.001,512.001z M0,0z M471.688,448.561L40.311,448.561C31.475,448.561,24.311,441.397,24.311,432.562L24.311,350.881C24.311,342.045,31.475,334.882,40.311,334.882L471.687,334.882C480.523,334.882,487.687,342.046,487.687,350.881L487.687,432.562C487.687,441.398,480.525,448.561,471.688,448.561z" Fill="#22000000" />
+
+                <Path Data="F1 M512.001,512.001z M0,0z M471.689,334.882L256,334.882 256,448.562 471.688,448.562C480.524,448.562,487.688,441.398,487.688,432.563L487.688,350.882C487.688,342.045,480.525,334.882,471.689,334.882z" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType=ContentControl}}" />
+                <Path Data="F1 M512.001,512.001z M0,0z M471.689,334.882L256,334.882 256,448.562 471.688,448.562C480.524,448.562,487.688,441.398,487.688,432.563L487.688,350.882C487.688,342.045,480.525,334.882,471.689,334.882z" Fill="#44000000" />
+
+                <!-- Body -->
+                <Path Data="F1 M512.001,512.001z M0,0z M483.949,100.035L373.852,225.934 269.275,70.501C262.941,61.088,249.062,61.085,242.725,70.501L138.148,225.934 28.051,100.035C17.811,88.327,-1.473,96.733,0.0889999999999986,112.178L24.311,351.689 24.311,366.882C45.309,366.882,470.842,366.882,487.686,366.882L487.686,351.689 511.909,112.178C513.474,96.729,494.186,88.329,483.949,100.035z" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType=ContentControl}}" />
+                <Path Data="F1 M512.001,512.001z M0,0z M483.949,100.035L373.852,225.934 269.275,70.501C266.108,65.794,261.054,63.44,256.001,63.44L256.001,366.88C367.636,366.88,479.227,366.88,487.689,366.88L487.689,351.687 511.912,112.176C513.474,96.729,494.186,88.329,483.949,100.035z" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType=ContentControl}}" />
+                <Path Data="F1 M512.001,512.001z M0,0z M483.949,100.035L373.852,225.934 269.275,70.501C266.108,65.794,261.054,63.44,256.001,63.44L256.001,366.88C367.636,366.88,479.227,366.88,487.689,366.88L487.689,351.687 511.912,112.176C513.474,96.729,494.186,88.329,483.949,100.035z" Fill="#22000000" />
+
+                <!-- Gem -->
+                <Path Data="F1 M512.001,512.001z M0,0z M256,308.407C227.366,308.407 204.071,285.112 204.071,256.478 204.071,227.844 227.366,204.549 256,204.549 284.635,204.549 307.93,227.844 307.93,256.478 307.931,285.112 284.634,308.407 256,308.407z" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" />
+                <Path Data="F1 M512.001,512.001z M0,0z M307.929,256.478C307.929,227.844,284.634,204.549,256,204.549L256,308.407C284.634,308.407,307.929,285.111,307.929,256.478z" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}}" />
+                <Path Data="F1 M512.001,512.001z M0,0z M307.929,256.478C307.929,227.844,284.634,204.549,256,204.549L256,308.407C284.634,308.407,307.929,285.111,307.929,256.478z" Fill="#22000000" />
+            </Canvas>
+        </Viewbox>
+    </DataTemplate>
+
+
+    <!--Monster Widget Resources-->
+
+    <Style x:Key="A_Style_ItemsControl_Monsters" TargetType="ItemsControl">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="FrameworkElement.Margin" Value="0 0 46 0"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Storyboard x:Key="A_Storyboard_Monster_PartOrStatusEffect_Hide">
+        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Root" Storyboard.TargetProperty="Opacity">
+            <EasingDoubleKeyFrame KeyTime="00:00:01" Value="0">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut"/>
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+        </DoubleAnimationUsingKeyFrames>
+
+        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Root" Storyboard.TargetProperty="(UIElement.Visibility)">
+            <DiscreteObjectKeyFrame KeyTime="00:00:01" Value="{x:Static Visibility.Collapsed}"/>
+        </ObjectAnimationUsingKeyFrames>
+    </Storyboard>
+
+    <Storyboard x:Key="A_Storyboard_Monster_PartOrStatusEffect_Show">
+        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Root" Storyboard.TargetProperty="(UIElement.Visibility)">
+            <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+        </ObjectAnimationUsingKeyFrames>
+
+        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Root" Storyboard.TargetProperty="Opacity">
+            <EasingDoubleKeyFrame KeyTime="00:00:00.15" Value="1">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseIn" Exponent="4" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+        </DoubleAnimationUsingKeyFrames>
+    </Storyboard>
+
+    <DataTemplate DataType="{x:Type data:MonsterStatusEffect}">
+        <StackPanel Name="Root" Margin="0 9 0 0" Visibility="Collapsed" Opacity="0">
+            <DockPanel>
+                <TextBlock Name="NameBlock" Style="{StaticResource A_Style_TextBlock_Standard}">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0}">
+                            <Binding Path="Name" Mode="OneWay" />
+                            <Binding Path="TimesActivatedCount" Mode="OneWay" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+
+                <TextBlock Name="DescriptionBlock" Style="{StaticResource A_Style_TextBlock_Standard}" HorizontalAlignment="Right" Margin="12 0 0 0">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
+                            <Binding Path="Buildup.Current" Mode="OneWay" />
+                            <Binding Path="Buildup.Max" Mode="OneWay" />
+                            <Binding Path="Buildup.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </DockPanel>
+
+            <ContentControl Name="Bar" Content="{Binding Buildup.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="2" Margin="0 2 0 0">
+                <ContentControl.Foreground>
+                    <SolidColorBrush Color="{StaticResource A_Color_Monster_StatusEffect_Bar}" />
+                </ContentControl.Foreground>
+            </ContentControl>
+        </StackPanel>
+
+        <DataTemplate.Triggers>
+            <Trigger Property="componentModel:DesignerProperties.IsInDesignMode" Value="True">
+                <Setter TargetName="Root" Property="Visibility" Value="Visible" />
+                <Setter TargetName="Root" Property="Opacity" Value="1" />
+            </Trigger>
+
+            <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                <DataTrigger.EnterActions>
+                    <StopStoryboard BeginStoryboardName="Hide" />
+                    <BeginStoryboard Name="Show" Storyboard="{StaticResource A_Storyboard_Monster_PartOrStatusEffect_Show}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                <DataTrigger.EnterActions>
+                    <StopStoryboard BeginStoryboardName="Show" />
+                    <BeginStoryboard Name="Hide" Storyboard="{StaticResource A_Storyboard_Monster_PartOrStatusEffect_Hide}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding TimesActivatedCount, Converter={StaticResource A_Converter_NumberGreater}}" Value="True">
+                <Setter TargetName="NameBlock" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0} ({1}x)">
+                            <Binding Path="Name" Mode="OneWay" />
+                            <Binding Path="TimesActivatedCount" Mode="OneWay" />
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Duration.Fraction, Converter={StaticResource A_Converter_NumberNotEqual}, ConverterParameter=1}" Value="True" />
+                    <Condition Binding="{Binding Duration.Fraction, Converter={StaticResource A_Converter_NumberNotEqual}, ConverterParameter=0}" Value="True" />
+                    <Condition Binding="{Binding Duration.Max, Converter={StaticResource A_Converter_NumberNotEqual}, ConverterParameter=0}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="DescriptionBlock" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
+                            <Binding Path="Duration.Current" Mode="OneWay" />
+                            <Binding Path="Duration.Max" Mode="OneWay" />
+                            <Binding Path="Duration.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="Bar" Property="Content" Value="{Binding Duration.Fraction}" />
+                <Setter TargetName="NameBlock" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_Monster_StatusEffect_Bar}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="DescriptionBlock" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_Monster_StatusEffect_Bar}" />
+                    </Setter.Value>
+                </Setter>
+            </MultiDataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type data:MonsterPart}">
+        <StackPanel Name="Root" Margin="0 9 0 0" Visibility="Collapsed" Opacity="0">
+            <DockPanel>
+                <TextBlock Name="NameBlock" Style="{StaticResource A_Style_TextBlock_Standard}">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0}">
+                            <Binding Path="Name" Mode="OneWay" />
+                            <Binding Path="TimesBrokenCount" Mode="OneWay" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+
+                <TextBlock Style="{StaticResource A_Style_TextBlock_Standard}" HorizontalAlignment="Right" Margin="12 0 0 0">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
+                            <Binding Path="Health.Current" Mode="OneWay" />
+                            <Binding Path="Health.Max" Mode="OneWay" />
+                            <Binding Path="Health.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </DockPanel>
+
+            <ContentControl Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="2" Margin="0 2 0 0">
+                <ContentControl.Foreground>
+                    <SolidColorBrush Color="{StaticResource A_Color_Monster_Part_Bar}" />
+                </ContentControl.Foreground>
+            </ContentControl>
+        </StackPanel>
+
+        <DataTemplate.Triggers>
+            <Trigger Property="componentModel:DesignerProperties.IsInDesignMode" Value="True">
+                <Setter TargetName="Root" Property="Visibility" Value="Visible" />
+                <Setter TargetName="Root" Property="Opacity" Value="1" />
+            </Trigger>
+
+            <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                <DataTrigger.EnterActions>
+                    <StopStoryboard BeginStoryboardName="Hide" />
+                    <BeginStoryboard Name="Show" Storyboard="{StaticResource A_Storyboard_Monster_PartOrStatusEffect_Show}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                <DataTrigger.EnterActions>
+                    <StopStoryboard BeginStoryboardName="Show" />
+                    <BeginStoryboard Name="Hide" Storyboard="{StaticResource A_Storyboard_Monster_PartOrStatusEffect_Hide}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding TimesBrokenCount, Converter={StaticResource A_Converter_NumberGreater}}" Value="True">
+                <Setter TargetName="NameBlock" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0} ({1}x)">
+                            <Binding Path="Name" Mode="OneWay" />
+                            <Binding Path="TimesBrokenCount" Mode="OneWay" />
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type data:Monster}">
+        <StackPanel MinWidth="250">
+            <StackPanel>
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Heading}" VerticalAlignment="Bottom" />
+
+                        <Grid Height="20" Margin="6 0 0 0">
+                            <ContentControl Name="Icon" ContentTemplate="{StaticResource A_Graphic_Crown}">
+                                <ContentControl.Background>
+                                    <SolidColorBrush Color="{StaticResource A_Color_Crown_Gold_Body}" />
+                                </ContentControl.Background>
+                                <ContentControl.Foreground>
+                                    <SolidColorBrush Color="{StaticResource A_Color_Crown_Gold_Gem}" />
+                                </ContentControl.Foreground>
+                            </ContentControl>
+                        </Grid>
+                    </StackPanel>
+
+                    <TextBlock Style="{StaticResource A_Style_TextBlock_Standard}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="12 0 0 0">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
+                                <Binding Path="Health.Current" Mode="OneWay" />
+                                <Binding Path="Health.Max" Mode="OneWay" />
+                                <Binding Path="Health.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DockPanel>
+
+                <ContentControl Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="10" Margin="0 2 0 0">
+                    <ContentControl.Foreground>
+                        <SolidColorBrush Color="{StaticResource A_Color_Monster_Bar}" />
+                    </ContentControl.Foreground>
+                </ContentControl>
+            </StackPanel>
+
+            <ItemsControl ItemsSource="{Binding RemovableParts}" />
+            <ItemsControl ItemsSource="{Binding Parts}" />
+            <ItemsControl ItemsSource="{Binding StatusEffects}" />
+        </StackPanel>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Crown, Converter={StaticResource A_Converter_EnumComparison}, ConverterParameter={x:Static data:MonsterCrown.None}}" Value="True">
+                <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Crown, Converter={StaticResource A_Converter_EnumComparison}, ConverterParameter={x:Static data:MonsterCrown.Silver}}" Value="True">
+                <Setter TargetName="Icon" Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_Crown_Silver_Body}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="Icon" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_Crown_Silver_Gem}" />
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Crown, Converter={StaticResource A_Converter_EnumComparison}, ConverterParameter={x:Static data:MonsterCrown.Mini}}" Value="True">
+                <Setter TargetName="Icon" Property="Width" Value="12" />
+                <Setter TargetName="Icon" Property="Height" Value="12" />
+                <Setter TargetName="Icon" Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_Crown_Mini_Body}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="Icon" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_Crown_Mini_Gem}" />
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+
+    <!--Team Widget Resources-->
+
+    <Style x:Key="A_Style_ItemsControl_Players" TargetType="ItemsControl">
+        <Setter Property="MinWidth" Value="200" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate DataType="{x:Type data:Player}">
+        <Grid Name="Root">
+            <ContentControl Name="Bar" Content="{Binding BarFraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}">
+                <ContentControl.Foreground>
+                    <SolidColorBrush Color="#000000" />
+                </ContentControl.Foreground>
+            </ContentControl>
+
+            <DockPanel Margin="6 5 6 4">
+                <TextBlock Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Standard}" />
+
+                <TextBlock Name="DescriptionBlock" Style="{StaticResource A_Style_TextBlock_Standard}" HorizontalAlignment="Right" Margin="12 0 0 0">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0:#,0} ({1})">
+                            <Binding Path="Damage" Mode="OneWay" />
+                            <Binding Path="DamageFraction" Mode="OneWay" Converter="{StaticResource A_Converter_FractionToPercentage}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </DockPanel>
+        </Grid>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Damage}" Value="0">
+                <Setter TargetName="DescriptionBlock" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ., Converter={StaticResource A_Converter_PlayerToPlayerIndex}}" Value="0">
+                <Setter TargetName="Bar" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_Player_0}" />
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ., Converter={StaticResource A_Converter_PlayerToPlayerIndex}}" Value="1">
+                <Setter TargetName="Bar" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_Player_1}" />
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ., Converter={StaticResource A_Converter_PlayerToPlayerIndex}}" Value="2">
+                <Setter TargetName="Bar" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_Player_2}" />
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ., Converter={StaticResource A_Converter_PlayerToPlayerIndex}}" Value="3">
+                <Setter TargetName="Bar" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_Player_3}" />
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+
+    <!--Player Widget Resources-->
+
+    <Style x:Key="A_Style_ItemsControl_PlayerStatusEffects" TargetType="ItemsControl">
+        <Setter Property="MinWidth" Value="200" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel ClipToBounds="False" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Storyboard x:Key="A_Storyboard_Player_StatusEffect_Hide">
+        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Root" Storyboard.TargetProperty="Opacity">
+            <EasingDoubleKeyFrame KeyTime="00:00:01" Value="0">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut"/>
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+        </DoubleAnimationUsingKeyFrames>
+
+        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Root" Storyboard.TargetProperty="(UIElement.Visibility)">
+            <DiscreteObjectKeyFrame KeyTime="00:00:01" Value="{x:Static Visibility.Collapsed}"/>
+        </ObjectAnimationUsingKeyFrames>
+    </Storyboard>
+
+    <Storyboard x:Key="A_Storyboard_Player_StatusEffect_Show">
+        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Root" Storyboard.TargetProperty="(UIElement.Visibility)">
+            <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+        </ObjectAnimationUsingKeyFrames>
+
+        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Root" Storyboard.TargetProperty="Opacity">
+            <EasingDoubleKeyFrame KeyTime="00:00:00.3" Value="1">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+        </DoubleAnimationUsingKeyFrames>
+
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
+            <EasingDoubleKeyFrame KeyTime="00:00:00" Value="-25"/>
+            <EasingDoubleKeyFrame KeyTime="00:00:00.3" Value="0">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+        </DoubleAnimationUsingKeyFrames>
+    </Storyboard>
+
+    <DataTemplate DataType="{x:Type data:PlayerStatusEffect}">
+        <StackPanel Name="Root" Margin="0 0 0 3" Visibility="Collapsed" Opacity="0">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="0" />
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+
+            <StackPanel Orientation="Horizontal">
+                <ContentControl Name="CircleProgress" Content="{Binding Time}" Width="14" Height="14" ContentTemplate="{StaticResource A_DataTemplate_CircleProgress}" />
+
+                <TextBlock Name="NameBlock" Style="{StaticResource A_Style_TextBlock_Standard}" Margin="6 2 0 0">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0:0} ({1:0})">
+                            <Binding Path="Name" Mode="OneWay" />
+                            <Binding Path="Time.Current" Mode="OneWay" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+        </StackPanel>
+
+        <DataTemplate.Triggers>
+            <Trigger Property="componentModel:DesignerProperties.IsInDesignMode" Value="True">
+                <Setter TargetName="Root" Property="Visibility" Value="Visible" />
+                <Setter TargetName="Root" Property="Opacity" Value="1" />
+            </Trigger>
+
+            <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                <DataTrigger.EnterActions>
+                    <StopStoryboard BeginStoryboardName="Hide" />
+                    <BeginStoryboard Name="Show" Storyboard="{StaticResource A_Storyboard_Player_StatusEffect_Show}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                <DataTrigger.EnterActions>
+                    <StopStoryboard BeginStoryboardName="Show" />
+                    <BeginStoryboard Name="Hide" Storyboard="{StaticResource A_Storyboard_Player_StatusEffect_Hide}" />
+                </DataTrigger.EnterActions>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Time}" Value="{x:Null}">
+                <Setter TargetName="NameBlock" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:0}">
+                            <Binding Path="Name" Mode="OneWay" />
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding GroupId}" Value="Horn">
+                <Setter TargetName="NameBlock" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Horn}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="CircleProgress" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Horn}" />
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding GroupId}" Value="Coral">
+                <Setter TargetName="NameBlock" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Coral}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="CircleProgress" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Coral}" />
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding GroupId}" Value="Debuff">
+                <Setter TargetName="NameBlock" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Debuff}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="CircleProgress" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Debuff}" />
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding GroupId}" Value="Buff">
+                <Setter TargetName="NameBlock" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Buff}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="CircleProgress" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Buff}" />
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding GroupId}" Value="Equipment">
+                <Setter TargetName="NameBlock" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Equipment}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="CircleProgress" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Equipment}" />
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+    
+    
+    <!--Widget Controls-->
+
+    <ContentControl x:Key="A_ContentControl_MonsterWidget">
+        <ItemsControl ItemsSource="{Binding MonstersViewSource.View}" Style="{StaticResource A_Style_ItemsControl_Monsters}" />
+    </ContentControl>
+
+    <ContentControl x:Key="A_ContentControl_PlayerWidget">
+        <ItemsControl ItemsSource="{Binding StatusEffectsViewSource.View}" Style="{StaticResource A_Style_ItemsControl_PlayerStatusEffects}" />
+    </ContentControl>
+
+    <ContentControl x:Key="A_ContentControl_TeamWidget">
+        <ItemsControl ItemsSource="{Binding PlayersViewSource.View}" Style="{StaticResource A_Style_ItemsControl_Players}" />
+    </ContentControl>
+</ResourceDictionary>
