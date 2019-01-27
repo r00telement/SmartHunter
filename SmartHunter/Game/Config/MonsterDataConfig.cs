@@ -332,7 +332,7 @@ namespace SmartHunter.Game.Config
                     "LOC_PART_LEG_RIGHT",
                     "LOC_PART_TAIL"
                 },
-                1797.24f, 1f,
+                1797.24f, 1.2f,
                 new MonsterCrownConfig(CrownPreset.Standard))
             },
             {
