@@ -260,12 +260,13 @@ namespace SmartHunter.Game.Helpers
 
             ulong modelPtr = MemoryHelper.Read<ulong>(process, monsterAddress + DataOffsets.Monster.ModelPtr);
             string id = MemoryHelper.ReadString(process, modelPtr + DataOffsets.MonsterModel.Id, (uint)DataOffsets.MonsterModel.IdLength);
-            id = id.Split('\\').Last();
 
             if (String.IsNullOrEmpty(id))
             {
                 return monster;
             }
+
+            id = id.Split('\\').Last();
 
             bool isIncluded = ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchIncludeMonsterIdRegex(id);
             if (!isIncluded)

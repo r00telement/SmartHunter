@@ -1,5 +1,6 @@
 ﻿using SmartHunter.Core;
 using SmartHunter.Core.Helpers;
+using SmartHunter.Game.Data.ViewModels;
 using SmartHunter.Game.Helpers;
 using System.Linq;
 
@@ -58,37 +59,70 @@ namespace SmartHunter.Game
         {
             bool traceUniquePointers = ConfigHelper.Main.Values.Debug.TraceUniquePointers;
 
-            var monsterAndBuffRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_MonsterPattern.Addresses.First());
-            var monsterAndBuffOffset1 = MemoryHelper.ReadStaticOffset(Process, m_MonsterOffset1Pattern.Addresses.First());
-            var lastMonsterAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, monsterAndBuffRootPtr, monsterAndBuffOffset1, 0x8F9BC * 8, 0, 0);
-            MhwHelper.UpdateMonsterWidget(Process, lastMonsterAddress);
+            bool monsterWidgetIsVisible = ConfigHelper.Main.Values.Overlay.MonsterWidget.IsVisible;
+            bool teamWidgetIsVisible = ConfigHelper.Main.Values.Overlay.TeamWidget.IsVisible;
+            bool playerWidgetIsVisible = ConfigHelper.Main.Values.Overlay.PlayerWidget.IsVisible;
 
-            var playerDamageRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_PlayerDamagePattern.Addresses.First());
-            var playerDamageCollectionAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, playerDamageRootPtr, 0x48 + 0x20 * 0x58);
-            var playerNamesPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_PlayerNamePattern.Addresses.First());
-            var playerNamesAddress = MemoryHelper.Read<uint>(Process, playerNamesPtr);
-            var localPlayerIndexPtr = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, playerNamesPtr, 0x258, 0x10, 0);
-            var localPlayerIndex = MemoryHelper.Read<int>(Process, localPlayerIndexPtr + 0xBFEC);
-            MhwHelper.UpdateTeamWidget(Process, playerDamageCollectionAddress, playerNamesAddress, localPlayerIndex);
+            if (monsterWidgetIsVisible)
+            {                
+                var monsterAndBuffRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_MonsterPattern.Addresses.First());
+                var monsterAndBuffOffset1 = MemoryHelper.ReadStaticOffset(Process, m_MonsterOffset1Pattern.Addresses.First());
+                var lastMonsterAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, monsterAndBuffRootPtr, monsterAndBuffOffset1, 0x8F9BC * 8, 0, 0);
 
-            ulong buffAddress = 0;
-            ulong equipmentAddress = 0;
-            if (localPlayerIndex >= 0)
+                MhwHelper.UpdateMonsterWidget(Process, lastMonsterAddress);
+            }
+            else if (OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Any())
             {
-                var buffIndexOffset = localPlayerIndex;
+                OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Clear();
+            }
 
-                // If we're the host we get moved towards the end of the list
-                if (localPlayerIndex == 0)
+            if (teamWidgetIsVisible || playerWidgetIsVisible)
+            {
+                ulong playerNamesPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_PlayerNamePattern.Addresses.First());
+                var localPlayerIndexPtr = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, playerNamesPtr, 0x258, 0x10, 0);
+                int localPlayerOnlineIndex = MemoryHelper.Read<int>(Process, localPlayerIndexPtr + 0xBFEC);
+
+                if (teamWidgetIsVisible)
                 {
-                    buffIndexOffset = Data.ViewModels.OverlayViewModel.Instance.TeamWidget.Context.Players.Count - 1;
+                    var playerDamageRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_PlayerDamagePattern.Addresses.First());
+                    var playerDamageCollectionAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, playerDamageRootPtr, 0x48 + 0x20 * 0x58);
+                    var playerNamesAddress = MemoryHelper.Read<uint>(Process, playerNamesPtr);
+
+                    MhwHelper.UpdateTeamWidget(Process, playerDamageCollectionAddress, playerNamesAddress, localPlayerOnlineIndex);
+                }
+                else if (OverlayViewModel.Instance.TeamWidget.Context.Players.Any())
+                {
+                    OverlayViewModel.Instance.TeamWidget.Context.Players.Clear();
                 }
 
-                var playerBuffPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_PlayerBuffPattern.Addresses.First());
-                var playerBuffOffset = MemoryHelper.ReadStaticOffset(Process, m_PlayerBuffOffsetPattern.Addresses.First());
-                buffAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, playerBuffPtr, 0X9B0 + 0XC8, buffIndexOffset * 8, playerBuffOffset, 0);
-                equipmentAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, buffAddress + 0x8, 0x70, 0x78, 0X50, -0x10);
-            }
-            MhwHelper.UpdatePlayerWidget(Process, buffAddress, equipmentAddress);
+                if (playerWidgetIsVisible)
+                {
+                    ulong buffAddress = 0;
+                    ulong equipmentAddress = 0;
+
+                    if (localPlayerOnlineIndex >= 0)
+                    {
+                        var buffIndexOffset = localPlayerOnlineIndex;
+
+                        // If we're the host we get moved towards the end of the list
+                        if (localPlayerOnlineIndex == 0 && OverlayViewModel.Instance.TeamWidget.Context.Players.Any())
+                        {
+                            buffIndexOffset = OverlayViewModel.Instance.TeamWidget.Context.Players.Count - 1;
+                        }
+
+                        var playerBuffPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_PlayerBuffPattern.Addresses.First());
+                        var playerBuffOffset = MemoryHelper.ReadStaticOffset(Process, m_PlayerBuffOffsetPattern.Addresses.First());
+                        buffAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, playerBuffPtr, 0X9B0 + 0XC8, buffIndexOffset * 8, playerBuffOffset, 0);
+                        equipmentAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, buffAddress + 0x8, 0x70, 0x78, 0X50, -0x10);
+                    }
+
+                    MhwHelper.UpdatePlayerWidget(Process, buffAddress, equipmentAddress);
+                }
+                else if (OverlayViewModel.Instance.PlayerWidget.Context.StatusEffects.Any())
+                {
+                    OverlayViewModel.Instance.PlayerWidget.Context.StatusEffects.Clear();
+                }
+            }            
         }
     }
 }

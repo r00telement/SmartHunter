@@ -270,9 +270,13 @@ namespace SmartHunter.Core.Helpers
             WindowsApi.ReadProcessMemory(process.Handle, (IntPtr)address, bytes, bytes.Length, ref lpNumberOfBytesRead);
 
             int nullTerminatorIndex = Array.FindIndex(bytes, (byte b) => b == 0);
-            Array.Resize(ref bytes, nullTerminatorIndex);
+            if (nullTerminatorIndex >= 0)
+            {
+                Array.Resize(ref bytes, nullTerminatorIndex);
+                return System.Text.Encoding.UTF8.GetString(bytes);
+            }
 
-            return System.Text.Encoding.UTF8.GetString(bytes);
+            return null;
         }
 
         public static ulong ReadMultiLevelPointer(bool traceUniquePointers, Process process, ulong address, params long[] offsets)
