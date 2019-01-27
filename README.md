@@ -1,6 +1,6 @@
 # SmartHunter - Monster Hunter: World Overlay
 
-A complete overlay for Monster Hunter: World on PC. Features include:
+A complete overlay for Monster Hunter: World on PC. Distributed on [Nexus Mods](https://www.nexusmods.com/monsterhunterworld/mods/793). Features include:
 
 - Monster widget - name, health, parts, status effect buildup, and crown.
 - Team widget - name and damage meters.
