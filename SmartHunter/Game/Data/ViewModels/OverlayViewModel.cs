@@ -53,10 +53,10 @@ namespace SmartHunter.Game.Data.ViewModels
 
         void GenerateSampleData()
         {
-            TeamWidget.Context.Players.Add(new Player() { Name = "Jade", IsLocal = true, Damage = 3244 });
-            TeamWidget.Context.Players.Add(new Player() { Name = "Kabuto", IsLocal = false, Damage = 2182 });
-            TeamWidget.Context.Players.Add(new Player() { Name = "mike the father", IsLocal = false, Damage = 569 });
-            TeamWidget.Context.Players.Add(new Player() { Name = "SlashMaster", IsLocal = false, Damage = 2966 });
+            TeamWidget.Context.Players.Add(new Player() { Name = "Jade", Damage = 3244 });
+            TeamWidget.Context.Players.Add(new Player() { Name = "Kabuto", Damage = 2182 });
+            TeamWidget.Context.Players.Add(new Player() { Name = "mike the father", Damage = 569 });
+            TeamWidget.Context.Players.Add(new Player() { Name = "SlashMaster", Damage = 2966 });
 
             TeamWidget.Context.UpdateFractions();
 

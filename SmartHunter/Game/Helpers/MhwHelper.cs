@@ -178,12 +178,12 @@ namespace SmartHunter.Game.Helpers
             }
         }
 
-        public static void UpdateTeamWidget(Process process, ulong playerDamageCollectionAddress, ulong playerNameCollectionAddress, int localPlayerIndex)
+        public static void UpdateTeamWidget(Process process, ulong playerDamageCollectionAddress, ulong playerNameCollectionAddress)
         {
             List<Player> updatedPlayers = new List<Player>();
             for (int playerIndex = 0; playerIndex < DataOffsets.PlayerDamageCollection.MaxPlayerCount; ++playerIndex)
             {
-                var player = UpdateAndGetPlayer(process, playerIndex, playerDamageCollectionAddress, playerNameCollectionAddress, playerIndex == localPlayerIndex);
+                var player = UpdateAndGetPlayer(process, playerIndex, playerDamageCollectionAddress, playerNameCollectionAddress);
                 if (player != null)
                 {
                     updatedPlayers.Add(player);
@@ -200,7 +200,7 @@ namespace SmartHunter.Game.Helpers
             }
         }
 
-        private static Player UpdateAndGetPlayer(Process process, int playerIndex, ulong playerDamageCollectionAddress, ulong playerNameCollectionAddress, bool isLocalPlayer)
+        private static Player UpdateAndGetPlayer(Process process, int playerIndex, ulong playerDamageCollectionAddress, ulong playerNameCollectionAddress)
         {
             Player player = null;
 
@@ -213,7 +213,7 @@ namespace SmartHunter.Game.Helpers
 
             if (!String.IsNullOrEmpty(name) || damage > 0)
             {
-                player = OverlayViewModel.Instance.TeamWidget.Context.UpdateAndGetPlayer(playerIndex, name, damage, isLocalPlayer);
+                player = OverlayViewModel.Instance.TeamWidget.Context.UpdateAndGetPlayer(playerIndex, name, damage);
             }
 
             return player;

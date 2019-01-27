@@ -70,7 +70,7 @@ namespace SmartHunter.Game.Data.WidgetContexts
             UpdateFromConfig();
         }
 
-        public Player UpdateAndGetPlayer(int index, string name, int damage, bool isLocalPlayer)
+        public Player UpdateAndGetPlayer(int index, string name, int damage)
         {
             if (String.IsNullOrEmpty(name) && damage == 0)
             {
@@ -94,7 +94,6 @@ namespace SmartHunter.Game.Data.WidgetContexts
             }
 
             player.Damage = damage;
-            player.IsLocal = isLocalPlayer;
 
             return player;
         }

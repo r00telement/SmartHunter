@@ -18,13 +18,6 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        bool m_IsLocal;
-        public bool IsLocal
-        {
-            get { return m_IsLocal; }
-            set { SetProperty(ref m_IsLocal, value); }
-        }
-
         int m_Damage;
         public int Damage
         {
