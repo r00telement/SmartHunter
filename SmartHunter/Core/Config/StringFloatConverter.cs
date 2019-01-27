@@ -12,7 +12,8 @@ namespace SmartHunter.Core.Config
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue(String.Format("{0:0.##}", value));
+            var floatValue = (float)value;            
+            writer.WriteRawValue(floatValue.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture));
         }
 
         public override bool CanRead
