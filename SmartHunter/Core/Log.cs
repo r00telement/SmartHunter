@@ -22,7 +22,7 @@ namespace SmartHunter.Core
             bool isDesignInstance = System.ComponentModel.LicenseManager.UsageMode == System.ComponentModel.LicenseUsageMode.Designtime;
             if (!isDesignInstance)
             {
-                File.AppendAllText(s_FileName, $"{line}\r\n");
+                File.AppendAllText(FileContainer.GetFullPathFileName(s_FileName), $"{line}\r\n");
             }
         }
 
