@@ -11,6 +11,22 @@ namespace SmartHunter.Core
 
         public string FileName { get; private set; }
 
+        public string FullPath
+        {
+            get
+            {
+                return GetFullPath();
+            }
+        }
+
+        public string FullPathFileName
+        {
+            get
+            {
+                return GetFullPathFileName(FileName);
+            }
+        }
+
         public event EventHandler Changed;
 
         public FileContainer(string fileName)
@@ -55,13 +71,15 @@ namespace SmartHunter.Core
         {
             if (watch && m_FileWatcher == null)
             {
-                string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "") + "\\";
-                m_FileWatcher = new FileSystemWatcher();
-                m_FileWatcher.Path = path;
-                m_FileWatcher.NotifyFilter = NotifyFilters.LastWrite;
-                m_FileWatcher.Filter = FileName;
-                m_FileWatcher.Changed += FileWatcher_Changed;
-                m_FileWatcher.EnableRaisingEvents = true;
+                if (!String.IsNullOrEmpty(FileName))
+                {
+                    m_FileWatcher = new FileSystemWatcher();
+                    m_FileWatcher.Path = FullPath;
+                    m_FileWatcher.NotifyFilter = NotifyFilters.LastWrite;
+                    m_FileWatcher.Filter = FileName;
+                    m_FileWatcher.Changed += FileWatcher_Changed;
+                    m_FileWatcher.EnableRaisingEvents = true;
+                }
             }
             else if (!watch && m_FileWatcher != null)
             {
@@ -106,5 +124,15 @@ namespace SmartHunter.Core
         }
 
         virtual protected void OnChanged() { }
+
+        public static string GetFullPath()
+        {
+            return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "") + "\\";
+        }
+
+        public static string GetFullPathFileName(string fileName)
+        {
+            return GetFullPath() + fileName;
+        }
     }
 }

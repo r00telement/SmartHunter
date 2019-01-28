@@ -32,12 +32,12 @@ namespace SmartHunter.Core.Config
 
         void Load(bool saveOnLoad = false)
         {
-            if (File.Exists(FileName))
+            if (File.Exists(FullPathFileName))
             {
                 try
                 {
                     string contents = null;
-                    using (FileStream stream = File.Open(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (FileStream stream = File.Open(FullPathFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
                         using (StreamReader reader = new StreamReader(stream))
                         {
@@ -93,7 +93,7 @@ namespace SmartHunter.Core.Config
 
                 var jsonString = JsonConvert.SerializeObject(Values, settings);
 
-                File.WriteAllText(FileName, jsonString);
+                File.WriteAllText(FullPathFileName, jsonString);
 
                 Log.WriteLine($"{FileName} saved");
             }

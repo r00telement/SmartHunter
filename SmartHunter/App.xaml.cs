@@ -67,19 +67,19 @@ namespace SmartHunter
             }
 
             var skinFileName = ConfigHelper.Main.Values.SkinFileName;
-            if (!File.Exists(skinFileName))
+            if (!File.Exists(FileContainer.GetFullPathFileName(skinFileName)))
             {
                 Log.WriteLine($"Failed to load skin file '{skinFileName}'");
                 return;
             }
 
-            m_SkinFile.TryChangeFileName(ConfigHelper.Main.Values.SkinFileName);
+            m_SkinFile.TryChangeFileName(skinFileName);
 
             try
             {
                 ResourceDictionary resourceDictionary = null;
 
-                using (var streamReader = new StreamReader(skinFileName))
+                using (var streamReader = new StreamReader(m_SkinFile.FullPathFileName))
                 {
                     var xamlSchemaContext = new XamlSchemaContext();
                     var xmlReaderSettings = new XamlXmlReaderSettings
