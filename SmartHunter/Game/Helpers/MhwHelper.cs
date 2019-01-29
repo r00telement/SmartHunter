@@ -173,8 +173,10 @@ namespace SmartHunter.Game.Helpers
                         isConditionPassed = false;
                     }
                 }
-                
-                OverlayViewModel.Instance.PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(index, timer, isConditionPassed);
+
+                var statusEffectGroupId = ConfigHelper.PlayerData.Values.PlayerStatusEffects[index].GroupId;
+                bool isIncluded = ConfigHelper.Main.Values.Overlay.PlayerWidget.MatchIncludePlayerStatusEffectGroupIdRegex(statusEffectGroupId);
+                OverlayViewModel.Instance.PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(index, timer, isConditionPassed && isIncluded);
             }
         }
 
@@ -183,7 +185,7 @@ namespace SmartHunter.Game.Helpers
             List<Player> updatedPlayers = new List<Player>();
             for (int playerIndex = 0; playerIndex < DataOffsets.PlayerDamageCollection.MaxPlayerCount; ++playerIndex)
             {
-                var player = UpdateAndGetPlayer(process, playerIndex, playerDamageCollectionAddress, playerNameCollectionAddress);
+                var player = UpdateAndGetTeamPlayer(process, playerIndex, playerDamageCollectionAddress, playerNameCollectionAddress);
                 if (player != null)
                 {
                     updatedPlayers.Add(player);
@@ -200,7 +202,7 @@ namespace SmartHunter.Game.Helpers
             }
         }
 
-        private static Player UpdateAndGetPlayer(Process process, int playerIndex, ulong playerDamageCollectionAddress, ulong playerNameCollectionAddress)
+        private static Player UpdateAndGetTeamPlayer(Process process, int playerIndex, ulong playerDamageCollectionAddress, ulong playerNameCollectionAddress)
         {
             Player player = null;
 

@@ -11,6 +11,6 @@ namespace SmartHunter.Game.Config
 
         public TeamWidgetConfig TeamWidget = new TeamWidgetConfig(220, 220);
         public MonsterWidgetConfig MonsterWidget = new MonsterWidgetConfig(320, 120);
-        public WidgetConfig PlayerWidget = new WidgetConfig(120, 320);
+        public PlayerWidgetConfig PlayerWidget = new PlayerWidgetConfig(120, 320);
     }
 }

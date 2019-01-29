@@ -1,4 +1,5 @@
 ﻿using SmartHunter.Core.Data;
+using SmartHunter.Game.Helpers;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -56,6 +57,14 @@ namespace SmartHunter.Game.Data.WidgetContexts
             StatusEffectsViewSource.LiveSortingProperties.Add(nameof(PlayerStatusEffect.IsVisible));
             StatusEffectsViewSource.LiveSortingProperties.Add(nameof(PlayerStatusEffect.Time.Current));
             (StatusEffectsViewSource.View as ListCollectionView).CustomSort = new PlayerStatusEffectSorter();
+
+            StatusEffectsViewSource.IsLiveFilteringRequested = true;
+            StatusEffectsViewSource.LiveFilteringProperties.Add(nameof(PlayerStatusEffect.GroupId));
+            StatusEffectsViewSource.Filter += (sender, e) =>
+            {
+                var playerStatusEffect = e.Item as PlayerStatusEffect;
+                e.Accepted = ConfigHelper.Main.Values.Overlay.PlayerWidget.MatchIncludePlayerStatusEffectGroupIdRegex(playerStatusEffect.GroupId);
+            };
         }
 
         public PlayerStatusEffect UpdateAndGetPlayerStatusEffect(int index, float? currentTime, bool isActive)

@@ -98,6 +98,7 @@
     <Compile Include="Core\FileContainer.cs" />
     <Compile Include="Core\GenericEventArgs.cs" />
     <Compile Include="Core\KeyboardInputEventArgs.cs" />
+    <Compile Include="Game\Config\PlayerWidgetConfig.cs" />
     <Compile Include="Game\Config\TeamWidgetConfig.cs" />
     <Compile Include="Game\Data\PlayerStatusEffect.cs" />
     <Compile Include="Game\Data\WidgetContexts\PlayerWidgetContext.cs" />
