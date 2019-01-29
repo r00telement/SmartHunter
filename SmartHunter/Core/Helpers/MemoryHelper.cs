@@ -312,7 +312,7 @@ namespace SmartHunter.Core.Helpers
             return address + Read<uint>(process, address + opcodeLength) + instructionLength;
         }
 
-        public static long ReadStaticOffset(Process process, ulong address)
+        public static uint ReadStaticOffset(Process process, ulong address)
         {
             const uint opcodeLength = 3;
             return Read<uint>(process, address + opcodeLength);
