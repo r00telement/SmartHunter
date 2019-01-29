@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Data;
+﻿using System.Windows.Data;
 using System.Windows.Media;
 
 namespace SmartHunter.Ui.Converters
@@ -44,7 +43,7 @@ namespace SmartHunter.Ui.Converters
                 }
                 double newValue = hsvValue + BrightnessAdjustment / (1 / valueDifference);
 
-                var newColor = ColorFromHsv(hsvHue, newSaturation, newValue);
+                var newColor = HsvToColor(hsvHue, newSaturation, newValue);
 
                 if (OpacityOverride.HasValue)
                 {
@@ -60,7 +59,7 @@ namespace SmartHunter.Ui.Converters
                     return new SolidColorBrush(newColor);
                 }
 
-                return ColorFromHsv(hsvHue, newSaturation, newValue);
+                return HsvToColor(hsvHue, newSaturation, newValue);
             }
 
             return Binding.DoNothing;
@@ -71,14 +70,7 @@ namespace SmartHunter.Ui.Converters
             throw new System.NotImplementedException();
         }
 
-
-
-
-
-
-
-
-        static Color ColorFromHsv(double hue, double saturation, double value)
+        static Color HsvToColor(double hue, double saturation, double value)
         {
             if (hue < 0)
             {
@@ -168,73 +160,6 @@ namespace SmartHunter.Ui.Converters
 
             return Color.FromRgb((byte)(r * 255f), (byte)(g * 255f), (byte)(b * 255f));
         }
-
-
-
-
-        //static Color ColorFromHsv(double hue, double saturation, double value)
-        //{
-        //    if (hue < 0)
-        //    {
-        //        hue = 0;
-        //    }
-        //    else if (hue > 360)
-        //    {
-        //        hue = 360;
-        //    }
-
-        //    if (saturation < 0)
-        //    {
-        //        saturation = 0;
-        //    }
-        //    else if (saturation > 1)
-        //    {
-        //        saturation = 1;
-        //    }
-
-        //    if (value < 0)
-        //    {
-        //        value = 0;
-        //    }
-        //    else if (value > 1)
-        //    {
-        //        value = 1;
-        //    }
-
-        //    int hi = (int)(Math.Floor(hue / 60)) % 6;
-        //    double f = hue / 60 - Math.Floor(hue / 60);
-
-        //    value = value * 255;
-        //    byte v = (byte)(value);
-        //    byte p = (byte)(value * (1 - saturation));
-        //    byte q = (byte)(value * (1 - f * saturation));
-        //    byte t = (byte)(value * (1 - (1 - f) * saturation));
-
-        //    if (hi == 0)
-        //    { 
-        //        return Color.FromArgb(255, v, t, p);
-        //    }
-        //    else if (hi == 1)
-        //    { 
-        //        return Color.FromArgb(255, q, v, p);
-        //    }
-        //    else if (hi == 2)
-        //    {
-        //        return Color.FromArgb(255, p, v, t);
-        //    }
-        //    else if (hi == 3)
-        //    {
-        //        return Color.FromArgb(255, p, q, v);
-        //    }
-        //    else if (hi == 4)
-        //    {
-        //        return Color.FromArgb(255, t, p, v);
-        //    }
-        //    else
-        //    { 
-        //        return Color.FromArgb(255, v, p, q);
-        //    }
-        //}
 
         static void ColorToHsv(Color color, out double hue, out double saturation, out double value)
         {
