@@ -5,7 +5,7 @@ namespace SmartHunter.Game.Config
 {
     public class PlayerWidgetConfig : WidgetConfig
     {
-        public string IncludePlayerStatusEffectGroupIdRegex = "*";
+        public string IncludePlayerStatusEffectGroupIdRegex = ".*";
 
         public PlayerWidgetConfig(float x, float y) : base(x, y)
         {
