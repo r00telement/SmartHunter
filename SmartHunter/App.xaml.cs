@@ -79,7 +79,7 @@ namespace SmartHunter
             {
                 ResourceDictionary resourceDictionary = null;
 
-                using (var streamReader = new StreamReader(m_SkinFile.FullPathFileName))
+                using (var streamReader = new StreamReader(m_SkinFile.FullPathFileName, System.Text.Encoding.UTF8))
                 {
                     var xamlSchemaContext = new XamlSchemaContext();
                     var xmlReaderSettings = new XamlXmlReaderSettings

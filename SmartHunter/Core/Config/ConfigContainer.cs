@@ -39,7 +39,7 @@ namespace SmartHunter.Core.Config
                     string contents = null;
                     using (FileStream stream = File.Open(FullPathFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
-                        using (StreamReader reader = new StreamReader(stream))
+                        using (StreamReader reader = new StreamReader(stream, System.Text.Encoding.UTF8))
                         {
                             contents = reader.ReadToEnd();
                         }
