@@ -41,8 +41,10 @@
     <Color x:Key="A_Color_Crown_Silver_Body">#eeeeee</Color>
     <Color x:Key="A_Color_Crown_Silver_Gem">#dd0000</Color>
 
+    <FontFamily x:Key="Roboto">pack://application:,,,/Ui/Fonts/#Roboto</FontFamily>
+
     <Style x:Key="A_Style_TextBlock_Heading" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="Roboto" />
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="FontSize" Value="20" />
         <Setter Property="Foreground" Value="White" />

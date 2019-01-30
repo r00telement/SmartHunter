@@ -200,6 +200,8 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Ui\Fonts\Roboto-Bold.ttf" />
+    <Resource Include="Ui\Fonts\Roboto-Medium.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
