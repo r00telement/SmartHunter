@@ -54,8 +54,7 @@ namespace SmartHunter.Game.Data.WidgetContexts
             StatusEffectsViewSource = new CollectionViewSource();
             StatusEffectsViewSource.Source = StatusEffects;
             StatusEffectsViewSource.IsLiveSortingRequested = true;
-            StatusEffectsViewSource.LiveSortingProperties.Add(nameof(PlayerStatusEffect.IsVisible));
-            StatusEffectsViewSource.LiveSortingProperties.Add(nameof(PlayerStatusEffect.Time.Current));
+            StatusEffectsViewSource.LiveSortingProperties.Add($"{nameof(PlayerStatusEffect.Time)}.{nameof(PlayerStatusEffect.Time.Current)}");
             (StatusEffectsViewSource.View as ListCollectionView).CustomSort = new PlayerStatusEffectSorter();
 
             StatusEffectsViewSource.IsLiveFilteringRequested = true;
