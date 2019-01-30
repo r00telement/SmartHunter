@@ -10,6 +10,8 @@
 
     <!--Base Resources-->
 
+    <converters:AngleToIsLargeArcConverter x:Key="A_Converter_AngleToIsLargeArc" />
+    <converters:AngleToPointConverter x:Key="A_Converter_AngleToPoint" />
     <converters:PlayerToPlayerIndexConverter x:Key="A_Converter_PlayerToPlayerIndex" />
     <converters:FractionToPercentageConverter x:Key="A_Converter_FractionToPercentage" />
     <converters:BoolToVisibilityConverter x:Key="A_Converter_BoolToVisibility" />
@@ -80,51 +82,29 @@
     </DataTemplate>
 
     <DataTemplate x:Key="A_DataTemplate_CircleProgress" DataType="{x:Type coreData:Progress}">
-        <Grid>
-            <Grid ClipToBounds="False">
-                <Grid.OpacityMask>
-                    <VisualBrush>
-                        <VisualBrush.Visual>
-                            <Canvas Width="0" Height="0" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                                <Canvas.RenderTransform>
-                                    <TranslateTransform X="-50" Y="-50" />
-                                </Canvas.RenderTransform>
-                                <Viewbox Width="100" Height="100">
-                                    <Grid>
-                                        <Path Data="{Binding ArcData}" Fill="#00000000" />
-                                        <Path Data="{Binding ArcDataRemainder}" Fill="#000000" />
-                                    </Grid>
-                                </Viewbox>
-                            </Canvas>
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </Grid.OpacityMask>
-
+        <Viewbox>
+            <Grid Width="14" Height="14">
                 <Ellipse StrokeThickness="4" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentControl}, Converter={StaticResource A_Converter_BackgroundColorTransform}}" />
-            </Grid>
 
-            <Grid ClipToBounds="False">
-                <Grid.OpacityMask>
-                    <VisualBrush>
-                        <VisualBrush.Visual>
-                            <Canvas Width="0" Height="0" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                                <Canvas.RenderTransform>
-                                    <TranslateTransform X="-50" Y="-50" />
-                                </Canvas.RenderTransform>
-                                <Viewbox Width="100" Height="100">
-                                    <Grid>
-                                        <Path Data="{Binding ArcDataRemainder}" Fill="#00000000" />
-                                        <Path Data="{Binding ArcData}" Fill="#000000" />
-                                    </Grid>
-                                </Viewbox>
-                            </Canvas>
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </Grid.OpacityMask>
+                <Canvas Width="0" Height="0" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                    <Canvas.RenderTransform>
+                        <TranslateTransform X="-5" Y="-5" />
+                    </Canvas.RenderTransform>
 
-                <Ellipse StrokeThickness="4" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentControl}}" />
+                    <Path StrokeThickness="4" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentControl}}">
+                        <Path.Data>
+                            <PathGeometry>
+                                <PathFigure StartPoint="5,0">
+                                    <ArcSegment RotationAngle="0" SweepDirection="Clockwise" Size="5,5" 
+                                                Point="{Binding Angle, Converter={StaticResource A_Converter_AngleToPoint}, ConverterParameter=5}"
+                                                IsLargeArc="{Binding Angle, Converter={StaticResource A_Converter_AngleToIsLargeArc}}" />
+                                </PathFigure>
+                            </PathGeometry>
+                        </Path.Data>
+                    </Path>
+                </Canvas>
             </Grid>
-        </Grid>
+        </Viewbox>
     </DataTemplate>
 
     <DataTemplate x:Key="A_Graphic_Crown">
@@ -631,6 +611,10 @@
                 <Setter TargetName="Root" Property="Visibility" Value="Visible" />
                 <Setter TargetName="Root" Property="Opacity" Value="1" />
             </Trigger>
+
+            <DataTrigger Binding="{Binding Time}" Value="{x:Null}">
+                <Setter TargetName="CircleProgress" Property="Visibility" Value="Hidden" />
+            </DataTrigger>
 
             <DataTrigger Binding="{Binding IsVisible}" Value="True">
                 <DataTrigger.EnterActions>

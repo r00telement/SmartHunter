@@ -107,6 +107,8 @@
     <Compile Include="Game\MhwMemoryUpdater.cs" />
     <Compile Include="Game\MhwOverlay.cs" />
     <Compile Include="Game\Helpers\MhwHelper.cs" />
+    <Compile Include="Ui\Converters\AngleToIsLargeArcConverter.cs" />
+    <Compile Include="Ui\Converters\AngleToPointConverter.cs" />
     <Compile Include="Ui\Converters\ColorTransformConverter.cs" />
     <Compile Include="Ui\Converters\EnumComparisonConverter.cs" />
     <Compile Include="Ui\Converters\LocalizerConverter.cs" />
