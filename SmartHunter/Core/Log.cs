@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security.AccessControl;
 
 namespace SmartHunter.Core
 {
@@ -22,7 +23,14 @@ namespace SmartHunter.Core
             bool isDesignInstance = System.ComponentModel.LicenseManager.UsageMode == System.ComponentModel.LicenseUsageMode.Designtime;
             if (!isDesignInstance)
             {
-                File.AppendAllText(FileContainer.GetFullPathFileName(s_FileName), $"{line}\r\n");
+                using (FileStream fileStream = new FileStream(s_FileName, FileMode.Open, FileSystemRights.AppendData, FileShare.Write, 4096, FileOptions.None))
+                {
+                    using (StreamWriter streamWriter = new StreamWriter(fileStream))
+                    {
+                        streamWriter.AutoFlush = true;
+                        streamWriter.WriteLine(line);
+                    }
+                }
             }
         }
 
