@@ -90,8 +90,6 @@ namespace SmartHunter.Core
                         foreach (var pattern in Patterns)
                         {
                             var memoryScan = new ThreadedMemoryScan(Process, ScanAddressRange, pattern, true, ThreadCount);
-                            //memoryScan.Completed += MemoryScan_Completed;
-
                             m_MemoryScans.Add(memoryScan);
                         }
                     })
@@ -154,7 +152,15 @@ namespace SmartHunter.Core
 
         private void Update(object sender, EventArgs e)
         {
-            m_StateMachine.Update();
+            try
+            {
+                m_StateMachine.Update();
+            }
+            catch (Exception ex)
+            {
+                m_DispatcherTimer.IsEnabled = false;
+                Log.WriteException(ex);
+            }
         }
 
         abstract protected void UpdateMemory();        
