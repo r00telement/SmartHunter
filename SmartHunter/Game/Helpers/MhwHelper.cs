@@ -39,6 +39,7 @@ namespace SmartHunter.Game.Helpers
 
             public static class MonsterPartCollection
             {
+                public static readonly int MaxItemCount = 16;
                 public static readonly ulong HealthComponentPtr = 0x48;
                 public static readonly ulong FirstPart = 0x50;
             }
@@ -47,7 +48,6 @@ namespace SmartHunter.Game.Helpers
             {
                 public static readonly ulong MaxHealth = 0x0C;
                 public static readonly ulong CurrentHealth = 0x10;
-                public static readonly ulong RemoveableState = 0x14;
                 public static readonly ulong TimesBrokenCount = 0x18;
                 public static readonly ulong NextPart = 0x1E8;
             }
@@ -62,8 +62,10 @@ namespace SmartHunter.Game.Helpers
             {
                 public static readonly ulong MaxHealth = 0x0C;
                 public static readonly ulong CurrentHealth = 0x10;
-                public static readonly ulong RemovableState = 0x14;
+                public static readonly ulong Validity1 = 0x14;
                 public static readonly ulong TimesBrokenCount = 0x18;
+                public static readonly ulong Validity2 = 0x28;
+                public static readonly ulong Validity3 = 0x40;
                 public static readonly ulong NextRemovablePart = 0x78;
             }
 
@@ -100,36 +102,6 @@ namespace SmartHunter.Game.Helpers
             {
                 public static readonly ulong Damage = 0x48;
             }
-        }
-
-        private enum RemovablePartState
-        {
-            EmptyPartOrNotRemovable = -1,
-            Invalid = 0,
-            ValidPartAndRemovable = 1,
-            UnknownMeaning = 10
-        }
-
-        private static RemovablePartState GetRemovablePartState(int removablePartState)
-        {
-            if (removablePartState == -1)
-            {
-                return RemovablePartState.EmptyPartOrNotRemovable;
-            }
-            else if (removablePartState == 0)
-            {
-                return RemovablePartState.Invalid;
-            }
-            else if (removablePartState == 1)
-            {
-                return RemovablePartState.ValidPartAndRemovable;
-            }
-            else if (removablePartState == 10)
-            {
-                return RemovablePartState.UnknownMeaning;
-            }
-
-            return RemovablePartState.EmptyPartOrNotRemovable;
         }
 
         public static void UpdatePlayerWidget(Process process, ulong statusEffectAddress, ulong equipmentAddress)
@@ -230,14 +202,14 @@ namespace SmartHunter.Game.Helpers
             }
 
             List<ulong> monsterAddresses = new List<ulong>();
-            
+
             ulong currentMonsterAddress = lastMonsterAddress;
             while (currentMonsterAddress != 0)
             {
                 monsterAddresses.Insert(0, currentMonsterAddress);
                 currentMonsterAddress = MemoryHelper.Read<ulong>(process, currentMonsterAddress + DataOffsets.Monster.PreviousMonsterPtr);
             }
-            
+
             List<Monster> updatedMonsters = new List<Monster>();
             foreach (var monsterAddress in monsterAddresses)
             {
@@ -308,10 +280,9 @@ namespace SmartHunter.Game.Helpers
             {
                 ulong firstPartAddress = monster.Address + DataOffsets.Monster.PartCollection + DataOffsets.MonsterPartCollection.FirstPart;
 
-                int partIndex = 0;
-                while (true)
+                for (int index = 0; index < DataOffsets.MonsterPartCollection.MaxItemCount; ++index)
                 {
-                    ulong currentPartOffset = DataOffsets.MonsterPart.NextPart * (ulong)partIndex;
+                    ulong currentPartOffset = DataOffsets.MonsterPart.NextPart * (ulong)index;
                     ulong currentPartAddress = firstPartAddress + currentPartOffset;
 
                     float maxHealth = MemoryHelper.Read<float>(process, currentPartAddress + DataOffsets.MonsterPart.MaxHealth);
@@ -325,8 +296,6 @@ namespace SmartHunter.Game.Helpers
                     {
                         break;
                     }
-
-                    partIndex++;
                 }
             }
         }
@@ -335,11 +304,9 @@ namespace SmartHunter.Game.Helpers
         {
             float maxHealth = MemoryHelper.Read<float>(process, partAddress + DataOffsets.MonsterPart.MaxHealth);
             float currentHealth = MemoryHelper.Read<float>(process, partAddress + DataOffsets.MonsterPart.CurrentHealth);
-            int removableState = MemoryHelper.Read<int>(process, partAddress + DataOffsets.MonsterPart.RemoveableState);
             int timesBrokenCount = MemoryHelper.Read<int>(process, partAddress + DataOffsets.MonsterPart.TimesBrokenCount);
-            bool isRemovable = GetRemovablePartState(removableState) == RemovablePartState.ValidPartAndRemovable;
 
-            monster.UpdateAndGetPart(partAddress, isRemovable, maxHealth, currentHealth, timesBrokenCount);
+            monster.UpdateAndGetPart(partAddress, false, maxHealth, currentHealth, timesBrokenCount);
         }
 
         private static void UpdateMonsterRemovableParts(Process process, Monster monster)
@@ -364,13 +331,25 @@ namespace SmartHunter.Game.Helpers
                         removablePartAddress += 8;
                     }
 
-                    int removableState = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.RemovableState);
+                    // This is rough/hacky but it removes seemingly valid parts that aren't actually "removable".
+                    // TODO: Figure out why Paolumu, Barroth, Radobaan have these mysterious removable parts
+                    int validity1 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity1);
+                    int validity2 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity2);
+                    int validity3 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity3);
 
-                    bool isRemovable = GetRemovablePartState(removableState) == RemovablePartState.ValidPartAndRemovable;
-                    if (isRemovable)
+                    bool isValid1 = validity1 == 1;
+                    bool isValid2 = validity3 == 0 || validity3 == 1;
+
+                    bool isValid3 = true;
+                    if (validity3 == 0 && validity2 != 1)
                     {
+                        isValid3 = false;
+                    }
+
+                    if (validity1 == 1 && (validity3 == 0 || validity3 == 1) && isValid3)
+                    { 
                         float maxHealth = MemoryHelper.Read<float>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.MaxHealth);
-                        if (maxHealth != 0)
+                        if (maxHealth > 0)
                         {
                             UpdateMonsterRemovablePart(process, monster, removablePartAddress);
                         }
@@ -387,13 +366,11 @@ namespace SmartHunter.Game.Helpers
 
         private static void UpdateMonsterRemovablePart(Process process, Monster monster, ulong removablePartAddress)
         {
-            int removableState = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.RemovableState);
-            bool isRemovable = GetRemovablePartState(removableState) == RemovablePartState.ValidPartAndRemovable;
             float maxHealth = MemoryHelper.Read<float>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.MaxHealth);
             float currentHealth = MemoryHelper.Read<float>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.CurrentHealth);
             int timesBrokenCount = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.TimesBrokenCount);
 
-            monster.UpdateAndGetPart(removablePartAddress, isRemovable, maxHealth, currentHealth, timesBrokenCount);
+            monster.UpdateAndGetPart(removablePartAddress, true, maxHealth, currentHealth, timesBrokenCount);
         }
 
         private static void UpdateMonsterStatusEffects(Process process, Monster monster)
@@ -421,7 +398,7 @@ namespace SmartHunter.Game.Helpers
                         UpdateStatusEffect(process, monster, statusEffectAddress);
                     }
                 }
-            }            
+            }
         }
 
         private static void UpdateStatusEffect(Process process, Monster monster, ulong statusEffectAddress)

@@ -99,7 +99,7 @@ namespace SmartHunter.Config
             { "LOC_REMOVABLE_PART_UKNOWN", "Unknown Removable Part" },
             { "LOC_REMOVABLE_PART_TAIL", "Removable Tail" },
             { "LOC_REMOVABLE_PART_HORNS", "Removable Horns" },
-            { "LOC_REMOVABLE_PART_HORNS_2", "Removable Horns 2" },
+            { "LOC_REMOVABLE_PART_HORNS_2", "Removable Horn Chip" },
 
             { "LOC_STATUS_EFFECT_UNKNOWN", "Unknown Status Effect" },
             { "LOC_STATUS_EFFECT_POISON", "Poison" },
