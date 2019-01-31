@@ -23,14 +23,18 @@ namespace SmartHunter.Core
             bool isDesignInstance = System.ComponentModel.LicenseManager.UsageMode == System.ComponentModel.LicenseUsageMode.Designtime;
             if (!isDesignInstance)
             {
-                using (FileStream fileStream = new FileStream(s_FileName, FileMode.Open, FileSystemRights.AppendData, FileShare.Write, 4096, FileOptions.None))
+                try
                 {
-                    using (StreamWriter streamWriter = new StreamWriter(fileStream))
+                    using (FileStream fileStream = new FileStream(s_FileName, FileMode.OpenOrCreate, FileSystemRights.AppendData, FileShare.Write, 4096, FileOptions.None))
                     {
-                        streamWriter.AutoFlush = true;
-                        streamWriter.WriteLine(line);
+                        using (StreamWriter streamWriter = new StreamWriter(fileStream))
+                        {
+                            streamWriter.AutoFlush = true;
+                            streamWriter.WriteLine(line);
+                        }
                     }
                 }
+                catch (Exception) { }
             }
         }
 
