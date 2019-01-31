@@ -51,8 +51,7 @@ namespace SmartHunter.Core
 
         public void Update()
         {
-            var data = m_States[State];
-            if (data != null)
+            if (m_States.TryGetValue(State, out var data))
             {
                 bool hasTransitioned = false;
 

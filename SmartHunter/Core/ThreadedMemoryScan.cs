@@ -116,11 +116,9 @@ namespace SmartHunter.Core
 
             Task<List<ulong>> task = Task.Run(() =>
             {
-                List<ulong> result = new List<ulong>();
-
                 try
                 {
-                    result = MemoryHelper.FindPatternAddresses(Process, addressRange, Pattern, StopAfterFirst);
+                    return MemoryHelper.FindPatternAddresses(Process, addressRange, Pattern, StopAfterFirst);
                 }
                 catch (TaskCanceledException)
                 {
@@ -130,7 +128,7 @@ namespace SmartHunter.Core
                     Log.WriteException(ex);
                 }
 
-                return MemoryHelper.FindPatternAddresses(Process, addressRange, Pattern, StopAfterFirst);
+                return null as List<ulong>;
             }, cancellationTokenSource.Token);
 
             task.ContinueWith((continuingTask) =>
@@ -155,7 +153,7 @@ namespace SmartHunter.Core
                         return;
                     }
 
-                    if (continuingTask.Result.Any())
+                    if (continuingTask.Result != null && continuingTask.Result.Any())
                     {           
                         Pattern.Addresses.AddRange(continuingTask.Result.Select(address => address));
                         data.Result.Matches.AddRange(continuingTask.Result);

@@ -103,7 +103,7 @@ namespace SmartHunter.Core
                     State.Working,
                     () =>
                     {
-                        var finishedWithResults = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted && memoryScan.Results.Any());
+                        var finishedWithResults = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted && memoryScan.Results.SelectMany(result => result.Matches).Any());
                         return finishedWithResults.Count() == m_MemoryScans.Count;
                     },
                     null),
@@ -111,7 +111,7 @@ namespace SmartHunter.Core
                     State.PatternScanFailed,
                     () =>
                     {
-                        var finishedWithoutResults = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted && !memoryScan.Results.Any());
+                        var finishedWithoutResults = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted && !memoryScan.Results.SelectMany(result => result.Matches).Any());
                         return finishedWithoutResults.Any();
                     },
                     null)
