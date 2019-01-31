@@ -31,7 +31,7 @@
             </Grid.LayoutTransform>
 
             <Grid Visibility="{Binding IsVisible, Converter={StaticResource A_Converter_BoolToVisibility}}">
-                <ContentControl Content="{StaticResource A_ContentControl_PlayerWidget}" DataContext="{Binding PlayerWidget.Context}" />
+                <ContentControl Content="{Binding PlayerWidget.Context}" />
             </Grid>
         </Grid>
 

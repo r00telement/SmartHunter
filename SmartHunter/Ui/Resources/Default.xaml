@@ -6,7 +6,8 @@
                     xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=PresentationFramework"
                     xmlns:converters="clr-namespace:SmartHunter.Ui.Converters"
                     xmlns:coreData="clr-namespace:SmartHunter.Core.Data"
-                    xmlns:data="clr-namespace:SmartHunter.Game.Data">
+                    xmlns:data="clr-namespace:SmartHunter.Game.Data"
+                    xmlns:widgetContexts="clr-namespace:SmartHunter.Game.Data.WidgetContexts">
 
     <!--Base Resources-->
 
@@ -710,15 +711,15 @@
     
     <!--Widget Controls-->
 
-    <ContentControl x:Key="A_ContentControl_MonsterWidget">
+    <DataTemplate DataType="{x:Type widgetContexts:MonsterWidgetContext}">
         <ItemsControl ItemsSource="{Binding MonstersViewSource.View}" Style="{StaticResource A_Style_ItemsControl_Monsters}" />
-    </ContentControl>
+    </DataTemplate>
 
-    <ContentControl x:Key="A_ContentControl_PlayerWidget">
+    <DataTemplate DataType="{x:Type widgetContexts:PlayerWidgetContext}">
         <ItemsControl ItemsSource="{Binding StatusEffectsViewSource.View}" Style="{StaticResource A_Style_ItemsControl_PlayerStatusEffects}" />
-    </ContentControl>
+    </DataTemplate>
 
-    <ContentControl x:Key="A_ContentControl_TeamWidget">
+    <DataTemplate DataType="{x:Type widgetContexts:TeamWidgetContext}">
         <ItemsControl ItemsSource="{Binding PlayersViewSource.View}" Style="{StaticResource A_Style_ItemsControl_Players}" />
-    </ContentControl>
+    </DataTemplate>
 </ResourceDictionary>

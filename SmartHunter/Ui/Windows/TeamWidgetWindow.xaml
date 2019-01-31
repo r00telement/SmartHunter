@@ -31,7 +31,7 @@
             </Grid.LayoutTransform>
 
             <Grid Visibility="{Binding IsVisible, Converter={StaticResource A_Converter_BoolToVisibility}}">
-                <ContentControl Content="{StaticResource A_ContentControl_TeamWidget}" DataContext="{Binding TeamWidget.Context}" />
+                <ContentControl Content="{Binding TeamWidget.Context}" />
             </Grid>
         </Grid>
 

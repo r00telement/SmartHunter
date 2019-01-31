@@ -81,7 +81,6 @@ namespace SmartHunter
 
                 using (var streamReader = new StreamReader(m_SkinFile.FullPathFileName, System.Text.Encoding.UTF8))
                 {
-                    var xamlSchemaContext = new XamlSchemaContext();
                     var xmlReaderSettings = new XamlXmlReaderSettings
                     {
                         LocalAssembly = Assembly.GetExecutingAssembly()
