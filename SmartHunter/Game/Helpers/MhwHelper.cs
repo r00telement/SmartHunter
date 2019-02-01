@@ -346,7 +346,7 @@ namespace SmartHunter.Game.Helpers
                         isValid3 = false;
                     }
 
-                    if (validity1 == 1 && (validity3 == 0 || validity3 == 1) && isValid3)
+                    if (isValid1 && isValid2 && isValid3)
                     { 
                         float maxHealth = MemoryHelper.Read<float>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.MaxHealth);
                         if (maxHealth > 0)
