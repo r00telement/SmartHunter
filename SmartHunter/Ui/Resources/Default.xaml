@@ -3,11 +3,16 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     mc:Ignorable="d"
-                    xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=PresentationFramework"
+                    
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:pfComponentModel="clr-namespace:System.ComponentModel;assembly=PresentationFramework"
+                    xmlns:wbComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+                    
                     xmlns:converters="clr-namespace:SmartHunter.Ui.Converters"
                     xmlns:coreData="clr-namespace:SmartHunter.Core.Data"
                     xmlns:data="clr-namespace:SmartHunter.Game.Data"
-                    xmlns:widgetContexts="clr-namespace:SmartHunter.Game.Data.WidgetContexts">
+                    xmlns:widgetContexts="clr-namespace:SmartHunter.Game.Data.WidgetContexts"
+                    >
 
     <!--Base Resources-->
 
@@ -134,32 +139,6 @@
 
     <!--Monster Widget Resources-->
 
-    <Style x:Key="A_Style_ItemsControl_Monsters" TargetType="ItemsControl">
-        <Setter Property="ItemContainerStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="FrameworkElement.Margin" Value="0 0 46 0"/>
-                </Style>
-            </Setter.Value>
-        </Setter>
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <ItemsPresenter />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Storyboard x:Key="A_Storyboard_Monster_PartOrStatusEffect_Hide">
         <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Root" Storyboard.TargetProperty="Opacity">
             <EasingDoubleKeyFrame KeyTime="00:00:01" Value="0">
@@ -219,7 +198,7 @@
         </StackPanel>
 
         <DataTemplate.Triggers>
-            <Trigger Property="componentModel:DesignerProperties.IsInDesignMode" Value="True">
+            <Trigger Property="pfComponentModel:DesignerProperties.IsInDesignMode" Value="True">
                 <Setter TargetName="Root" Property="Visibility" Value="Visible" />
                 <Setter TargetName="Root" Property="Opacity" Value="1" />
             </Trigger>
@@ -310,7 +289,7 @@
         </StackPanel>
 
         <DataTemplate.Triggers>
-            <Trigger Property="componentModel:DesignerProperties.IsInDesignMode" Value="True">
+            <Trigger Property="pfComponentModel:DesignerProperties.IsInDesignMode" Value="True">
                 <Setter TargetName="Root" Property="Visibility" Value="Visible" />
                 <Setter TargetName="Root" Property="Opacity" Value="1" />
             </Trigger>
@@ -343,7 +322,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type data:Monster}">
-        <StackPanel MinWidth="250">
+        <StackPanel Name="Root" MinWidth="250" Margin="0 0 46 0">
             <StackPanel>
                 <DockPanel>
                     <StackPanel Orientation="Horizontal">
@@ -385,6 +364,14 @@
         </StackPanel>
 
         <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                <Setter TargetName="Root" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                <Setter TargetName="Root" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            
             <DataTrigger Binding="{Binding DataContext.ShowHealthBar, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
                 <Setter TargetName="HealthBar" Property="Visibility" Value="Collapsed" />
             </DataTrigger>
@@ -436,26 +423,6 @@
 
 
     <!--Team Widget Resources-->
-
-    <Style x:Key="A_Style_ItemsControl_Players" TargetType="ItemsControl">
-        <Setter Property="MinWidth" Value="200" />
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <ItemsPresenter />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
     <DataTemplate DataType="{x:Type data:Player}">
         <Grid Name="Root">
@@ -528,26 +495,6 @@
 
     <!--Player Widget Resources-->
 
-    <Style x:Key="A_Style_ItemsControl_PlayerStatusEffects" TargetType="ItemsControl">
-        <Setter Property="MinWidth" Value="200" />
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <ItemsPresenter />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel ClipToBounds="False" />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Storyboard x:Key="A_Storyboard_Player_StatusEffect_Hide">
         <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Root" Storyboard.TargetProperty="Opacity">
             <EasingDoubleKeyFrame KeyTime="00:00:01" Value="0">
@@ -608,7 +555,7 @@
         </StackPanel>
 
         <DataTemplate.Triggers>
-            <Trigger Property="componentModel:DesignerProperties.IsInDesignMode" Value="True">
+            <Trigger Property="pfComponentModel:DesignerProperties.IsInDesignMode" Value="True">
                 <Setter TargetName="Root" Property="Visibility" Value="Visible" />
                 <Setter TargetName="Root" Property="Opacity" Value="1" />
             </Trigger>
@@ -711,15 +658,114 @@
     
     <!--Widget Controls-->
 
+    <Style x:Key="A_Style_ItemsControl_Monsters" TargetType="ItemsControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <DataTemplate DataType="{x:Type widgetContexts:MonsterWidgetContext}">
-        <ItemsControl ItemsSource="{Binding MonstersViewSource.View}" Style="{StaticResource A_Style_ItemsControl_Monsters}" />
+        <Grid>
+            <Grid.Resources>
+                <CollectionViewSource x:Key="CollectionViewSource" 
+                                      Source="{Binding Monsters}">
+                </CollectionViewSource>
+            </Grid.Resources>
+
+            <ItemsControl ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" Style="{StaticResource A_Style_ItemsControl_Monsters}" />
+        </Grid>
     </DataTemplate>
+
+    <Style x:Key="A_Style_ItemsControl_PlayerStatusEffects" TargetType="ItemsControl">
+        <Setter Property="MinWidth" Value="200" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel ClipToBounds="False" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <DataTemplate DataType="{x:Type widgetContexts:PlayerWidgetContext}">
-        <ItemsControl ItemsSource="{Binding StatusEffectsViewSource.View}" Style="{StaticResource A_Style_ItemsControl_PlayerStatusEffects}" />
+        <Grid>
+            <Grid.Resources>
+                <CollectionViewSource x:Key="CollectionViewSource" 
+                                      Source="{Binding StatusEffects}"
+                                      IsLiveSortingRequested="True">
+                    <CollectionViewSource.LiveSortingProperties>
+                        <system:String>Time</system:String>
+                        <system:String>Time.Current</system:String>
+                    </CollectionViewSource.LiveSortingProperties>
+                    <CollectionViewSource.SortDescriptions>
+                        <wbComponentModel:SortDescription PropertyName="Time" Direction="Descending" />
+                        <wbComponentModel:SortDescription PropertyName="Time.Current" Direction="Ascending" />
+                    </CollectionViewSource.SortDescriptions>
+                </CollectionViewSource>
+            </Grid.Resources>
+
+            <ItemsControl ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" Style="{StaticResource A_Style_ItemsControl_PlayerStatusEffects}" />
+        </Grid>
     </DataTemplate>
 
+    <Style x:Key="A_Style_ItemsControl_Players" TargetType="ItemsControl">
+        <Setter Property="MinWidth" Value="200" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <DataTemplate DataType="{x:Type widgetContexts:TeamWidgetContext}">
-        <ItemsControl ItemsSource="{Binding PlayersViewSource.View}" Style="{StaticResource A_Style_ItemsControl_Players}" />
+        <Grid>
+            <Grid.Resources>
+                <CollectionViewSource x:Key="CollectionViewSource" 
+                                      Source="{Binding Players}"
+                                      IsLiveSortingRequested="True">
+                    <CollectionViewSource.LiveSortingProperties>
+                        <system:String>Damage</system:String>
+                    </CollectionViewSource.LiveSortingProperties>
+                    <CollectionViewSource.SortDescriptions>
+                        <wbComponentModel:SortDescription PropertyName="Damage" Direction="Descending" />
+                        <wbComponentModel:SortDescription PropertyName="Index" Direction="Ascending" />
+                    </CollectionViewSource.SortDescriptions>
+                </CollectionViewSource>
+            </Grid.Resources>
+
+            <ItemsControl ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" Style="{StaticResource A_Style_ItemsControl_Players}" />
+        </Grid>
     </DataTemplate>
 </ResourceDictionary>

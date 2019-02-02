@@ -2,14 +2,12 @@
 using SmartHunter.Game.Helpers;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Data;
 
 namespace SmartHunter.Game.Data.WidgetContexts
 {
     public class MonsterWidgetContext : WidgetContext
     {
         public ObservableCollection<Monster> Monsters { get; private set; }
-        public CollectionViewSource MonstersViewSource { get; private set; }
 
         bool m_ShowHealthBar = true;
         public bool ShowHealthBar
@@ -50,16 +48,6 @@ namespace SmartHunter.Game.Data.WidgetContexts
         {
             Monsters = new ObservableCollection<Monster>();
 
-            MonstersViewSource = new CollectionViewSource();
-            MonstersViewSource.Source = Monsters;
-            MonstersViewSource.IsLiveFilteringRequested = true;
-            MonstersViewSource.LiveFilteringProperties.Add(nameof(Monster.Id));
-            MonstersViewSource.Filter += (sender, e) =>
-            {
-                var monster = e.Item as Monster;
-                e.Accepted = ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchIncludeMonsterIdRegex(monster.Id);
-            };
-
             UpdateFromConfig();
         }
 
@@ -93,6 +81,11 @@ namespace SmartHunter.Game.Data.WidgetContexts
             ShowCrown = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowCrown;
             ShowParts = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowParts;
             ShowStatusEffects = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowStatusEffects;
+
+            foreach (var monster in Monsters)
+            {
+                monster.NotifyPropertyChanged(nameof(Monster.IsVisible));
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace SmartHunter.Core.Data
+﻿using System;
+
+namespace SmartHunter.Core.Data
 {
-    public class Progress : Bindable
+    public class Progress : Bindable, IComparable
     {
         float m_Max;
         public float Max
@@ -35,6 +37,18 @@
         {
             m_Max = max;
             m_Current = current;
+        }
+
+        // We only really want the default compare to compare nulls.
+        // We can then compare by Current in a separate pass for better control.
+        public int CompareTo(object obj)
+        {
+            if (obj == null)
+            {
+                return 1;
+            }
+
+            return 0;
         }
     }
 }

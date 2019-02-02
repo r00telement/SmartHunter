@@ -146,9 +146,7 @@ namespace SmartHunter.Game.Helpers
                     }
                 }
 
-                var statusEffectGroupId = ConfigHelper.PlayerData.Values.PlayerStatusEffects[index].GroupId;
-                bool isIncluded = ConfigHelper.Main.Values.Overlay.PlayerWidget.MatchIncludePlayerStatusEffectGroupIdRegex(statusEffectGroupId);
-                OverlayViewModel.Instance.PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(index, timer, isConditionPassed && isIncluded);
+                OverlayViewModel.Instance.PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(index, timer, isConditionPassed);
             }
         }
 
@@ -241,9 +239,7 @@ namespace SmartHunter.Game.Helpers
             }
 
             id = id.Split('\\').Last();
-
-            bool isIncluded = ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchIncludeMonsterIdRegex(id);
-            if (!isIncluded)
+            if (!Monster.IsIncluded(id))
             {
                 return monster;
             }

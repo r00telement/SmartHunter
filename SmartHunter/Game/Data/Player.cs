@@ -1,21 +1,21 @@
 ﻿using SmartHunter.Core.Data;
-using System;
 
 namespace SmartHunter.Game.Data
 {
     public class Player : Bindable
     {
+        int m_Index;
+        public int Index
+        {
+            get { return m_Index; }
+            set { SetProperty(ref m_Index, value); }
+        }
+
         string m_Name;
         public string Name
         {
             get { return m_Name; }
-            set
-            {
-                if (SetProperty(ref m_Name, value))
-                {
-                    NotifyPropertyChanged(nameof(IsActive));
-                }
-            }
+            set { SetProperty(ref m_Name, value); }
         }
 
         int m_Damage;
@@ -37,11 +37,6 @@ namespace SmartHunter.Game.Data
         {
             get { return m_BarFraction; }
             set { SetProperty(ref m_BarFraction, value); }
-        }
-
-        public bool IsActive
-        {
-            get { return String.IsNullOrEmpty(Name) ? false : true; }
         }
     }
 }

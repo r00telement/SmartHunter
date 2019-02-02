@@ -14,7 +14,23 @@ namespace SmartHunter.Game.Data
                 if (SetProperty(ref m_Index, value))
                 {
                     NotifyPropertyChanged(nameof(GroupId));
-                    UpdateLocalization();
+                    NotifyPropertyChanged(nameof(Name));
+                    NotifyPropertyChanged(nameof(IsVisible));
+                }
+            }
+        }
+
+        public Progress Time { get; private set; }
+
+        bool m_IsConditionPassed;
+        public bool IsConditionPassed
+        {
+            get { return m_IsConditionPassed; }
+            set
+            {
+                if (SetProperty(ref m_IsConditionPassed, value))
+                {
+                    NotifyPropertyChanged(nameof(IsVisible));
                 }
             }
         }
@@ -23,7 +39,7 @@ namespace SmartHunter.Game.Data
         {
             get
             {
-                return ConfigHelper.PlayerData.Values.PlayerStatusEffects[Index].GroupId;
+                return GetGroupIdFromIndex(Index);
             }
         }
 
@@ -35,16 +51,15 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        public Progress Time { get; private set; }
-
-        bool m_IsVisible;
         public bool IsVisible
         {
-            get { return m_IsVisible; }
-            set { SetProperty(ref m_IsVisible, value); }
+            get
+            {
+                return IsIncluded(GroupId) && IsConditionPassed;
+            }
         }
 
-        public PlayerStatusEffect(int index, float? maxTime, float? currentTime, bool isVisible)
+        public PlayerStatusEffect(int index, float? maxTime, float? currentTime, bool isConditionPassed)
         {
             m_Index = index;
 
@@ -53,12 +68,17 @@ namespace SmartHunter.Game.Data
                 Time = new Progress(maxTime.Value, currentTime.Value);
             }
 
-            m_IsVisible = isVisible;
+            m_IsConditionPassed = isConditionPassed;
         }
 
-        public void UpdateLocalization()
+        public static string GetGroupIdFromIndex(int index)
         {
-            NotifyPropertyChanged(nameof(Name));
+            return ConfigHelper.PlayerData.Values.PlayerStatusEffects[index].GroupId;
+        }
+
+        public static bool IsIncluded(string groupId)
+        {
+            return ConfigHelper.Main.Values.Overlay.PlayerWidget.MatchIncludePlayerStatusEffectGroupIdRegex(groupId);
         }
     }
 }

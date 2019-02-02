@@ -27,6 +27,7 @@ namespace SmartHunter.Game.Data
             {
                 if (SetProperty(ref m_Id, value))
                 {
+                    NotifyPropertyChanged(nameof(IsVisible));
                     UpdateLocalization();
                 }
             }
@@ -115,7 +116,15 @@ namespace SmartHunter.Game.Data
                 return crown;
             }
         }
-       
+
+        public bool IsVisible
+        {
+            get
+            {
+                return IsIncluded(Id);
+            }
+        }
+
         public Progress Health { get; private set; }
         public ObservableCollection<MonsterPart> Parts { get; private set; }
         public ObservableCollection<MonsterPart> RemovableParts { get; private set; }
@@ -256,6 +265,11 @@ namespace SmartHunter.Game.Data
             {
                 return true;
             }
+        }
+
+        public static bool IsIncluded(string monsterId)
+        {
+            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchIncludeMonsterIdRegex(monsterId);
         }
     }
 }
