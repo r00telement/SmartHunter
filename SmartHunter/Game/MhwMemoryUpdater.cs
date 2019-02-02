@@ -55,6 +55,19 @@ namespace SmartHunter.Game
             }
         }
 
+        protected override int UpdatesPerSecond
+        {
+            get
+            {
+                return ConfigHelper.Main.Values.Overlay.UpdatesPerSecond;
+            }
+        }
+
+        public MhwMemoryUpdater()
+        {
+            ConfigHelper.Main.Loaded += (s, e) => { TryUpdateTimerInterval(); };
+        }
+
         protected override void UpdateMemory()
         {
             UpdateVisibility();

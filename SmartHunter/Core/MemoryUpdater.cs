@@ -26,6 +26,7 @@ namespace SmartHunter.Core
         protected abstract int ThreadCount { get; }
         protected abstract AddressRange ScanAddressRange { get; }
         protected abstract BytePattern[] Patterns { get; }
+        protected abstract int UpdatesPerSecond { get; }
 
         protected Process Process { get; private set; }
 
@@ -37,7 +38,7 @@ namespace SmartHunter.Core
 
             m_DispatcherTimer = new DispatcherTimer();
             m_DispatcherTimer.Tick += Update;
-            m_DispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 150);
+            TryUpdateTimerInterval();
             m_DispatcherTimer.Start();
         }
 
@@ -163,6 +164,19 @@ namespace SmartHunter.Core
             }
         }
 
-        abstract protected void UpdateMemory();        
+        abstract protected void UpdateMemory();
+
+        protected void TryUpdateTimerInterval()
+        {
+            const int max = 60;
+            const int min = 1;
+            int clampedUpdatesPerSecond = Math.Min(Math.Max(UpdatesPerSecond, min), max);
+
+            int targetMilliseconds = (int)(1000f / clampedUpdatesPerSecond);
+            if (m_DispatcherTimer != null && m_DispatcherTimer.Interval.TotalMilliseconds != targetMilliseconds)
+            {
+                m_DispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, targetMilliseconds);
+            }
+        }
     }
 }
