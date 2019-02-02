@@ -49,6 +49,8 @@
     <Color x:Key="A_Color_Crown_Silver_Body">#eeeeee</Color>
     <Color x:Key="A_Color_Crown_Silver_Gem">#dd0000</Color>
 
+    <DropShadowEffect x:Key="A_Effect_DropShadow" ShadowDepth="1" Direction="-45" Color="Black" Opacity="0.66" BlurRadius="1" RenderingBias="Quality" />
+    
     <FontFamily x:Key="Roboto">pack://application:,,,/Ui/Fonts/#Roboto</FontFamily>
 
     <Style x:Key="A_Style_TextBlock_Heading" TargetType="TextBlock">
@@ -59,6 +61,8 @@
 
         <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
         <Setter Property="LineHeight" Value="20" />
+
+        <!--<Setter Property="Effect" Value="{StaticResource A_Effect_DropShadow}" />-->
     </Style>
 
     <Style x:Key="A_Style_TextBlock_Standard" TargetType="TextBlock" BasedOn="{StaticResource A_Style_TextBlock_Heading}">
@@ -114,7 +118,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="A_Graphic_Crown">
-        <Viewbox>
+        <Viewbox Effect="{StaticResource A_Effect_DropShadow}">
             <Canvas RenderTransform="1.0, 0.0, 0.0, 1.0, 0, 0" Width="512.001" Height="512.001">
                 <!-- Rim -->
                 <Path Data="F1 M512.001,512.001z M0,0z M471.688,448.561L40.311,448.561C31.475,448.561,24.311,441.397,24.311,432.562L24.311,350.881C24.311,342.045,31.475,334.882,40.311,334.882L471.687,334.882C480.523,334.882,487.687,342.046,487.687,350.881L487.687,432.562C487.687,441.398,480.525,448.561,471.688,448.561z" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType=ContentControl}}" />
@@ -679,9 +683,7 @@
     <DataTemplate DataType="{x:Type widgetContexts:MonsterWidgetContext}">
         <Grid>
             <Grid.Resources>
-                <CollectionViewSource x:Key="CollectionViewSource" 
-                                      Source="{Binding Monsters}">
-                </CollectionViewSource>
+                <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding Monsters}" />
             </Grid.Resources>
 
             <ItemsControl ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" Style="{StaticResource A_Style_ItemsControl_Monsters}" />
@@ -711,9 +713,7 @@
     <DataTemplate DataType="{x:Type widgetContexts:PlayerWidgetContext}">
         <Grid>
             <Grid.Resources>
-                <CollectionViewSource x:Key="CollectionViewSource" 
-                                      Source="{Binding StatusEffects}"
-                                      IsLiveSortingRequested="True">
+                <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding StatusEffects}" IsLiveSortingRequested="True">
                     <CollectionViewSource.LiveSortingProperties>
                         <system:String>Time</system:String>
                         <system:String>Time.Current</system:String>
@@ -752,9 +752,7 @@
     <DataTemplate DataType="{x:Type widgetContexts:TeamWidgetContext}">
         <Grid>
             <Grid.Resources>
-                <CollectionViewSource x:Key="CollectionViewSource" 
-                                      Source="{Binding Players}"
-                                      IsLiveSortingRequested="True">
+                <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding Players}" IsLiveSortingRequested="True">
                     <CollectionViewSource.LiveSortingProperties>
                         <system:String>Damage</system:String>
                     </CollectionViewSource.LiveSortingProperties>
