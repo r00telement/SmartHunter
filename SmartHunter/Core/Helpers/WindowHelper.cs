@@ -39,22 +39,14 @@ namespace SmartHunter.Core.Helpers
         public static void SetTopMostSelectable(Window window)
         {
             var handle = new WindowInteropHelper(window).EnsureHandle();
-
-            var exStyle = WindowsApi.GetWindowLong(handle, (int)WindowsApi.WindowLongGroup.GWL_EXSTYLE);
-            var newExStyle = (uint)exStyle & TopMostSelectableWindowStyleFlags;
-            WindowsApi.SetWindowLong(handle, (int)WindowsApi.WindowLongGroup.GWL_EXSTYLE, newExStyle);
-
+            WindowsApi.SetWindowLong(handle, (int)WindowsApi.WindowLongGroup.GWL_EXSTYLE, TopMostSelectableWindowStyleFlags);
             WindowsApi.SetWindowPos(handle, -1, 0, 0, 0, 0, TopMostWindowSizePositions);
         }
 
         public static void SetTopMostTransparent(Window window)
         {
             var handle = new WindowInteropHelper(window).EnsureHandle();
-
-            var exStyle = WindowsApi.GetWindowLong(handle, (int)WindowsApi.WindowLongGroup.GWL_EXSTYLE);
-            var newExStyle = (uint)exStyle | TopMostTransparentWindowStyleFlags;
-            WindowsApi.SetWindowLong(handle, (int)WindowsApi.WindowLongGroup.GWL_EXSTYLE, newExStyle);
-
+            WindowsApi.SetWindowLong(handle, (int)WindowsApi.WindowLongGroup.GWL_EXSTYLE, TopMostTransparentWindowStyleFlags);
             WindowsApi.SetWindowPos(handle, -1, 0, 0, 0, 0, TopMostWindowSizePositions);
         }
 
