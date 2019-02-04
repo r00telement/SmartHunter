@@ -11,12 +11,19 @@ namespace SmartHunter.Game
 {
     public class MhwOverlay : Overlay
     {
+        MhwMemoryUpdater m_MemoryUpdater;
+
         public MhwOverlay(Window mainWindow, params WidgetWindow[] widgetWindows) : base(mainWindow, widgetWindows)
         {
             ConfigHelper.Main.Loaded += (s, e) => { UpdateWidgetsFromConfig(); };
             ConfigHelper.Localization.Loaded += (s, e) => { RefreshWidgetsLayout(); };
             ConfigHelper.MonsterData.Loaded += (s, e) => { RefreshWidgetsLayout(); };
             ConfigHelper.PlayerData.Loaded += (s, e) => { RefreshWidgetsLayout(); };
+
+            if (!ConfigHelper.Main.Values.Debug.UseSampleData)
+            {
+                m_MemoryUpdater = new MhwMemoryUpdater();
+            }
         }
 
         protected override void InputReceived(Key key, bool isDown)
@@ -61,6 +68,10 @@ namespace SmartHunter.Game
                 {
                     ConfigHelper.Main.Save();
                 }
+            }
+            else if (control == InputControl.DebugSnapshot)
+            {
+                m_MemoryUpdater.IsDebugSnapshotRequested = true;
             }
         }
     }

@@ -1,9 +1,11 @@
-﻿using SmartHunter.Core.Helpers;
+﻿using SmartHunter.Core;
+using SmartHunter.Core.Helpers;
 using SmartHunter.Game.Data;
 using SmartHunter.Game.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 
 namespace SmartHunter.Game.Helpers
@@ -104,10 +106,12 @@ namespace SmartHunter.Game.Helpers
             }
         }
 
-        public static void UpdatePlayerWidget(Process process, ulong statusEffectAddress, ulong equipmentAddress)
+        public static void UpdatePlayerWidget(Process process, ulong statusEffectAddress, ulong equipmentAddress, bool isDebugSnapshotRequested)
         {
             for (int index = 0; index < ConfigHelper.PlayerData.Values.PlayerStatusEffects.Length; ++index)
             {
+                string debugLine = "";
+
                 var playerStatusEffectConfig = ConfigHelper.PlayerData.Values.PlayerStatusEffects[index];
 
                 ulong sourceAddress = statusEffectAddress;
@@ -116,25 +120,31 @@ namespace SmartHunter.Game.Helpers
                     sourceAddress = equipmentAddress;
                 }
 
+                debugLine += $"{playerStatusEffectConfig.NameStringId} ";
+
                 bool isConditionPassed = true;
                 if (playerStatusEffectConfig.Condition != null)
                 {
-                    ulong conditionOffset;
-                    if (ulong.TryParse(playerStatusEffectConfig.Condition.Offset, System.Globalization.NumberStyles.HexNumber, null, out conditionOffset))
+                    if (ulong.TryParse(playerStatusEffectConfig.Condition.Offset, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var conditionOffset))
                     {
                         var conditionValue = MemoryHelper.Read<int>(process, sourceAddress + conditionOffset);
                         if (conditionValue != playerStatusEffectConfig.Condition.Value)
                         {
                             isConditionPassed = false;
                         }
+
+                        debugLine += $"{playerStatusEffectConfig.Condition.Offset}={conditionOffset} {playerStatusEffectConfig.Condition.Value} {conditionValue} {isConditionPassed} ";
+                    }
+                    else
+                    {
+                        debugLine += $"ConditionParseFailed ";
                     }
                 }
 
                 float? timer = null;
                 if (isConditionPassed && playerStatusEffectConfig.TimerOffset != null)
                 {
-                    ulong timerOffset;
-                    if (ulong.TryParse(playerStatusEffectConfig.TimerOffset, System.Globalization.NumberStyles.HexNumber, null, out timerOffset))
+                    if (ulong.TryParse(playerStatusEffectConfig.TimerOffset, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var timerOffset))
                     {
                         timer = MemoryHelper.Read<float>(process, sourceAddress + timerOffset);
                     }
@@ -144,6 +154,20 @@ namespace SmartHunter.Game.Helpers
                         timer = 0;
                         isConditionPassed = false;
                     }
+                }
+
+                string timerValue = "None";
+                if (timer.HasValue)
+                {
+                    timerValue = timer.Value.ToString(CultureInfo.InvariantCulture);
+                }
+
+                debugLine += $"{timerValue} {isConditionPassed}";
+
+
+                if (isDebugSnapshotRequested)
+                {
+                    Log.WriteLine(debugLine);
                 }
 
                 OverlayViewModel.Instance.PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(index, timer, isConditionPassed);
@@ -343,7 +367,7 @@ namespace SmartHunter.Game.Helpers
                     }
 
                     if (isValid1 && isValid2 && isValid3)
-                    { 
+                    {
                         float maxHealth = MemoryHelper.Read<float>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.MaxHealth);
                         if (maxHealth > 0)
                         {

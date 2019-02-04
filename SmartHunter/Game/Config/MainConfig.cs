@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SmartHunter.Core.Config;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace SmartHunter.Game.Config
@@ -12,9 +13,11 @@ namespace SmartHunter.Game.Config
 
         public OverlayConfig Overlay = new OverlayConfig();
 
+        [MaintainCollectionIntegrity]
         public Dictionary<InputControl, Key> Keybinds = new Dictionary<InputControl, Key>()
         {
-            { InputControl.ManipulateWidget, Key.LeftAlt }
+            { InputControl.ManipulateWidget, Key.LeftAlt },
+            { InputControl.DebugSnapshot, Key.F8 }
         };
 
         public DebugConfig Debug = new DebugConfig();

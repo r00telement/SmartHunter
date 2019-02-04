@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Globalization;
 
 namespace SmartHunter.Core.Config
 {
-    class StringFloatConverter : JsonConverter
+    public class StringFloatConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
@@ -13,7 +14,7 @@ namespace SmartHunter.Core.Config
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var floatValue = (float)value;            
-            writer.WriteRawValue(floatValue.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture));
+            writer.WriteRawValue(floatValue.ToString("0.##", CultureInfo.InvariantCulture));
         }
 
         public override bool CanRead

@@ -63,6 +63,8 @@ namespace SmartHunter.Game
             }
         }
 
+        public bool IsDebugSnapshotRequested = false;
+
         public MhwMemoryUpdater()
         {
             ConfigHelper.Main.Loaded += (s, e) => { TryUpdateTimerInterval(); };
@@ -95,7 +97,6 @@ namespace SmartHunter.Game
                 var playerNamesAddress = MemoryHelper.Read<uint>(Process, playerNamesPtr);
 
                 MhwHelper.UpdateTeamWidget(Process, playerDamageCollectionAddress, playerNamesAddress);
-
             }
             else if (OverlayViewModel.Instance.TeamWidget.Context.Players.Any())
             {
@@ -126,7 +127,7 @@ namespace SmartHunter.Game
                 var isEquipmentAddressValid = MemoryHelper.Read<ulong>(Process, equipmentAddress + 0x8) == 0;
                 if (isBuffAddressValid && isEquipmentAddressValid)
                 {
-                    MhwHelper.UpdatePlayerWidget(Process, buffAddress, equipmentAddress);
+                    MhwHelper.UpdatePlayerWidget(Process, buffAddress, equipmentAddress, IsDebugSnapshotRequested);
                 }
                 else if (OverlayViewModel.Instance.PlayerWidget.Context.StatusEffects.Any())
                 {
@@ -137,6 +138,8 @@ namespace SmartHunter.Game
             {
                 OverlayViewModel.Instance.PlayerWidget.Context.StatusEffects.Clear();
             }
+
+            IsDebugSnapshotRequested = false;
         }
 
         void UpdateVisibility()

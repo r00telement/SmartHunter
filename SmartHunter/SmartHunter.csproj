@@ -80,6 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Config\MaintainCollectionIntegrity.cs" />
     <Compile Include="Core\Data\WidgetContext.cs" />
     <Compile Include="Game\Config\DebugConfig.cs" />
     <Compile Include="Game\Config\MonsterCrownConfig.cs" />

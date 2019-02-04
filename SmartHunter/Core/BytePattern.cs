@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace SmartHunter.Core
 {
@@ -25,7 +26,7 @@ namespace SmartHunter.Core
             foreach (var singleByteString in singleByteStrings)
             {
                 byte parsedByte = 0;
-                if (byte.TryParse(singleByteString, System.Globalization.NumberStyles.HexNumber, null, out parsedByte))
+                if (byte.TryParse(singleByteString, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out parsedByte))
                 {
                     byteList.Add(parsedByte);
                 }

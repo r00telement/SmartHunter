@@ -17,7 +17,7 @@ namespace SmartHunter.Core.Config
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var jsonProperty = base.CreateProperty(member, memberSerialization);
-            if (jsonProperty.ObjectCreationHandling == null && GetDictionaryKeyType(jsonProperty.PropertyType) != null)
+            if (jsonProperty.ObjectCreationHandling == null && GetDictionaryKeyType(jsonProperty.PropertyType) != null && member.GetCustomAttribute<MaintainCollectionIntegrity>() == null)
             {
                 jsonProperty.ObjectCreationHandling = ObjectCreationHandling.Replace;
             }

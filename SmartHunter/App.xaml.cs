@@ -14,17 +14,21 @@ namespace SmartHunter
     public partial class App : Application
     {
         MhwOverlay m_Overlay;
-        MhwMemoryUpdater m_MemoryUpdater;
         FileContainer m_SkinFile;
 
         string m_LastSkinFileName;
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            //var culture = new System.Globalization.CultureInfo("es-ES");
+            //System.Globalization.CultureInfo.CurrentCulture = culture;
+            //System.Globalization.CultureInfo.CurrentUICulture = culture;
+
             // Initialize the console view model first thing so we can see any problems that may occur
             var consoleViewModel = ConsoleViewModel.Instance;
 
             Log.WriteLine($"Started {Assembly.GetExecutingAssembly().GetName().Version}");
+            //Log.WriteLine($"Culture: {System.Globalization.CultureInfo.CurrentCulture.Name}");
 
             SetPerMonitorDpiAwareness();
 
@@ -36,11 +40,6 @@ namespace SmartHunter
             LoadSkin();
 
             m_Overlay = new MhwOverlay(new ConsoleWindow(), new TeamWidgetWindow(), new MonsterWidgetWindow(), new PlayerWidgetWindow());
-
-            if (!ConfigHelper.Main.Values.Debug.UseSampleData)
-            {
-                m_MemoryUpdater = new MhwMemoryUpdater();
-            }
 
             base.OnStartup(e);
         }
