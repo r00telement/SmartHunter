@@ -178,11 +178,6 @@ namespace SmartHunter.Game.Helpers
                     }
                 }
 
-                //if (statusEffectConfig.NameStringId == "LOC_WEAPON_HAMMER_POWER_CHARGE" && !allConditionsPassed)
-                //{
-                //    Log.WriteLine($"WHY");
-                //}
-
                 float? timer = null;
                 if (allConditionsPassed && statusEffectConfig.TimerOffset != null)
                 {
