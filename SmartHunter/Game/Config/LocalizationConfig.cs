@@ -211,7 +211,18 @@ namespace SmartHunter.Config
             { "LOC_EQUIPMENT_MANTLE_APOTHECARY", "Apothecary Mantle" },
             { "LOC_EQUIPMENT_MANTLE_IMMUNITY", "Immunity Mantle" },
             { "LOC_EQUIPMENT_MANTLE_BANDIT", "Bandit Mantle" },
-            { "LOC_EQUIPMENT_AFFINITY_BOOSTER", "Affinity Booster" }
+            { "LOC_EQUIPMENT_AFFINITY_BOOSTER", "Affinity Booster" },
+
+            // Weapon
+            { "LOC_WEAPON_INSECT_GLAIVE_ATTACK", "Attack Up" },
+            { "LOC_WEAPON_INSECT_GLAIVE_SPEED", "Speed Up" },
+            { "LOC_WEAPON_INSECT_GLAIVE_DEFENSE", "Defense Up" },
+            { "LOC_WEAPON_LONGSWORD_SPIRIT_GAUGE_REGEN", "Spirit Gauge Regen" },
+            { "LOC_WEAPON_LONGSWORD_STEADY_SPIRIT_LEVEL", "Steady Spirit Level" },
+            { "LOC_WEAPON_CHARGE_BLADE_SHIELD_CHARGE", "Shield Charge" },
+            { "LOC_WEAPON_CHARGE_BLADE_BLADE_CHARGE", "Blade Charge" },
+            { "LOC_WEAPON_SWITCH_AXE_AMPED_STATE", "Amped State" },
+            { "LOC_WEAPON_HAMMER_POWER_CHARGE", "Power Charge" }
         };
 
         public LocalizationConfig()

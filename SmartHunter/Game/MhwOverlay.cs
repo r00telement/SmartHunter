@@ -69,10 +69,6 @@ namespace SmartHunter.Game
                     ConfigHelper.Main.Save();
                 }
             }
-            else if (control == InputControl.DebugSnapshot)
-            {
-                m_MemoryUpdater.IsDebugSnapshotRequested = true;
-            }
         }
     }
 }

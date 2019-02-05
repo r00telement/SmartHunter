@@ -62,9 +62,7 @@ namespace SmartHunter.Game
                 return ConfigHelper.Main.Values.Overlay.UpdatesPerSecond;
             }
         }
-
-        public bool IsDebugSnapshotRequested = false;
-
+  
         public MhwMemoryUpdater()
         {
             ConfigHelper.Main.Loaded += (s, e) => { TryUpdateTimerInterval(); };
@@ -122,12 +120,13 @@ namespace SmartHunter.Game
                 
                 var buffAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, lastBuffAddress + playerBuffOffset, 0);
                 var equipmentAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, buffAddress + 0x8, 0x70, 0x78, 0X50, -0x10);
+                var weaponAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, buffAddress + 0x8, 0x80, 0x78, 0X20, 0X0);
 
                 var isBuffAddressValid = MemoryHelper.Read<float>(Process, equipmentAddress + 0x20) != 0;
                 var isEquipmentAddressValid = MemoryHelper.Read<ulong>(Process, equipmentAddress + 0x8) == 0;
                 if (isBuffAddressValid && isEquipmentAddressValid)
                 {
-                    MhwHelper.UpdatePlayerWidget(Process, buffAddress, equipmentAddress, IsDebugSnapshotRequested);
+                    MhwHelper.UpdatePlayerWidget(Process, buffAddress, equipmentAddress, weaponAddress);
                 }
                 else if (OverlayViewModel.Instance.PlayerWidget.Context.StatusEffects.Any())
                 {
@@ -138,8 +137,6 @@ namespace SmartHunter.Game
             {
                 OverlayViewModel.Instance.PlayerWidget.Context.StatusEffects.Clear();
             }
-
-            IsDebugSnapshotRequested = false;
         }
 
         void UpdateVisibility()

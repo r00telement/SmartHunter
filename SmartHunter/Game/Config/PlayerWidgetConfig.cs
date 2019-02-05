@@ -5,15 +5,15 @@ namespace SmartHunter.Game.Config
 {
     public class PlayerWidgetConfig : WidgetConfig
     {
-        public string IncludePlayerStatusEffectGroupIdRegex = ".*";
+        public string IncludeStatusEffectGroupIdRegex = ".*";
 
         public PlayerWidgetConfig(float x, float y) : base(x, y)
         {
         }
 
-        public bool MatchIncludePlayerStatusEffectGroupIdRegex(string groupId)
+        public bool MatchIncludeStatusEffectGroupIdRegex(string groupId)
         {
-            return new Regex(IncludePlayerStatusEffectGroupIdRegex).IsMatch(groupId);
+            return new Regex(IncludeStatusEffectGroupIdRegex).IsMatch(groupId);
         }
     }
 }

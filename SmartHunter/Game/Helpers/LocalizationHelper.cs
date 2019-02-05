@@ -80,7 +80,7 @@ namespace SmartHunter.Game.Helpers
 
         public static string GetMonsterStatusEffectName(int statusEffectId)
         {
-            if (ConfigHelper.MonsterData.Values.MonsterStatusEffects.TryGetValue(statusEffectId, out var stringId))
+            if (ConfigHelper.MonsterData.Values.StatusEffects.TryGetValue(statusEffectId, out var stringId))
             {
                 return GetString(stringId);
             }
@@ -92,9 +92,9 @@ namespace SmartHunter.Game.Helpers
 
         public static string GetPlayerStatusEffectName(int index)
         {
-            if (ConfigHelper.PlayerData.Values.PlayerStatusEffects.Length > index)
+            if (ConfigHelper.PlayerData.Values.StatusEffects.Length > index)
             {
-                return GetString(ConfigHelper.PlayerData.Values.PlayerStatusEffects[index].NameStringId);
+                return GetString(ConfigHelper.PlayerData.Values.StatusEffects[index].NameStringId);
             }
 
             Log.WriteLine($"Localization: Player status effect with index '{index}' not found in {ConfigHelper.PlayerData.FileName}");

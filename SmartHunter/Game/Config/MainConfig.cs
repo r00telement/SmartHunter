@@ -13,11 +13,10 @@ namespace SmartHunter.Game.Config
 
         public OverlayConfig Overlay = new OverlayConfig();
 
-        [MaintainCollectionIntegrity]
+        [PreserveCollectionIntegrity]
         public Dictionary<InputControl, Key> Keybinds = new Dictionary<InputControl, Key>()
         {
-            { InputControl.ManipulateWidget, Key.LeftAlt },
-            { InputControl.DebugSnapshot, Key.F8 }
+            { InputControl.ManipulateWidget, Key.LeftAlt }
         };
 
         public DebugConfig Debug = new DebugConfig();

@@ -41,6 +41,7 @@
     <Color x:Key="A_Color_PlayerStatusEffect_Group_Debuff">#EC7A7A</Color>
     <Color x:Key="A_Color_PlayerStatusEffect_Group_Buff">#DAFDBC</Color>
     <Color x:Key="A_Color_PlayerStatusEffect_Group_Equipment">#FFFFFFFF</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Group_Weapon">#FFFFFFFF</Color>
 
     <Color x:Key="A_Color_Crown_Mini_Body">#eed000</Color>
     <Color x:Key="A_Color_Crown_Mini_Gem">#00dd00</Color>
@@ -654,6 +655,19 @@
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
                         <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Equipment}" />
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding GroupId}" Value="Weapon">
+                <Setter TargetName="NameBlock" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Weapon}" />
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="CircleProgress" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Weapon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>

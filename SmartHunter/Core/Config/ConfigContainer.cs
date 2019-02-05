@@ -87,6 +87,8 @@ namespace SmartHunter.Core.Config
             {
                 var settings = new JsonSerializerSettings();
                 settings.Formatting = Formatting.Indented;
+                settings.NullValueHandling = NullValueHandling.Ignore;
+                settings.ContractResolver = ContractResolver.Instance;
 
                 settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
                 settings.Converters.Add(new StringFloatConverter());

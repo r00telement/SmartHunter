@@ -180,7 +180,7 @@ namespace SmartHunter.Game.Data
                 statusEffect.Buildup.Current = currentBuildup;
                 statusEffect.TimesActivatedCount = timesActivatedCount;
             }
-            else if (!ConfigHelper.MonsterData.Values.MonsterStatusEffects.ContainsKey(id))
+            else if (!ConfigHelper.MonsterData.Values.StatusEffects.ContainsKey(id))
             {
                 return null;
             }
@@ -190,7 +190,7 @@ namespace SmartHunter.Game.Data
                 StatusEffects.Add(statusEffect);
             }
 
-            bool isValidId = ConfigHelper.MonsterData.Values.MonsterStatusEffects.ContainsKey(id);
+            bool isValidId = ConfigHelper.MonsterData.Values.StatusEffects.ContainsKey(id);
             if (!isValidId)
             {
                 statusEffect.IsVisible = false;

@@ -2,7 +2,7 @@
 
 namespace SmartHunter.Core.Config
 {
-    public class MaintainCollectionIntegrity : Attribute
+    public class PreserveCollectionIntegrity : Attribute
     {
     }
 }

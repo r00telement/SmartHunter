@@ -283,7 +283,7 @@ namespace SmartHunter.Core.Helpers
         {
             string trace = "";
 
-            ulong result = 0;
+            ulong result = address;
             foreach (var offset in offsets)
             {
                 var readResult = Read<ulong>(process, address);

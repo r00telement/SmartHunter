@@ -2,7 +2,6 @@
 {
     public enum InputControl
     {
-        ManipulateWidget,
-        DebugSnapshot
+        ManipulateWidget
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -16,13 +17,33 @@ namespace SmartHunter.Core.Config
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
-            var jsonProperty = base.CreateProperty(member, memberSerialization);
-            if (jsonProperty.ObjectCreationHandling == null && GetDictionaryKeyType(jsonProperty.PropertyType) != null && member.GetCustomAttribute<MaintainCollectionIntegrity>() == null)
+            // Replace dictionaries entirely unless integrity is preserved
+            var property = base.CreateProperty(member, memberSerialization);
+            if (property.ObjectCreationHandling == null && GetDictionaryKeyType(property.PropertyType) != null && member.GetCustomAttribute<PreserveCollectionIntegrity>() == null)
             {
-                jsonProperty.ObjectCreationHandling = ObjectCreationHandling.Replace;
+                property.ObjectCreationHandling = ObjectCreationHandling.Replace;
             }
 
-            return jsonProperty;
+            // Exclude empty arrays from writing
+            if (property.PropertyType.IsArray)
+            {
+                property.ShouldSerialize = instance =>
+                {
+                    var arrayField = instance.GetType().GetField(property.PropertyName);
+                    if (arrayField != null)
+                    {
+                        var array = arrayField.GetValue(instance) as Array;
+                        if (array != null)
+                        {
+                            return array.Length > 0;
+                        }
+                    }
+
+                    return true;
+                };
+            }
+
+            return property;
         }
 
         Type GetDictionaryKeyType(Type type)

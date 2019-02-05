@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SmartHunter.Game.Helpers
 {
@@ -106,45 +107,86 @@ namespace SmartHunter.Game.Helpers
             }
         }
 
-        public static void UpdatePlayerWidget(Process process, ulong statusEffectAddress, ulong equipmentAddress, bool isDebugSnapshotRequested)
+        public static void UpdatePlayerWidget(Process process, ulong baseAddress, ulong equipmentAddress, ulong weaponAddress)
         {
-            for (int index = 0; index < ConfigHelper.PlayerData.Values.PlayerStatusEffects.Length; ++index)
+            for (int index = 0; index < ConfigHelper.PlayerData.Values.StatusEffects.Length; ++index)
             {
-                string debugLine = "";
+                var statusEffectConfig = ConfigHelper.PlayerData.Values.StatusEffects[index];
 
-                var playerStatusEffectConfig = ConfigHelper.PlayerData.Values.PlayerStatusEffects[index];
-
-                ulong sourceAddress = statusEffectAddress;
-                if (playerStatusEffectConfig.Source == Config.PlayerStatusEffectConfig.MemorySource.Equipment)
+                ulong sourceAddress = baseAddress;
+                if (statusEffectConfig.Source == Config.StatusEffectConfig.MemorySource.Equipment)
                 {
                     sourceAddress = equipmentAddress;
                 }
-
-                debugLine += $"{playerStatusEffectConfig.NameStringId} ";
-
-                bool isConditionPassed = true;
-                if (playerStatusEffectConfig.Condition != null)
+                else if (statusEffectConfig.Source == Config.StatusEffectConfig.MemorySource.Weapon)
                 {
-                    if (ulong.TryParse(playerStatusEffectConfig.Condition.Offset, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var conditionOffset))
+                    sourceAddress = weaponAddress;
+                }
+                
+                bool allConditionsPassed = true;
+                if (statusEffectConfig.Conditions != null)
+                {
+                    foreach (var condition in statusEffectConfig.Conditions)
                     {
-                        var conditionValue = MemoryHelper.Read<int>(process, sourceAddress + conditionOffset);
-                        if (conditionValue != playerStatusEffectConfig.Condition.Value)
+                        bool isOffsetChainValid = true;
+                        List<long> offsets = new List<long>();
+                        foreach (var offsetString in condition.Offsets)
                         {
-                            isConditionPassed = false;
+                            if (long.TryParse(offsetString, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var offset))
+                            {
+                                offsets.Add(offset);
+                            }
+                            else
+                            {
+                                isOffsetChainValid = false;
+                                break;
+                            }
                         }
 
-                        debugLine += $"{playerStatusEffectConfig.Condition.Offset}={conditionOffset} {playerStatusEffectConfig.Condition.Value} {conditionValue} {isConditionPassed} ";
-                    }
-                    else
-                    {
-                        debugLine += $"ConditionParseFailed ";
+                        if (isOffsetChainValid)
+                        {
+                            var conditionAddress = MemoryHelper.ReadMultiLevelPointer(false, process, sourceAddress + (ulong)offsets.First(), offsets.Skip(1).ToArray());
+
+                            bool isPassed = false;
+                            if (condition.ByteValue.HasValue)
+                            {
+                                var conditionValue = MemoryHelper.Read<byte>(process, conditionAddress);
+                                isPassed = conditionValue == condition.ByteValue;
+                            }
+                            else if (condition.IntValue.HasValue)
+                            {
+                                var conditionValue = MemoryHelper.Read<int>(process, conditionAddress);
+                                isPassed = conditionValue == condition.IntValue;
+                            }
+                            else if (condition.StringRegexValue != null)
+                            {
+                                var conditionValue = MemoryHelper.ReadString(process, conditionAddress, 64);
+                                isPassed = new Regex(condition.StringRegexValue).IsMatch(conditionValue);
+                            }
+
+                            if (!isPassed)
+                            {
+                                allConditionsPassed = false;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            allConditionsPassed = false;
+                            break;
+                        }
                     }
                 }
 
+                //if (statusEffectConfig.NameStringId == "LOC_WEAPON_HAMMER_POWER_CHARGE" && !allConditionsPassed)
+                //{
+                //    Log.WriteLine($"WHY");
+                //}
+
                 float? timer = null;
-                if (isConditionPassed && playerStatusEffectConfig.TimerOffset != null)
+                if (allConditionsPassed && statusEffectConfig.TimerOffset != null)
                 {
-                    if (ulong.TryParse(playerStatusEffectConfig.TimerOffset, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var timerOffset))
+                    if (ulong.TryParse(statusEffectConfig.TimerOffset, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var timerOffset))
                     {
                         timer = MemoryHelper.Read<float>(process, sourceAddress + timerOffset);
                     }
@@ -152,25 +194,11 @@ namespace SmartHunter.Game.Helpers
                     if (timer <= 0)
                     {
                         timer = 0;
-                        isConditionPassed = false;
+                        allConditionsPassed = false;
                     }
                 }
 
-                string timerValue = "None";
-                if (timer.HasValue)
-                {
-                    timerValue = timer.Value.ToString(CultureInfo.InvariantCulture);
-                }
-
-                debugLine += $"{timerValue} {isConditionPassed}";
-
-
-                if (isDebugSnapshotRequested)
-                {
-                    Log.WriteLine(debugLine);
-                }
-
-                OverlayViewModel.Instance.PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(index, timer, isConditionPassed);
+                OverlayViewModel.Instance.PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(index, timer, allConditionsPassed);
             }
         }
 

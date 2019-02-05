@@ -657,7 +657,7 @@ namespace SmartHunter.Game.Config
             }
         };
 
-        public Dictionary<int, string> MonsterStatusEffects = new Dictionary<int, string>()
+        public Dictionary<int, string> StatusEffects = new Dictionary<int, string>()
         {
             { 1, "LOC_STATUS_EFFECT_POISON" },
             { 2, "LOC_STATUS_EFFECT_PARALYSIS" },

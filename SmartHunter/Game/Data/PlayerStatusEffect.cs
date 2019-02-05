@@ -73,12 +73,12 @@ namespace SmartHunter.Game.Data
 
         public static string GetGroupIdFromIndex(int index)
         {
-            return ConfigHelper.PlayerData.Values.PlayerStatusEffects[index].GroupId;
+            return ConfigHelper.PlayerData.Values.StatusEffects[index].GroupId;
         }
 
         public static bool IsIncluded(string groupId)
         {
-            return ConfigHelper.Main.Values.Overlay.PlayerWidget.MatchIncludePlayerStatusEffectGroupIdRegex(groupId);
+            return ConfigHelper.Main.Values.Overlay.PlayerWidget.MatchIncludeStatusEffectGroupIdRegex(groupId);
         }
     }
 }
