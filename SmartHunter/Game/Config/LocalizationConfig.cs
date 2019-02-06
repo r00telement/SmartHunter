@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using SmartHunter.Core.Config;
+using System.Collections.Generic;
 
 namespace SmartHunter.Config
 {
     public class LocalizationConfig
     {
+        [PreserveCollectionIntegrity]
         public Dictionary<string, string> Strings = new Dictionary<string, string>()
         {
             { "LOC_UNKNOWN_PLAYER", "Player" },
