@@ -47,7 +47,7 @@ namespace SmartHunter.Core.Config
 
                     var settings = new JsonSerializerSettings();
                     settings.Formatting = Formatting.Indented;
-                    settings.ContractResolver = ContractResolver.Instance;
+                    settings.ContractResolver = new ContractResolver();
                     settings.Error = HandleDeserializationError;
 
                     // Solves dictionary/lists being added to instead of overwritten but causes problems elsewhere
@@ -88,7 +88,7 @@ namespace SmartHunter.Core.Config
                 var settings = new JsonSerializerSettings();
                 settings.Formatting = Formatting.Indented;
                 settings.NullValueHandling = NullValueHandling.Ignore;
-                settings.ContractResolver = ContractResolver.Instance;
+                settings.ContractResolver = new ContractResolver();
 
                 settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
                 settings.Converters.Add(new StringFloatConverter());

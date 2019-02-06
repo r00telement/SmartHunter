@@ -387,8 +387,10 @@
             <DataTrigger Binding="{Binding DataContext.ShowCrown, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
                 <Setter TargetName="Crown" Property="Visibility" Value="Collapsed" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding DataContext.ShowParts, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
+            <DataTrigger Binding="{Binding DataContext.ShowRemovableParts, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
                 <Setter TargetName="RemovableParts" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding DataContext.ShowParts, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
                 <Setter TargetName="Parts" Property="Visibility" Value="Collapsed" />
             </DataTrigger>
             <DataTrigger Binding="{Binding DataContext.ShowStatusEffects, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">

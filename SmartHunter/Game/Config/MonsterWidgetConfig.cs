@@ -15,6 +15,7 @@ namespace SmartHunter.Game.Config
         public bool ShowHealthBar = true;
         public bool ShowHealth = true;
         public bool ShowCrown = true;
+        public bool ShowRemovableParts = true;
         public bool ShowParts = true;
         public bool ShowStatusEffects = true;
 

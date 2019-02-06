@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -9,12 +8,6 @@ namespace SmartHunter.Core.Config
 {
     public class ContractResolver : DefaultContractResolver
     {
-        public static ContractResolver Instance { get; private set; }
-
-        static ContractResolver() { Instance = new ContractResolver(); }
-
-        protected ContractResolver() : base() { }
-
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             // Replace dictionaries entirely unless integrity is preserved

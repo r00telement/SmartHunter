@@ -143,34 +143,32 @@ namespace SmartHunter.Game.Helpers
                             }
                         }
 
-                        if (isOffsetChainValid)
+                        if (!isOffsetChainValid)
                         {
-                            var conditionAddress = MemoryHelper.ReadMultiLevelPointer(false, process, sourceAddress + (ulong)offsets.First(), offsets.Skip(1).ToArray());
-
-                            bool isPassed = false;
-                            if (condition.ByteValue.HasValue)
-                            {
-                                var conditionValue = MemoryHelper.Read<byte>(process, conditionAddress);
-                                isPassed = conditionValue == condition.ByteValue;
-                            }
-                            else if (condition.IntValue.HasValue)
-                            {
-                                var conditionValue = MemoryHelper.Read<int>(process, conditionAddress);
-                                isPassed = conditionValue == condition.IntValue;
-                            }
-                            else if (condition.StringRegexValue != null)
-                            {
-                                var conditionValue = MemoryHelper.ReadString(process, conditionAddress, 64);
-                                isPassed = new Regex(condition.StringRegexValue).IsMatch(conditionValue);
-                            }
-
-                            if (!isPassed)
-                            {
-                                allConditionsPassed = false;
-                                break;
-                            }
+                            allConditionsPassed = false;
+                            break;
                         }
-                        else
+
+                        var conditionAddress = MemoryHelper.ReadMultiLevelPointer(false, process, sourceAddress + (ulong)offsets.First(), offsets.Skip(1).ToArray());
+
+                        bool isPassed = false;
+                        if (condition.ByteValue.HasValue)
+                        {
+                            var conditionValue = MemoryHelper.Read<byte>(process, conditionAddress);
+                            isPassed = conditionValue == condition.ByteValue;
+                        }
+                        else if (condition.IntValue.HasValue)
+                        {
+                            var conditionValue = MemoryHelper.Read<int>(process, conditionAddress);
+                            isPassed = conditionValue == condition.IntValue;
+                        }
+                        else if (condition.StringRegexValue != null)
+                        {
+                            var conditionValue = MemoryHelper.ReadString(process, conditionAddress, 64);
+                            isPassed = new Regex(condition.StringRegexValue).IsMatch(conditionValue);
+                        }
+
+                        if (!isPassed)
                         {
                             allConditionsPassed = false;
                             break;

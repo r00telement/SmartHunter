@@ -30,6 +30,13 @@ namespace SmartHunter.Game.Data.WidgetContexts
             set { SetProperty(ref m_ShowCrown, value); }
         }
 
+        bool m_ShowRemovableParts = true;
+        public bool ShowRemovableParts
+        {
+            get { return m_ShowRemovableParts; }
+            set { SetProperty(ref m_ShowRemovableParts, value); }
+        }
+
         bool m_ShowParts = true;
         public bool ShowParts
         {
@@ -79,6 +86,7 @@ namespace SmartHunter.Game.Data.WidgetContexts
             ShowHealthBar = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowHealthBar;
             ShowHealth = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowHealth;
             ShowCrown = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowCrown;
+            ShowRemovableParts = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowRemovableParts;
             ShowParts = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowParts;
             ShowStatusEffects = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowStatusEffects;
 
