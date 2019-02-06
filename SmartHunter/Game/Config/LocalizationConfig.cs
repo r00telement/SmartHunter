@@ -190,7 +190,7 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_HARDSHELL_POWDER", "Hardshell Powder" },            
             { "LOC_STATUS_EFFECT_DEMONDRUG", "Demondrug" },
             { "LOC_STATUS_EFFECT_MEGA_DEMONDRUG", "Mega Demondrug" },
-            { "LOC_STATUS_EFFECT_ARMORSKIN", "Armonskin" },
+            { "LOC_STATUS_EFFECT_ARMORSKIN", "Armorskin" },
             { "LOC_STATUS_EFFECT_MEGA_ARMORSKIN", "Mega Armorskin" },            
             { "LOC_STATUS_EFFECT_COOL_DRINK", "Cool Drink" },
             { "LOC_STATUS_EFFECT_PROTECTIVE_POLISH", "Protective Polish" },
