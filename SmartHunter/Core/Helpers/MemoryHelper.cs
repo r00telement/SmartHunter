@@ -28,8 +28,7 @@ namespace SmartHunter.Core.Helpers
             {
                 return new WindowsApi.RegionPageProtection[]
                 {
-                    WindowsApi.RegionPageProtection.PAGE_EXECUTE_READ,
-                    WindowsApi.RegionPageProtection.PAGE_EXECUTE_WRITECOPY
+                    WindowsApi.RegionPageProtection.PAGE_EXECUTE_READ
                 };
             }
         }

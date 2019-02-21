@@ -2,32 +2,31 @@
 using SmartHunter.Core.Helpers;
 using SmartHunter.Game.Data.ViewModels;
 using SmartHunter.Game.Helpers;
+using System.Globalization;
 using System.Linq;
 
 namespace SmartHunter.Game
 {
     public class MhwMemoryUpdater : MemoryUpdater
     {
-        BytePattern m_PlayerDamagePattern = new BytePattern("48 8B 0D ?? ?? ?? ?? 48 8B 01 FF 50 ?? 48 89 D9 E8 ?? ?? ?? ?? 8B 93 ?? ?? ?? ??");
-        BytePattern m_PlayerNamePattern = new BytePattern("48 8B D ?? ?? ?? ?? 48 8D 54 24 38 C6 44 24 20 0 4D 8B 40 8 E8 ?? ?? ?? ?? 48 8B 5C 24 60 48 83 C4 50 5F C3");
-        BytePattern m_MonsterPattern = new BytePattern("48 8B 15 ?? ?? ?? ?? 48 8B 29 48 63 82 ?? ?? ?? ??");
-        BytePattern m_MonsterOffsetPattern = new BytePattern("48 8B 8B ?? ?? ?? ?? 48 8B 01 FF 50 ?? 48 8B 8B ?? ?? ?? ?? E8 ?? ?? ?? ??  48 8B 8B ?? ?? ?? ?? B2 01 E8 ?? ?? ?? ??");
-        BytePattern m_PlayerBuffPattern = new BytePattern("48 8B 05 ?? ?? ?? ?? 41 8B 94 00 ?? ?? ?? ?? 89 51 ??");
-        BytePattern m_PlayerBuffOffsetPattern = new BytePattern("49 8B 8E ?? ?? ?? ?? E8 ?? ?? ?? ?? 8B 47 08 C1 E8 ??");
+        BytePattern m_PlayerDamagePattern = new BytePattern(ConfigHelper.Memory.Values.PlayerDamagePattern);
+        BytePattern m_PlayerNamePattern = new BytePattern(ConfigHelper.Memory.Values.PlayerNamePattern);
+        BytePattern m_MonsterPattern = new BytePattern(ConfigHelper.Memory.Values.MonsterPattern);
+        BytePattern m_PlayerBuffPattern = new BytePattern(ConfigHelper.Memory.Values.PlayerBuffPattern);
 
         protected override string ProcessName
         {
             get
             {
-                return "MonsterHunterWorld";
+                return ConfigHelper.Memory.Values.ProcessName;
             }
         }
 
-        protected override int ThreadCount
+        protected override int ThreadsPerScan
         {
             get
             {
-                return 4;
+                return ConfigHelper.Memory.Values.ThreadsPerScan;
             }
         }
 
@@ -35,7 +34,13 @@ namespace SmartHunter.Game
         {
             get
             {
-                return new AddressRange(0x140004000, 0x151000000);
+                if (ulong.TryParse(ConfigHelper.Memory.Values.AddressRangeStart, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out ulong start)
+                    && ulong.TryParse(ConfigHelper.Memory.Values.AddressRangeEnd, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out ulong end))
+                {
+                    return new AddressRange(start, end);
+                }
+
+                return new AddressRange(0x140004000, 0x145000000);
             }
         }
 
@@ -48,9 +53,7 @@ namespace SmartHunter.Game
                     m_PlayerDamagePattern,
                     m_PlayerNamePattern,
                     m_MonsterPattern,
-                    m_MonsterOffsetPattern,
-                    m_PlayerBuffPattern,
-                    m_PlayerBuffOffsetPattern
+                    m_PlayerBuffPattern
                 };
             }
         }
@@ -77,8 +80,7 @@ namespace SmartHunter.Game
             if (ConfigHelper.Main.Values.Overlay.MonsterWidget.IsVisible)
             {
                 var monsterRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_MonsterPattern.Addresses.First());
-                var monsterOffset1 = MemoryHelper.ReadStaticOffset(Process, m_MonsterOffsetPattern.Addresses.First());
-                var lastMonsterAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, monsterRootPtr, monsterOffset1, 0x8F9BC * 8, 0, 0);
+                var lastMonsterAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, monsterRootPtr, 0xAF728, 0x8F9BC * 8, 0, 0);
 
                 MhwHelper.UpdateMonsterWidget(Process, lastMonsterAddress);
             }
@@ -117,8 +119,7 @@ namespace SmartHunter.Game
                     currentBuffAddress = MemoryHelper.Read<ulong>(Process, buffPtr);
                 }
 
-                var buffOffset = MemoryHelper.ReadStaticOffset(Process, m_PlayerBuffOffsetPattern.Addresses.First());
-                var buffAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, lastBuffAddress + buffOffset, 0);
+                var buffAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, lastBuffAddress + 0x79D0, 0);
                 var equipmentAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, buffAddress + 0x8, 0x70, 0x78, 0X50, -0x10);
                 var weaponAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, buffAddress + 0x8, 0x80, 0x78, 0X20, 0X0);
 

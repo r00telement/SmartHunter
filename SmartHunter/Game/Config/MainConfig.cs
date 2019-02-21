@@ -10,6 +10,7 @@ namespace SmartHunter.Game.Config
         public string SkinFileName = "Default.xaml";
         public string MonsterDataFileName = "MonsterData.json";
         public string PlayerDataFileName = "PlayerData.json";
+        public string MemoryFileName = "Memory.json";
 
         public OverlayConfig Overlay = new OverlayConfig();
 

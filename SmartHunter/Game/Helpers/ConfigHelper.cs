@@ -12,6 +12,7 @@ namespace SmartHunter.Game.Helpers
         static ConfigContainer<LocalizationConfig> s_Localization;
         static ConfigContainer<MonsterDataConfig> s_MonsterData;
         static ConfigContainer<PlayerDataConfig> s_PlayerData;
+        static ConfigContainer<MemoryConfig> s_Memory;
 
         public static ConfigContainer<MainConfig> Main
         {
@@ -66,6 +67,19 @@ namespace SmartHunter.Game.Helpers
             }
         }
 
+        public static ConfigContainer<MemoryConfig> Memory
+        {
+            get
+            {
+                if (s_Memory == null)
+                {
+                    s_Memory = new ConfigContainer<MemoryConfig>(Main.Values.MemoryFileName);
+                }
+
+                return s_Memory;
+            }
+        }
+
         // Ensures configs are loaded
         public static void EnsureConfigs()
         {
@@ -73,6 +87,7 @@ namespace SmartHunter.Game.Helpers
             var localization = Localization;
             var monsterData = MonsterData;
             var playerData = PlayerData;
+            var memory = Memory;
         }
 
         static void Main_Loaded(object sender, System.EventArgs e)
@@ -80,6 +95,7 @@ namespace SmartHunter.Game.Helpers
             Localization.TryChangeFileName(Main.Values.LocalizationFileName);
             MonsterData.TryChangeFileName(Main.Values.MonsterDataFileName);
             PlayerData.TryChangeFileName(Main.Values.PlayerDataFileName);
+            Memory.TryChangeFileName(Main.Values.MemoryFileName);
         }
     }
 }
