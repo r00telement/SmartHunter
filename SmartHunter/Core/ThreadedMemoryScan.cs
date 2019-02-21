@@ -161,13 +161,8 @@ namespace SmartHunter.Core
                         // Cancel all other threads and complete the scan because we needed only 1 result
                         if (StopAfterFirst)
                         {
-                            foreach (var memoryTaskData in m_Tasks.Values.ToList())
-                            {
-                                memoryTaskData.CancellationTokenSource.Cancel();
-                            }
-
-                            Complete();
-                        }                        
+                            TryCancel();
+                        }
                     }
 
                     // Complete the scan if this is the last thread to finish
@@ -181,7 +176,7 @@ namespace SmartHunter.Core
 
                         if (completedTaskCount == m_Tasks.Count)
                         {
-                            Complete();
+                            TryComplete();
                         }
                     }
                 }
@@ -200,7 +195,17 @@ namespace SmartHunter.Core
             }
         }
 
-        void Complete()
+        public void TryCancel()
+        {
+            foreach (var memoryTaskData in m_Tasks.Values.ToList())
+            {
+                memoryTaskData.CancellationTokenSource.Cancel();
+            }
+
+            TryComplete();
+        }
+
+        void TryComplete()
         {
             m_Stopwatch.Stop();
 

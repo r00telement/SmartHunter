@@ -50,72 +50,82 @@ namespace SmartHunter.Core
                 null,
                 new StateMachine<State>.Transition[]
                 {
-                new StateMachine<State>.Transition(
-                    State.WaitingForProcess,
-                    () => true,
-                    () =>
-                    {
-                        Initialize();
-                    })
+                    new StateMachine<State>.Transition(
+                        State.WaitingForProcess,
+                        () => true,
+                        () =>
+                        {
+                            Initialize();
+                        })
                 }));
 
             m_StateMachine.Add(State.WaitingForProcess, new StateMachine<State>.StateData(
                 null,
                 new StateMachine<State>.Transition[]
                 {
-                new StateMachine<State>.Transition(
-                    State.ProcessFound,
-                    () =>
-                    {
-                        var process = Process.GetProcessesByName(ProcessName).FirstOrDefault();
-                        if (process != null && !process.HasExited)
+                    new StateMachine<State>.Transition(
+                        State.ProcessFound,
+                        () =>
                         {
-                            Process = process;
-                            return true;
-                        }
+                            var process = Process.GetProcessesByName(ProcessName).FirstOrDefault();
+                            if (process != null && !process.HasExited)
+                            {
+                                Process = process;
+                                return true;
+                            }
 
-                        return false;
-                    },
-                    null)
+                            return false;
+                        },
+                        null)
                 }));
 
             m_StateMachine.Add(State.ProcessFound, new StateMachine<State>.StateData(
                 null,
                 new StateMachine<State>.Transition[]
                 {
-                new StateMachine<State>.Transition(
-                    State.PatternScanning,
-                    () => true,
-                    () =>
-                    {
-                        foreach (var pattern in Patterns)
+                    new StateMachine<State>.Transition(
+                        State.PatternScanning,
+                        () => true,
+                        () =>
                         {
-                            var memoryScan = new ThreadedMemoryScan(Process, ScanAddressRange, pattern, true, ThreadCount);
-                            m_MemoryScans.Add(memoryScan);
-                        }
-                    })
+                            foreach (var pattern in Patterns)
+                            {
+                                var memoryScan = new ThreadedMemoryScan(Process, ScanAddressRange, pattern, true, ThreadCount);
+                                m_MemoryScans.Add(memoryScan);
+                            }
+                        })
                 }));
 
             m_StateMachine.Add(State.PatternScanning, new StateMachine<State>.StateData(
                 null,
                 new StateMachine<State>.Transition[]
                 {
-                new StateMachine<State>.Transition(
-                    State.Working,
-                    () =>
-                    {
-                        var finishedWithResults = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted && memoryScan.Results.SelectMany(result => result.Matches).Any());
-                        return finishedWithResults.Count() == m_MemoryScans.Count;
-                    },
-                    null),
-                new StateMachine<State>.Transition(
-                    State.PatternScanFailed,
-                    () =>
-                    {
-                        var finishedWithoutResults = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted && !memoryScan.Results.SelectMany(result => result.Matches).Any());
-                        return finishedWithoutResults.Any();
-                    },
-                    null)
+                    new StateMachine<State>.Transition(
+                        State.Working,
+                        () =>
+                        {
+                            var finishedWithResults = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted && memoryScan.Results.SelectMany(result => result.Matches).Any());
+                            return finishedWithResults.Count() == m_MemoryScans.Count;
+                        },
+                        null),
+                    new StateMachine<State>.Transition(
+                        State.PatternScanFailed,
+                        () =>
+                        {
+                            var finishedWithoutResults = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted && !memoryScan.Results.SelectMany(result => result.Matches).Any());
+                            return finishedWithoutResults.Any();
+                        },
+                        null),
+                    new StateMachine<State>.Transition(
+                        State.WaitingForProcess,
+                        () =>
+                        {
+                            return Process.HasExited;
+                        },
+                        () =>
+                        {
+                            Initialize();
+                        })
                 }));
 
             m_StateMachine.Add(State.Working, new StateMachine<State>.StateData(
@@ -132,22 +142,31 @@ namespace SmartHunter.Core
                 },
                 new StateMachine<State>.Transition[]
                 {
-                new StateMachine<State>.Transition(
-                    State.WaitingForProcess,
-                    () =>
-                    {
-                        return Process.HasExited;
-                    },
-                    () =>
-                    {
-                        Initialize();
-                    })
+                    new StateMachine<State>.Transition(
+                        State.WaitingForProcess,
+                        () =>
+                        {
+                            return Process.HasExited;
+                        },
+                        () =>
+                        {
+                            Initialize();
+                        })
                 }));
         }
 
         private void Initialize()
         {
             Process = null;
+
+            if (m_MemoryScans != null)
+            {
+                foreach (var memoryScan in m_MemoryScans)
+                {
+                    memoryScan.TryCancel();
+                }
+            }
+
             m_MemoryScans = new List<ThreadedMemoryScan>();
         }
 

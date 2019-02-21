@@ -28,7 +28,8 @@ namespace SmartHunter.Core.Helpers
             {
                 return new WindowsApi.RegionPageProtection[]
                 {
-                    WindowsApi.RegionPageProtection.PAGE_EXECUTE_READ
+                    WindowsApi.RegionPageProtection.PAGE_EXECUTE_READ,
+                    WindowsApi.RegionPageProtection.PAGE_EXECUTE_WRITECOPY
                 };
             }
         }
@@ -309,7 +310,16 @@ namespace SmartHunter.Core.Helpers
             const uint paramLength = 4;
             const uint instructionLength = opcodeLength + paramLength;
 
-            return address + Read<uint>(process, address + opcodeLength) + instructionLength;
+            uint operand = Read<uint>(process, address + opcodeLength);
+            ulong operand64 = operand;
+
+            // 64 bit relative addressing 
+            if (operand64 > Int32.MaxValue)
+            {
+                operand64 = 0xffffffff00000000 | operand64;
+            }
+
+            return address + operand64 + instructionLength;
         }
 
         public static uint ReadStaticOffset(Process process, ulong address)

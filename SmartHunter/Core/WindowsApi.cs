@@ -18,6 +18,10 @@ namespace SmartHunter.Core
             // Enables read-only or read/write access to the committed region of pages. If Data Execution Prevention is enabled, attempting to execute code in the committed region results in an access violation.
             PAGE_READWRITE = 0x04,
 
+            // Enables read-only or copy-on-write access to a mapped view of a file mapping object. An attempt to write to a committed copy-on-write page results in a private copy of the page being made for the process.The private page is marked as PAGE_READWRITE, and the change is written to the new page.If Data Execution Prevention is enabled, attempting to execute code in the committed region results in an access violation.
+            // This flag is not supported by the VirtualAlloc or VirtualAllocEx functions.
+            PAGE_WRITECOPY = 0x08,
+
             // Enables execute access to the committed region of pages. An attempt to write to the committed region results in an access violation.
             // This flag is not supported by the CreateFileMapping function.
             PAGE_EXECUTE = 0x10,
@@ -25,6 +29,14 @@ namespace SmartHunter.Core
             // Enables execute or read-only access to the committed region of pages. An attempt to write to the committed region results in an access violation.
             // Windows Server 2003 and Windows XP: This attribute is not supported by the CreateFileMapping function until Windows XP with SP2 and Windows Server 2003 with SP1.
             PAGE_EXECUTE_READ = 0x20,
+
+            // Enables execute, read-only, or read/write access to the committed region of pages.
+            // Windows Server 2003 and Windows XP: This attribute is not supported by the CreateFileMapping function until Windows XP with SP2 and Windows Server 2003 with SP1.
+            PAGE_EXECUTE_READWRITE = 0x40,
+
+            // Enables execute, read-only, or copy-on-write access to a mapped view of a file mapping object. An attempt to write to a committed copy-on-write page results in a private copy of the page being made for the process.The private page is marked as PAGE_EXECUTE_READWRITE, and the change is written to the new page.
+            // This flag is not supported by the VirtualAlloc or VirtualAllocEx functions.Windows Vista, Windows Server 2003 and Windows XP: This attribute is not supported by the CreateFileMapping function until Windows Vista with SP1 and Windows Server 2008.
+            PAGE_EXECUTE_WRITECOPY = 0x80,
 
             // Pages in the region become guard pages. Any attempt to access a guard page causes the system to raise a STATUS_GUARD_PAGE_VIOLATION exception and turn off the guard page status. Guard pages thus act as a one-time access alarm. For more information, see Creating Guard Pages.
             // When an access attempt leads the system to turn off guard page status, the underlying page protection takes over.
