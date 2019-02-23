@@ -210,10 +210,16 @@ namespace SmartHunter.Game.Helpers
             if (updatedPlayers.Any())
             {
                 OverlayViewModel.Instance.TeamWidget.Context.UpdateFractions();
+                // TODO: Add call for a thing to log damage over time
+                StatLog.StatLogger.StartLogging();
+                StatLog.StatLogger.AddEntry(updatedPlayers);
+
             }
             else if (OverlayViewModel.Instance.TeamWidget.Context.Players.Any())
             {
                 OverlayViewModel.Instance.TeamWidget.Context.Players.Clear();
+                // TODO: Add call to end current damage log
+                StatLog.StatLogger.StopLogging();
             }
         }
 
@@ -258,9 +264,11 @@ namespace SmartHunter.Game.Helpers
             {
                 var monster = UpdateAndGetMonster(process, monsterAddress);
                 if (monster != null)
-                {
+                {                    
                     updatedMonsters.Add(monster);
                 }
+                StatLog.StatLogger.MonsterList.Clear(); // Safety measure
+                StatLog.StatLogger.MonsterList = updatedMonsters;
             }
 
             // Clean out monsters that aren't in the linked list anymore

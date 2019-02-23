@@ -16,9 +16,6 @@
     <Deterministic>false</Deterministic>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-  </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
@@ -109,6 +106,9 @@
     <Compile Include="Game\MhwMemoryUpdater.cs" />
     <Compile Include="Game\MhwOverlay.cs" />
     <Compile Include="Game\Helpers\MhwHelper.cs" />
+    <Compile Include="StatLog\JsonSerialization.cs" />
+    <Compile Include="StatLog\StatLogger.cs" />
+    <Compile Include="StatLog\Utils.cs" />
     <Compile Include="Ui\Converters\AngleToIsLargeArcConverter.cs" />
     <Compile Include="Ui\Converters\AngleToPointConverter.cs" />
     <Compile Include="Ui\Converters\ColorTransformConverter.cs" />
@@ -210,7 +210,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.1</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /E /Y "$(ProjectDir)Ui\Resources" "$(TargetDir)"</PostBuildEvent>
