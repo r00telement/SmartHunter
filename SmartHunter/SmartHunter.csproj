@@ -108,6 +108,7 @@
     <Compile Include="Game\Helpers\MhwHelper.cs" />
     <Compile Include="StatLog\JsonSerialization.cs" />
     <Compile Include="StatLog\StatLogger.cs" />
+    <Compile Include="StatLog\StatObject.cs" />
     <Compile Include="StatLog\Utils.cs" />
     <Compile Include="Ui\Converters\AngleToIsLargeArcConverter.cs" />
     <Compile Include="Ui\Converters\AngleToPointConverter.cs" />
