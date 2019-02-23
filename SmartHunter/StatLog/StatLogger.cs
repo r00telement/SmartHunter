@@ -46,6 +46,8 @@ namespace SmartHunter.StatLog
                     MonsterHPMax = mnst.Health.Max,
                     MonsterCrown = mnst.Crown
                 };
+
+                _monsters.Add(_temp);
             }
             #endregion
             List<StatPlayer> _players = new List<StatPlayer>();
