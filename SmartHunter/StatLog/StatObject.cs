@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SmartHunter.Game.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace SmartHunter.StatLog
     class StatObject
     {
         public string Location { get; set; }
-        public List<DataObject> DataObject { get; set; }
+        public List<DataObject> DataObject { get; set; } = new List<DataObject>();
 
         #region SingletonStuff
         [JsonIgnore] // We don't want this in the final log file spammed all over the place

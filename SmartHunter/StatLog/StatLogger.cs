@@ -79,7 +79,7 @@ namespace SmartHunter.StatLog
 
         public static void StopLogging()
         {
-            if (StatObject.IsLogging)
+            if (!StatObject.IsLogging)
             {
                 return; // More Safety measures
             }

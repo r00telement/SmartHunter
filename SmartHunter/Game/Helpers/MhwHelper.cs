@@ -266,9 +266,7 @@ namespace SmartHunter.Game.Helpers
                 if (monster != null)
                 {                    
                     updatedMonsters.Add(monster);
-                }
-                StatLog.StatLogger.MonsterList.Clear(); // Safety measure
-                StatLog.StatLogger.MonsterList = updatedMonsters;
+                }                
             }
 
             // Clean out monsters that aren't in the linked list anymore
@@ -277,6 +275,9 @@ namespace SmartHunter.Game.Helpers
             {
                 OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Remove(obsoleteMonster);
             }
+
+            StatLog.StatLogger.MonsterList.Clear(); // Safety measure
+            StatLog.StatLogger.MonsterList = updatedMonsters;
         }
 
         private static Monster UpdateAndGetMonster(Process process, ulong monsterAddress)
