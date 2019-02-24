@@ -89,11 +89,11 @@ namespace SmartHunter.StatLog
             }
             StatObject.Init(); // TODO: Do this at a better, Global place (main?)
             StatObject.IsLogging = false;
-            //if ( !Directory.Exists("data") )
-            //{
-                Directory.CreateDirectory("data");
-            //}
-            JsonSerialization.WriteToJsonFile<StatObject>($"data\\{LastStamp}.json", StatObject.Instance, false);
+
+            string dir = "data";
+            Directory.CreateDirectory(dir); // Create the dir if it does not exist yet
+
+            JsonSerialization.WriteToJsonFile<StatObject>($"{dir}\\{LastStamp}.json", StatObject.Instance, false);
             Log.WriteLine("Stat Logging Stopped!");            
         }
     }   
