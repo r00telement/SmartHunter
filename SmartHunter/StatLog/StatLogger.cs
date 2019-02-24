@@ -3,6 +3,7 @@ using SmartHunter.Game.Data;
 using SmartHunter.Core;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 
 namespace SmartHunter.StatLog
 {
@@ -21,12 +22,15 @@ namespace SmartHunter.StatLog
 
             StatObject.IsLogging = true;
             StatObject.Instance.Location = "WIP"; // TODO: Somehow get the Location into this :thinkingEmoji:
+            LastStamp = 0;
             Log.WriteLine("Stat Logging Started!");
         }
 
         public static bool AddEntry(List<Player> updatedPlayers)
         {            
             StatObject.Init(); // TODO: Do this at a better, Global place (main?)
+
+            // TODO: Only add an entry, when there are Monsters present. Otherwise the spam is to hard
 
             long stamp = Utils.GetUnixTimeStamp(); // Get Current Time in unix format
             if (!StatObject.IsLogging || stamp <= LastStamp) // If it's not logging, or the last log is younger than a second, do nothing
@@ -85,7 +89,11 @@ namespace SmartHunter.StatLog
             }
             StatObject.Init(); // TODO: Do this at a better, Global place (main?)
             StatObject.IsLogging = false;
-            JsonSerialization.WriteToJsonFile<StatObject>("test.json", StatObject.Instance, false);
+            //if ( !Directory.Exists("data") )
+            //{
+                Directory.CreateDirectory("data");
+            //}
+            JsonSerialization.WriteToJsonFile<StatObject>($"data\\{LastStamp}.json", StatObject.Instance, false);
             Log.WriteLine("Stat Logging Stopped!");            
         }
     }   
