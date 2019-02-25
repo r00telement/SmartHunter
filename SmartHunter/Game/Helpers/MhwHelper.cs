@@ -13,6 +13,12 @@ namespace SmartHunter.Game.Helpers
 {
     public static class MhwHelper
     {
+        #region Events
+        public static event Action<List<Player>> OnMissionStart; // Event that'll be called when a mission Starts
+        public static event Action OnMissionEnd; // Event that'll be called when a mission Ends 
+        #endregion
+
+
         // TODO: Wouldn't it be nice if all this were data driven?
         private static class DataOffsets
         {
@@ -210,15 +216,18 @@ namespace SmartHunter.Game.Helpers
             if (updatedPlayers.Any())
             {
                 OverlayViewModel.Instance.TeamWidget.Context.UpdateFractions();
-                // TODO: Add call for a thing to log damage over time
-                StatLog.StatLogger.StartLogging();
-                StatLog.StatLogger.AddEntry(updatedPlayers);
+
+                OnMissionStart(updatedPlayers); // TODO: Find out if this is Ok like this
+
+                //StatLog.StatLogger.AddEntry(updatedPlayers);
 
             }
             else if (OverlayViewModel.Instance.TeamWidget.Context.Players.Any())
             {
                 OverlayViewModel.Instance.TeamWidget.Context.Players.Clear();
-                // TODO: Add call to end current damage log
+
+                OnMissionEnd(); // TODO: Find out if this is Ok like this
+
                 StatLog.StatLogger.StopLogging();
             }
         }

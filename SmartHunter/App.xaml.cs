@@ -28,7 +28,7 @@ namespace SmartHunter
             var consoleViewModel = ConsoleViewModel.Instance;
 
             Log.WriteLine($"Started {Assembly.GetExecutingAssembly().GetName().Version}");
-            //Log.WriteLine($"Culture: {System.Globalization.CultureInfo.CurrentCulture.Name}");
+            //Log.WriteLine($"Culture: {System.Globalization.CultureInfo.CurrentCulture.Name}");            
 
             SetPerMonitorDpiAwareness();
 
@@ -40,6 +40,8 @@ namespace SmartHunter
             LoadSkin();
 
             m_Overlay = new MhwOverlay(new ConsoleWindow(), new TeamWidgetWindow(), new MonsterWidgetWindow(), new PlayerWidgetWindow());
+
+            StatLog.StatLogger.StartLogger(); // TODO: Add a config option to turn off Logging and check this here
 
             base.OnStartup(e);
         }

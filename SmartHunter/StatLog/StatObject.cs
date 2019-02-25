@@ -19,6 +19,11 @@ namespace SmartHunter.StatLog
         [JsonIgnore] // Same here
         public static StatObject Instance { get; private set; } // Singleton, we only want 1 instance of this type
 
+        internal static void Clear()
+        {
+            Instance = new StatObject();
+        }
+
         public static void Init() // Making sure only 1 instance of this exists
         {
             // If the object already has an Instance, do nothing
