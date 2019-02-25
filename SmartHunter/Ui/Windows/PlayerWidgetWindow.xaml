@@ -11,6 +11,8 @@
                       
         xmlns:windows="clr-namespace:SmartHunter.Core.Windows"
         xmlns:viewModels="clr-namespace:SmartHunter.Game.Data.ViewModels"
+    
+        Title="{Binding ConverterParameter=LOC_WIDGET_PLAYER, Converter={StaticResource A_Converter_Localizer}}"
                       
         d:DataContext="{x:Static viewModels:OverlayViewModel.Instance}"        
         MouseDown="WidgetWindow_MouseDown"
