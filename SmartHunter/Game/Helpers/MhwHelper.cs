@@ -228,7 +228,7 @@ namespace SmartHunter.Game.Helpers
 
                 OnMissionEnd(); // TODO: Find out if this is Ok like this
 
-                StatLog.StatLogger.StopLogging();
+                //StatLog.StatLogger.StopLogging();
             }
         }
 

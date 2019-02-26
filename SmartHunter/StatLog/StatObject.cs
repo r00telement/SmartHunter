@@ -15,7 +15,7 @@ namespace SmartHunter.StatLog
 
         #region SingletonStuff
         [JsonIgnore] // We don't want this in the final log file spammed all over the place
-        public static bool IsLogging { get; set; }
+        public static bool Exists { get; set; }
         [JsonIgnore] // Same here
         public static StatObject Instance { get; private set; } // Singleton, we only want 1 instance of this type
 
