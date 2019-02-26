@@ -69,12 +69,14 @@ namespace SmartHunter.Game.Data.WidgetContexts
                 monster.Health.Max = maxHealth;
                 monster.Health.Current = currentHealth;
                 monster.SizeScale = sizeScale;
-
-                return monster;
+            }
+            else
+            {
+                monster = new Monster(address, id, maxHealth, currentHealth, sizeScale);
+                Monsters.Add(monster);
             }
 
-            monster = new Monster(address, id, maxHealth, currentHealth, sizeScale);
-            Monsters.Add(monster);
+            monster.UpdateVisibility();
 
             return monster;
         }

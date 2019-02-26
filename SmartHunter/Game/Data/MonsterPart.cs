@@ -1,10 +1,9 @@
 ﻿using SmartHunter.Core.Data;
 using SmartHunter.Game.Helpers;
-using System;
 
 namespace SmartHunter.Game.Data
 {
-    public class MonsterPart : Bindable
+    public class MonsterPart : ChangeableVisibility
     {
         Monster m_Owner;
         public ulong Address { get; private set; }
@@ -37,17 +36,7 @@ namespace SmartHunter.Game.Data
                 return LocalizationHelper.GetMonsterPartName(m_Owner.Id, m_Owner.Parts.IndexOf(this));
             }
         }
-
-        bool m_IsVisible = false;
-        public bool IsVisible
-        {
-            get { return m_IsVisible; }
-            set { SetProperty(ref m_IsVisible, value); }
-        }
-
-        public DateTimeOffset InitialTime { get; private set; }
-        public DateTimeOffset? LastChangedTime { get; private set; }
-
+        
         public MonsterPart(Monster owner, ulong address, bool isRemovable, float maxHealth, float currentHealth, int timesBrokenCount)
         {
             m_Owner = owner;
@@ -55,8 +44,6 @@ namespace SmartHunter.Game.Data
             m_IsRemovable = isRemovable;
             Health = new Progress(maxHealth, currentHealth);
             m_TimesBrokenCount = timesBrokenCount;
-
-            InitialTime = DateTimeOffset.UtcNow;
 
             PropertyChanged += MonsterPart_PropertyChanged;
             Health.PropertyChanged += Health_PropertyChanged;
@@ -66,7 +53,7 @@ namespace SmartHunter.Game.Data
         {
             if (e.PropertyName == nameof(TimesBrokenCount))
             {
-                LastChangedTime = DateTimeOffset.UtcNow;
+                UpdateLastChangedTime();
             }
         }
 
@@ -74,8 +61,13 @@ namespace SmartHunter.Game.Data
         {
             if (e.PropertyName == nameof(Progress.Current))
             {
-                LastChangedTime = DateTimeOffset.UtcNow;
+                UpdateLastChangedTime();
             }
+        }
+
+        public override void UpdateVisibility()
+        {
+            IsVisible = CanShow(InitialTime, LastChangedTime, ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedParts, ConfigHelper.Main.Values.Overlay.MonsterWidget.HidePartsAfterSeconds);
         }
     }
 }
