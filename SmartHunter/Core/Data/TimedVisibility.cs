@@ -2,7 +2,7 @@
 
 namespace SmartHunter.Core.Data
 {
-    public abstract class ChangeableVisibility : Bindable
+    public abstract class TimedVisibility : Bindable
     {
         bool m_IsVisible = false;
         public bool IsVisible
@@ -16,7 +16,7 @@ namespace SmartHunter.Core.Data
 
         public event EventHandler<GenericEventArgs<DateTimeOffset>> Changed;
 
-        public ChangeableVisibility()
+        public TimedVisibility()
         {
             InitialTime = DateTimeOffset.UtcNow;
         }
@@ -31,17 +31,17 @@ namespace SmartHunter.Core.Data
             }
         }
 
-        protected static bool CanShow(DateTimeOffset initialTime, DateTimeOffset? lastChangedTime, bool showUnchanged, float hideAfterSeconds)
+        protected bool CanBeVisible(bool showUnchanged, float hideAfterSeconds)
         {
-            if (!showUnchanged && lastChangedTime == null)
+            if (!showUnchanged && LastChangedTime == null)
             {
                 return false;
             }
 
-            DateTimeOffset time = initialTime;
-            if (lastChangedTime != null)
+            DateTimeOffset time = InitialTime;
+            if (LastChangedTime != null)
             {
-                time = lastChangedTime.Value;
+                time = LastChangedTime.Value;
             }
 
             var hideTime = time.AddSeconds(hideAfterSeconds);

@@ -3,7 +3,7 @@ using SmartHunter.Game.Helpers;
 
 namespace SmartHunter.Game.Data
 {
-    public class MonsterStatusEffect : ChangeableVisibility
+    public class MonsterStatusEffect : TimedVisibility
     {
         Monster m_Owner;
 
@@ -69,7 +69,7 @@ namespace SmartHunter.Game.Data
 
         public override void UpdateVisibility()
         {
-            IsVisible = CanShow(InitialTime, LastChangedTime, ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedStatusEffects, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideStatusEffectsAfterSeconds);
+            IsVisible = CanBeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedStatusEffects, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideStatusEffectsAfterSeconds);
         }
     }
 }

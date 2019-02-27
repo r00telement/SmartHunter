@@ -3,7 +3,7 @@ using SmartHunter.Game.Helpers;
 
 namespace SmartHunter.Game.Data
 {
-    public class MonsterPart : ChangeableVisibility
+    public class MonsterPart : TimedVisibility
     {
         Monster m_Owner;
         public ulong Address { get; private set; }
@@ -67,7 +67,7 @@ namespace SmartHunter.Game.Data
 
         public override void UpdateVisibility()
         {
-            IsVisible = CanShow(InitialTime, LastChangedTime, ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedParts, ConfigHelper.Main.Values.Overlay.MonsterWidget.HidePartsAfterSeconds);
+            IsVisible = CanBeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedParts, ConfigHelper.Main.Values.Overlay.MonsterWidget.HidePartsAfterSeconds);
         }
     }
 }

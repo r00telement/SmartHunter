@@ -81,6 +81,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\Config\PreserveCollectionIntegrity.cs" />
+    <Compile Include="Core\Data\TimedVisibility.cs" />
     <Compile Include="Core\Data\WidgetContext.cs" />
     <Compile Include="Game\Config\DebugConfig.cs" />
     <Compile Include="Game\Config\MemoryConfig.cs" />

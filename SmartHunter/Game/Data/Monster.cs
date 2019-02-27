@@ -16,7 +16,7 @@ namespace SmartHunter.Game.Data
         Gold
     }
 
-    public class Monster : ChangeableVisibility
+    public class Monster : TimedVisibility
     {
         public ulong Address { get; private set; }
 
@@ -230,7 +230,7 @@ namespace SmartHunter.Game.Data
         
         public override void UpdateVisibility()
         {
-            IsVisible = IsIncluded(Id) && CanShow(InitialTime, LastChangedTime, ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedMonsters, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideMonstersAfterSeconds);
+            IsVisible = IsIncluded(Id) && CanBeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedMonsters, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideMonstersAfterSeconds);
         }
     }
 }
