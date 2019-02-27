@@ -79,13 +79,24 @@ namespace SmartHunter.StatLog
                 int lastTotalDmg = 0;
                 if ( LastData != null )
                 {
-                    lastTotalDmg = LastData.Players.Where(p => p.PlayerName == ply.Name).FirstOrDefault<StatPlayer>().PlayerTotalDmg;
+                    StatPlayer shit = LastData.Players.Where(p => p.PlayerName == ply.Name).ToList<StatPlayer>().FirstOrDefault();
+                    if ( shit != null )
+                    {
+                        // TODO: rename
+                        lastTotalDmg = shit.PlayerTotalDmg;
+                    }
+                    
+                }
+                int _tempDps = (int)(((ply.Damage - lastTotalDmg) / timeDif));
+                if(_tempDps < 0)
+                {
+                    _tempDps = 0;
                 }
                 StatPlayer _temp = new StatPlayer
                 {
                     PlayerName = ply.Name,
                     PlayerTotalDmg = ply.Damage,
-                    PlayerDps = (int) ((ply.Damage - lastTotalDmg) / timeDif) // TODO: Confirm this 
+                    PlayerDps = _tempDps // TODO: Confirm this 
                 };
                 _players.Add(_temp);
             }
