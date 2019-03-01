@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using SmartHunter.Core;
 using SmartHunter.Game.Data;
-using SmartHunter.Core;
-using Newtonsoft.Json;
-using System;
-using System.IO;
 using SmartHunter.Game.Helpers;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SmartHunter.StatLog
@@ -31,7 +29,7 @@ namespace SmartHunter.StatLog
             StatObject.Exists = true;
             StatObject.Clear();
             StatObject.Instance.Location = "WIP"; // TODO: Somehow get the Location into this :thinkingEmoji:
-            LastStamp = 0;            
+            LastStamp = 0;
         }
 
         private static void OnMissionStart(List<Player> updatedPlayers)
@@ -77,18 +75,18 @@ namespace SmartHunter.StatLog
             foreach (Player ply in updatedPlayers)
             {
                 int lastTotalDmg = 0;
-                if ( LastData != null )
+                if (LastData != null)
                 {
                     StatPlayer shit = LastData.Players.Where(p => p.PlayerName == ply.Name).ToList<StatPlayer>().FirstOrDefault();
-                    if ( shit != null )
+                    if (shit != null)
                     {
                         // TODO: rename
                         lastTotalDmg = shit.PlayerTotalDmg;
                     }
-                    
+
                 }
                 int _tempDps = (int)(((ply.Damage - lastTotalDmg) / timeDif));
-                if(_tempDps < 0)
+                if (_tempDps < 0)
                 {
                     _tempDps = 0;
                 }
@@ -127,7 +125,7 @@ namespace SmartHunter.StatLog
             string dir = "data";
             Directory.CreateDirectory(dir); // Create the dir if it does not exist yet
 
-            if(LastStamp != 0)
+            if (LastStamp != 0)
             {
                 JsonSerialization.WriteToJsonFile<StatObject>($"{dir}\\{LastStamp}.json", StatObject.Instance, false);
                 Log.WriteLine("Stat Logging Stopped!");
@@ -136,9 +134,9 @@ namespace SmartHunter.StatLog
             {
                 Log.WriteLine("Stat Logging Aborted!");
             }
-            
+
             StatObject.Clear(); // Clearing the object so it'll be empty when the next mission starts
-            
+
         }
     }
 
