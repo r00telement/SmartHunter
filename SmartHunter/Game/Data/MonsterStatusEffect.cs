@@ -1,10 +1,9 @@
 ﻿using SmartHunter.Core.Data;
 using SmartHunter.Game.Helpers;
-using System;
 
 namespace SmartHunter.Game.Data
 {
-    public class MonsterStatusEffect : Bindable
+    public class MonsterStatusEffect : TimedVisibility
     {
         Monster m_Owner;
 
@@ -41,16 +40,6 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        bool m_IsVisible = false;
-        public bool IsVisible
-        {
-            get { return m_IsVisible; }
-            set { SetProperty(ref m_IsVisible, value); }
-        }
-
-        public DateTimeOffset InitialTime { get; private set; }
-        public DateTimeOffset? LastChangedTime { get; private set; }
-
         public MonsterStatusEffect(Monster owner, ulong address, int id, float maxBuildup, float currentBuildup, float maxDuration, float currentDuration, int timesActivatedCount)
         {
             m_Owner = owner;
@@ -59,8 +48,6 @@ namespace SmartHunter.Game.Data
             Buildup = new Progress(maxBuildup, currentBuildup);
             Duration = new Progress(maxDuration, maxDuration - currentDuration);
             m_TimesActivatedCount = timesActivatedCount;
-
-            InitialTime = DateTimeOffset.UtcNow;
 
             PropertyChanged += MonsterStatusEffect_PropertyChanged;
             Buildup.PropertyChanged += Bar_PropertyChanged;
@@ -71,13 +58,18 @@ namespace SmartHunter.Game.Data
         {
             if (e.PropertyName == nameof(TimesActivatedCount))
             {
-                LastChangedTime = DateTimeOffset.UtcNow;
+                UpdateLastChangedTime();
             }
         }
 
         private void Bar_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            LastChangedTime = DateTimeOffset.UtcNow;
+            UpdateLastChangedTime();
+        }
+
+        public override void UpdateVisibility()
+        {
+            IsVisible = CanBeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedStatusEffects, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideStatusEffectsAfterSeconds);
         }
     }
 }

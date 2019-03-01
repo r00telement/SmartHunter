@@ -1,4 +1,5 @@
-﻿using SmartHunter.Core.Data;
+﻿using SmartHunter.Core;
+using SmartHunter.Core.Data;
 using SmartHunter.Game.Config;
 using SmartHunter.Game.Helpers;
 using System;
@@ -15,7 +16,7 @@ namespace SmartHunter.Game.Data
         Gold
     }
 
-    public class Monster : Bindable
+    public class Monster : TimedVisibility
     {
         public ulong Address { get; private set; }
 
@@ -117,14 +118,6 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        public bool IsVisible
-        {
-            get
-            {
-                return IsIncluded(Id);
-            }
-        }
-
         public Progress Health { get; private set; }
         public ObservableCollection<MonsterPart> Parts { get; private set; }
         public ObservableCollection<MonsterPart> RemovableParts { get; private set; }
@@ -161,10 +154,12 @@ namespace SmartHunter.Game.Data
             else
             {
                 part = new MonsterPart(this, address, isRemovable, maxHealth, currentHealth, timesBrokenCount);
+                part.Changed += PartOrStatusEffect_Changed;
+
                 collection.Add(part);
             }
 
-            part.IsVisible = CanShowPart(part.InitialTime, part.LastChangedTime);
+            part.UpdateVisibility();
 
             return part;
         }
@@ -187,6 +182,8 @@ namespace SmartHunter.Game.Data
             else
             {
                 statusEffect = new MonsterStatusEffect(this, address, id, maxBuildup, currentBuildup, maxDuration, currentDuration, timesActivatedCount);
+                statusEffect.Changed += PartOrStatusEffect_Changed;
+
                 StatusEffects.Add(statusEffect);
             }
 
@@ -197,19 +194,7 @@ namespace SmartHunter.Game.Data
             }
             else
             {
-                DateTimeOffset initialTime = statusEffect.InitialTime;
-                if (statusEffect.InitialTime > initialTime)
-                {
-                    initialTime = statusEffect.InitialTime;
-                }
-
-                DateTimeOffset? lastChangedTime = statusEffect.LastChangedTime;
-                if (lastChangedTime == null || (statusEffect.LastChangedTime != null && statusEffect.LastChangedTime > lastChangedTime))
-                {
-                    lastChangedTime = statusEffect.LastChangedTime;
-                }
-            
-                statusEffect.IsVisible = CanShowStatusEffect(initialTime, lastChangedTime);
+                statusEffect.UpdateVisibility();
             }
 
             return statusEffect;
@@ -233,43 +218,19 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        bool CanShowPart(DateTimeOffset initialTime, DateTimeOffset? lastChangedTime)
-        {
-            return CanShow(initialTime, lastChangedTime, ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedParts, ConfigHelper.Main.Values.Overlay.MonsterWidget.HidePartsAfterSeconds);
-        }
-
-        bool CanShowStatusEffect(DateTimeOffset initialTime, DateTimeOffset? lastChangedTime)
-        {
-            return CanShow(initialTime, lastChangedTime, ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedStatusEffects, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideStatusEffectsAfterSeconds);
-        }
-
-        static bool CanShow(DateTimeOffset initialTime, DateTimeOffset? lastChangedTime, bool showUnchanged, float hideAfterSeconds)
-        {
-            if (!showUnchanged && lastChangedTime == null)
-            {
-                return false;
-            }
-
-            DateTimeOffset time = initialTime;
-            if (lastChangedTime != null)
-            {
-                time = lastChangedTime.Value;
-            }
-
-            var hideTime = time.AddSeconds(hideAfterSeconds);
-            if (hideTime < DateTimeOffset.UtcNow)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
         public static bool IsIncluded(string monsterId)
         {
             return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchIncludeMonsterIdRegex(monsterId);
+        }
+
+        private void PartOrStatusEffect_Changed(object sender, GenericEventArgs<DateTimeOffset> e)
+        {
+            UpdateLastChangedTime();
+        }
+        
+        public override void UpdateVisibility()
+        {
+            IsVisible = IsIncluded(Id) && CanBeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedMonsters, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideMonstersAfterSeconds);
         }
     }
 }
