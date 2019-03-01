@@ -32,6 +32,21 @@ namespace SmartHunter.StatLog
             LastStamp = 0;
         }
 
+        public static void DestroyLogger()
+        {
+            // Unsubbing from events
+            MhwHelper.OnMissionStart -= OnMissionStart;
+            MhwHelper.OnMissionEnd -= OnMissionEnd;
+
+            if (StatObject.Instance != null)
+            {
+                StatObject.Clear();
+                StatObject.Exists = false;
+            }
+
+
+        }
+
         private static void OnMissionStart(List<Player> updatedPlayers)
         {
             long stamp = Utils.GetUnixTimeStamp(); // Get Current Time in unix format

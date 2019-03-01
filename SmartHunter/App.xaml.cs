@@ -41,7 +41,10 @@ namespace SmartHunter
 
             m_Overlay = new MhwOverlay(new ConsoleWindow(), new TeamWidgetWindow(), new MonsterWidgetWindow(), new PlayerWidgetWindow());
 
-            StatLog.StatLogger.InitLogger(); // TODO: Add a config option to turn off Logging and check this here
+            if (ConfigHelper.Main.Values.StatLogging.LogStats)
+            {
+                StatLog.StatLogger.InitLogger();
+            }
 
             base.OnStartup(e);
         }

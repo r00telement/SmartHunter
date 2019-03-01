@@ -91,6 +91,7 @@
     <Compile Include="Game\Config\OverlayConfig.cs" />
     <Compile Include="Game\Config\PlayerDataConfig.cs" />
     <Compile Include="Game\Config\MemoryConditionConfig.cs" />
+    <Compile Include="Game\Config\StatLogConfig.cs" />
     <Compile Include="Game\Config\StatusEffectConfig.cs" />
     <Compile Include="Core\Config\WidgetConfig.cs" />
     <Compile Include="Core\AddressRange.cs" />
