@@ -77,11 +77,10 @@ namespace SmartHunter.StatLog
                 int lastTotalDmg = 0;
                 if (LastData != null)
                 {
-                    StatPlayer shit = LastData.Players.Where(p => p.PlayerName == ply.Name).ToList<StatPlayer>().FirstOrDefault();
-                    if (shit != null)
+                    StatPlayer oldPlayer = LastData.Players.Where(p => p.PlayerName == ply.Name).ToList<StatPlayer>().FirstOrDefault();
+                    if (oldPlayer != null)
                     {
-                        // TODO: rename
-                        lastTotalDmg = shit.PlayerTotalDmg;
+                        lastTotalDmg = oldPlayer.PlayerTotalDmg;
                     }
 
                 }
@@ -94,7 +93,7 @@ namespace SmartHunter.StatLog
                 {
                     PlayerName = ply.Name,
                     PlayerTotalDmg = ply.Damage,
-                    PlayerDps = _tempDps // TODO: Confirm this 
+                    PlayerDps = _tempDps
                 };
                 _players.Add(_temp);
             }
