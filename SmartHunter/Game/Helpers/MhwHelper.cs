@@ -217,14 +217,14 @@ namespace SmartHunter.Game.Helpers
             {
                 OverlayViewModel.Instance.TeamWidget.Context.UpdateFractions();
 
-                OnMissionStart(updatedPlayers); // Firing MissionStart Event
+                OnMissionStart?.Invoke(updatedPlayers); // Firing MissionStart Event
 
             }
             else if (OverlayViewModel.Instance.TeamWidget.Context.Players.Any())
             {
                 OverlayViewModel.Instance.TeamWidget.Context.Players.Clear();
 
-                OnMissionEnd(); // Firing MissionEnd Event
+                OnMissionEnd?.Invoke(); // Firing MissionEnd Event
             }
         }
 
