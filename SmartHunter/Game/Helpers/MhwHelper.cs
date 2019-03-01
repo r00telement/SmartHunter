@@ -13,6 +13,12 @@ namespace SmartHunter.Game.Helpers
 {
     public static class MhwHelper
     {
+        #region Events
+        public static event Action<List<Player>> OnMissionStart; // Event that'll be called when a mission Starts
+        public static event Action OnMissionEnd; // Event that'll be called when a mission Ends 
+        #endregion
+
+
         // TODO: Wouldn't it be nice if all this were data driven?
         private static class DataOffsets
         {
@@ -210,10 +216,15 @@ namespace SmartHunter.Game.Helpers
             if (updatedPlayers.Any())
             {
                 OverlayViewModel.Instance.TeamWidget.Context.UpdateFractions();
+
+                OnMissionStart(updatedPlayers); // Firing MissionStart Event
+
             }
             else if (OverlayViewModel.Instance.TeamWidget.Context.Players.Any())
             {
                 OverlayViewModel.Instance.TeamWidget.Context.Players.Clear();
+
+                OnMissionEnd(); // Firing MissionEnd Event
             }
         }
 
@@ -258,9 +269,9 @@ namespace SmartHunter.Game.Helpers
             {
                 var monster = UpdateAndGetMonster(process, monsterAddress);
                 if (monster != null)
-                {
+                {                    
                     updatedMonsters.Add(monster);
-                }
+                }                
             }
 
             // Clean out monsters that aren't in the linked list anymore
@@ -269,6 +280,9 @@ namespace SmartHunter.Game.Helpers
             {
                 OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Remove(obsoleteMonster);
             }
+
+            StatLog.StatLogger.MonsterList.Clear(); // Safety measure
+            StatLog.StatLogger.MonsterList = updatedMonsters;
         }
 
         private static Monster UpdateAndGetMonster(Process process, ulong monsterAddress)

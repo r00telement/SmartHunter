@@ -28,7 +28,7 @@ namespace SmartHunter
             var consoleViewModel = ConsoleViewModel.Instance;
 
             Log.WriteLine($"Started {Assembly.GetExecutingAssembly().GetName().Version}");
-            //Log.WriteLine($"Culture: {System.Globalization.CultureInfo.CurrentCulture.Name}");
+            //Log.WriteLine($"Culture: {System.Globalization.CultureInfo.CurrentCulture.Name}");            
 
             SetPerMonitorDpiAwareness();
 
@@ -40,6 +40,11 @@ namespace SmartHunter
             LoadSkin();
 
             m_Overlay = new MhwOverlay(new ConsoleWindow(), new TeamWidgetWindow(), new MonsterWidgetWindow(), new PlayerWidgetWindow());
+
+            if (ConfigHelper.Main.Values.StatLogging.LogStats)
+            {
+                StatLog.StatLogger.InitLogger();
+            }
 
             base.OnStartup(e);
         }

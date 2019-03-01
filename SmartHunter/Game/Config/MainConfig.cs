@@ -21,5 +21,7 @@ namespace SmartHunter.Game.Config
         };
 
         public DebugConfig Debug = new DebugConfig();
+
+        public StatLogConfig StatLogging = new StatLogConfig();
     }
 }
