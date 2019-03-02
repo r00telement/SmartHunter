@@ -9,25 +9,25 @@ namespace SmartHunter.StatLog
 {
     static class StatLogger
     {
-        public static List<Monster> MonsterList { get; set; } = new List<Monster>();
-        public static bool MissionInProgress { get; set; } = false;
+        public static List<Monster> MonsterList { get; set; } = new List<Monster>(); // A Property that gets updated externally to keep track of the Monsters HP
+        public static bool MissionInProgress { get; set; } = false; // A Flag to check if a mission(Quest) is in Progress
 
-        public static long LastStamp { get; private set; } = 0;
-        public static DataObject LastData { get; private set; } = null;
+        public static long LastStamp { get; private set; } = 0; // A dummy to store the last TimeStamp
+        public static DataObject LastData { get; private set; } = null; // A dummy to store the last logged DataObject
         public static void InitLogger()
         {
             if (StatObject.Exists)
             {
-                return;
+                return; // If a StatObject already exists, do nothing
             }
-            StatObject.Init();
+            StatObject.Init(); // Initializing the StatObject
 
             // Subscribing to events
             MhwHelper.OnMissionStart += OnMissionStart;
             MhwHelper.OnMissionEnd += OnMissionEnd;
 
-            StatObject.Exists = true;
-            StatObject.Clear();
+            StatObject.Exists = true; // Setting a flag to tell other places the Object Exists
+            StatObject.Clear(); // Safety Measures
             StatObject.Instance.Location = "WIP"; // TODO: Somehow get the Location into this :thinkingEmoji:
             LastStamp = 0;
         }

@@ -1,0 +1,8 @@
+[user]
+  name = David Klatt
+  email = mrdj201@gmail.com
+  signingkey = D34DA346CCC81EDD
+[gpg]
+  program = gpg.exe
+[commit]
+  gpgsign = true
