@@ -50,7 +50,7 @@ namespace SmartHunter.StatLog
         private static void OnMissionStart(List<Player> updatedPlayers)
         {
             long stamp = Utils.GetUnixTimeStamp(); // Get Current Time in unix format
-            if (!StatObject.Exists || stamp <= LastStamp) // If it's not logging, or the last log is younger than a second, do nothing
+            if (!StatObject.Exists || stamp - LastStamp < ConfigHelper.Main.Values.StatLogging.LogIntervalInSeconds) // If it's not logging, or the last log is not older than the specified Interval, do nothing
             {
                 return; // Our exit Strategy
             }
