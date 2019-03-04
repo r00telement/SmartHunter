@@ -30,6 +30,21 @@ namespace SmartHunter.StatLog
             StatObject.Clear(); // Safety Measures
             StatObject.Instance.Location = "WIP"; // TODO: Somehow get the Location into this :thinkingEmoji:
             LastStamp = 0;
+            Log.WriteLine("StatLogger Enabled!");
+        }
+
+        public static void OnConfigChanged(object sender, System.EventArgs e)
+        {
+            if (ConfigHelper.Main.Values.StatLogging.LogStats && !StatObject.Exists)
+            {
+                InitLogger();
+                return;
+            }
+            if (!ConfigHelper.Main.Values.StatLogging.LogStats)
+            {
+                DestroyLogger();
+                return;
+            }
         }
 
         public static void DestroyLogger()
@@ -42,9 +57,8 @@ namespace SmartHunter.StatLog
             {
                 StatObject.Clear();
                 StatObject.Exists = false;
+                Log.WriteLine("StatLogger Disabled!");
             }
-
-
         }
 
         private static void OnMissionStart(List<Player> updatedPlayers)

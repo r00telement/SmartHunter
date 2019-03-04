@@ -41,6 +41,7 @@ namespace SmartHunter
 
             m_Overlay = new MhwOverlay(new ConsoleWindow(), new TeamWidgetWindow(), new MonsterWidgetWindow(), new PlayerWidgetWindow());
 
+            ConfigHelper.Main.Loaded += StatLog.StatLogger.OnConfigChanged;
             if (ConfigHelper.Main.Values.StatLogging.LogStats)
             {
                 StatLog.StatLogger.InitLogger();
