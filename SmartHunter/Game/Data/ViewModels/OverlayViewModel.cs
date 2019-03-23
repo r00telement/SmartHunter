@@ -53,15 +53,17 @@ namespace SmartHunter.Game.Data.ViewModels
 
         void GenerateSampleData()
         {
-            TeamWidget.Context.Players.Add(new Player() { Name = "Jade", Damage = 3244 });
-            TeamWidget.Context.Players.Add(new Player() { Name = "Kabuto", Damage = 2182 });
-            TeamWidget.Context.Players.Add(new Player() { Name = "mike the father", Damage = 569 });
-            TeamWidget.Context.Players.Add(new Player() { Name = "SlashMaster", Damage = 2966 });
+            TeamWidget.Context.UpdateAndGetPlayer(0, "Jade", 3244);
+            TeamWidget.Context.UpdateAndGetPlayer(1, "Kabuto", 2182);
+            TeamWidget.Context.UpdateAndGetPlayer(2, "mike the father", 569);
+            TeamWidget.Context.UpdateAndGetPlayer(3, "SlashMaster", 2966);
 
             TeamWidget.Context.UpdateFractions();
 
-            var monster1 = new Monster(0, "em113_00", 6150, 6150, 1.25f);
-            monster1.Health.Current = 2733;
+            var monster1 = MonsterWidget.Context.UpdateAndGetMonster(0, "em113_00", 6150, 6150, 1.25f);
+            MonsterWidget.Context.UpdateAndGetMonster(0, "em113_00", 6150, 2733, 1.45f);
+            MonsterWidget.Context.UpdateAndGetMonster(1, "em114_00", 5700, 5700, 0.45f);
+            MonsterWidget.Context.UpdateAndGetMonster(2, "em118_00", 9191, 9191, 1.35f);
 
             monster1.UpdateAndGetPart(0, false, 480, 480, 3);
             monster1.UpdateAndGetPart(0, false, 480, 109, 3);
@@ -89,14 +91,6 @@ namespace SmartHunter.Game.Data.ViewModels
             monster1.UpdateAndGetStatusEffect(2, 2, 100, 100, 7, 0, 0);
             monster1.UpdateAndGetStatusEffect(2, 2, 100, 0, 7, 3, 0);
 
-            var monster2 = new Monster(1, "em114_00", 5700, 5700, 0.95f);
-
-            var monster3 = new Monster(2, "em118_00", 9191, 9191, 1.35f);
-
-            MonsterWidget.Context.Monsters.Add(monster1);
-            MonsterWidget.Context.Monsters.Add(monster2);
-            MonsterWidget.Context.Monsters.Add(monster3);
-
             PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(1, 20, true);
             PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(1, 15.5f, true);
 
@@ -113,17 +107,6 @@ namespace SmartHunter.Game.Data.ViewModels
 
             PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(90, 120, true);
             PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(90, 111.5f, true);
-
-            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(54, 180, true);
-            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(54, 23, true);
-
-            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(48, 180, true);
-            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(48, 54, true);
-
-            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(88, 90, true);
-            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(88, 65, true);
-            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(80, null, true);
-            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(82, null, true);
         }
     }    
 }
