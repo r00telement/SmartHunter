@@ -102,6 +102,13 @@ namespace SmartHunter.Config
             { "LOC_REMOVABLE_PART_TAIL", "Removable Tail" },
             { "LOC_REMOVABLE_PART_HORNS", "Removable Horns" },
             { "LOC_REMOVABLE_PART_HORNS_2", "Removable Horn Chip" },
+            { "LOC_PART_SHELL", "Shell" },
+            { "LOC_PART_EXHAUST_ORGAN_CENTRAL", "Exhaust Organ (Central)" },
+            { "LOC_PART_EXHAUST_ORGAN_HEAD", "Exhaust Organ (Head)" },
+            { "LOC_PART_EXHAUST_ORGAN_CRATER", "Exhaust Organ (Crater)" },
+            { "LOC_PART_EXHAUST_ORGAN_REAR", "Exhaust Organ (Rear)" },
+            { "LOC_PART_WEEK_SHELL_LEFT", "Left Week Shell" },
+            { "LOC_PART_WEEK_SHELL_RIGHT", "Right Week Shell" },
 
             { "LOC_STATUS_EFFECT_UNKNOWN", "Unknown Status Effect" },
             { "LOC_STATUS_EFFECT_POISON", "Poison" },

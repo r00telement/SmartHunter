@@ -651,7 +651,24 @@ namespace SmartHunter.Game.Config
                 "em106_00",
                 new MonsterConfig("LOC_MONSTER_ZORAH_MAGDAROS",
                 null,
-                null,
+                new string[]
+                {
+                    "LOC_PART_HEAD",
+                    "LOC_PART_BODY",
+                    "LOC_PART_CHEST",
+                    "LOC_PART_ARM_LEFT",
+                    "LOC_PART_ARM_RIGHT",
+                    "LOC_PART_LEG_LEFT",
+                    "LOC_PART_LEG_RIGHT",
+                    "LOC_PART_TAIL",
+                    "LOC_PART_SHELL",
+                    "LOC_PART_EXHAUST_ORGAN_CENTRAL",
+                    "LOC_PART_EXHAUST_ORGAN_HEAD",
+                    "LOC_PART_EXHAUST_ORGAN_CRATER",
+                    "LOC_PART_EXHAUST_ORGAN_REAR",
+                    "LOC_PART_WEEK_SHELL_LEFT",
+                    "LOC_PART_WEEK_SHELL_RIGHT"
+                },
                 25764.59f, 1f,
                 null)
             }
