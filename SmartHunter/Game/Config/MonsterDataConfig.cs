@@ -666,8 +666,8 @@ namespace SmartHunter.Game.Config
                     "LOC_PART_EXHAUST_ORGAN_HEAD",
                     "LOC_PART_EXHAUST_ORGAN_CRATER",
                     "LOC_PART_EXHAUST_ORGAN_REAR",
-                    "LOC_PART_WEEK_SHELL_LEFT",
-                    "LOC_PART_WEEK_SHELL_RIGHT"
+                    "LOC_PART_WEAK_SHELL_LEFT",
+                    "LOC_PART_WEAK_SHELL_RIGHT"
                 },
                 25764.59f, 1f,
                 null)
