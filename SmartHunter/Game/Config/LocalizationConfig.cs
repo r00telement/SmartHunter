@@ -103,14 +103,6 @@ namespace SmartHunter.Config
             { "LOC_REMOVABLE_PART_HORNS", "Removable Horns" },
             { "LOC_REMOVABLE_PART_HORNS_2", "Removable Horn Chip" },
 
-            { "LOC_PART_SHELL", "Shell" },
-            { "LOC_PART_EXHAUST_ORGAN_CENTRAL", "Central Exhaust Organ" },
-            { "LOC_PART_EXHAUST_ORGAN_HEAD", "Head Exhaust Organ" },
-            { "LOC_PART_EXHAUST_ORGAN_CRATER", "Crater Exhaust Organ" },
-            { "LOC_PART_EXHAUST_ORGAN_REAR", "Rear Exhaust Organ" },
-            { "LOC_PART_WEAK_SHELL_LEFT", "Left Weak Shell" },
-            { "LOC_PART_WEAK_SHELL_RIGHT", "Right Weak Shell" },
-
             { "LOC_STATUS_EFFECT_UNKNOWN", "Unknown Status Effect" },
             { "LOC_STATUS_EFFECT_POISON", "Poison" },
             { "LOC_STATUS_EFFECT_PARALYSIS", "Paralysis" },
@@ -232,7 +224,15 @@ namespace SmartHunter.Config
             { "LOC_WEAPON_CHARGE_BLADE_SHIELD_CHARGE", "Shield Charge" },
             { "LOC_WEAPON_CHARGE_BLADE_BLADE_CHARGE", "Blade Charge" },
             { "LOC_WEAPON_SWITCH_AXE_AMPED_STATE", "Amped State" },
-            { "LOC_WEAPON_HAMMER_POWER_CHARGE", "Power Charge" }
+            { "LOC_WEAPON_HAMMER_POWER_CHARGE", "Power Charge" },
+
+            { "LOC_PART_SHELL", "Shell" },
+            { "LOC_PART_EXHAUST_ORGAN_CENTRAL", "Central Exhaust Organ" },
+            { "LOC_PART_EXHAUST_ORGAN_HEAD", "Head Exhaust Organ" },
+            { "LOC_PART_EXHAUST_ORGAN_CRATER", "Crater Exhaust Organ" },
+            { "LOC_PART_EXHAUST_ORGAN_REAR", "Rear Exhaust Organ" },
+            { "LOC_PART_WEAK_SHELL_LEFT", "Left Weak Shell" },
+            { "LOC_PART_WEAK_SHELL_RIGHT", "Right Weak Shell" }
         };
 
         public LocalizationConfig()
