@@ -12,6 +12,7 @@ namespace SmartHunter.Game
         BytePattern m_PlayerDamagePattern = new BytePattern(ConfigHelper.Memory.Values.PlayerDamagePattern);
         BytePattern m_PlayerNamePattern = new BytePattern(ConfigHelper.Memory.Values.PlayerNamePattern);
         BytePattern m_MonsterPattern = new BytePattern(ConfigHelper.Memory.Values.MonsterPattern);
+        BytePattern m_MonsterOffsetPattern = new BytePattern(ConfigHelper.Memory.Values.MonsterOffsetPattern);
         BytePattern m_PlayerBuffPattern = new BytePattern(ConfigHelper.Memory.Values.PlayerBuffPattern);
 
         protected override string ProcessName
@@ -53,6 +54,7 @@ namespace SmartHunter.Game
                     m_PlayerDamagePattern,
                     m_PlayerNamePattern,
                     m_MonsterPattern,
+                    m_MonsterOffsetPattern,
                     m_PlayerBuffPattern
                 };
             }
@@ -80,7 +82,8 @@ namespace SmartHunter.Game
             if (ConfigHelper.Main.Values.Overlay.MonsterWidget.IsVisible)
             {
                 var monsterRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_MonsterPattern.Addresses.First());
-                var lastMonsterAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, monsterRootPtr, 0xAF728, 0x8F9BC * 8, 0, 0);
+                var monsterOffset = MemoryHelper.ReadStaticOffset(Process, m_MonsterOffsetPattern.Addresses.First());
+                var lastMonsterAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, monsterRootPtr, monsterOffset, 0x8F9BC * 8, 0, 0);
 
                 MhwHelper.UpdateMonsterWidget(Process, lastMonsterAddress);
             }
