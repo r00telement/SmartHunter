@@ -1,5 +1,4 @@
-﻿using SmartHunter.Core;
-using SmartHunter.Core.Helpers;
+﻿using SmartHunter.Core.Helpers;
 using SmartHunter.Game.Data;
 using SmartHunter.Game.Data.ViewModels;
 using System;

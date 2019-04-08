@@ -232,7 +232,11 @@ namespace SmartHunter.Config
             { "LOC_PART_EXHAUST_ORGAN_CRATER", "Crater Exhaust Organ" },
             { "LOC_PART_EXHAUST_ORGAN_REAR", "Rear Exhaust Organ" },
             { "LOC_PART_WEAK_SHELL_LEFT", "Left Weak Shell" },
-            { "LOC_PART_WEAK_SHELL_RIGHT", "Right Weak Shell" }
+            { "LOC_PART_WEAK_SHELL_RIGHT", "Right Weak Shell" },
+
+            { "LOC_STATUS_EFFECT_SHOCK_TRAP", "Shock Trap" },
+            { "LOC_STATUS_EFFECT_PITFALL_TRAP", "Pitfall Trap" },
+            { "LOC_STATUS_EFFECT_ELDERSEAL", "Elderseal" }
         };
 
         public LocalizationConfig()

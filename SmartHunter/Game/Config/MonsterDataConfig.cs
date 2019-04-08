@@ -685,7 +685,10 @@ namespace SmartHunter.Game.Config
             { 7, "LOC_STATUS_EFFECT_STUN" },
             { 8, "LOC_STATUS_EFFECT_TRANQUILIZE" },
             { 10, "LOC_STATUS_EFFECT_FLASH" },
-            { 11, "LOC_STATUS_EFFECT_DUNG" }
+            { 11, "LOC_STATUS_EFFECT_DUNG" },
+            { 13, "LOC_STATUS_EFFECT_SHOCK_TRAP" },
+            { 14, "LOC_STATUS_EFFECT_PITFALL_TRAP" },
+            { 17, "LOC_STATUS_EFFECT_ELDERSEAL" }
         };
     }
 }
