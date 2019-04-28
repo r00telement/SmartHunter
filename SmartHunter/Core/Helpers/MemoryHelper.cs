@@ -62,8 +62,6 @@ namespace SmartHunter.Core.Helpers
 
             ulong currentAddress = addressRange.Start;
 
-            List<byte[]> byteArrays = new List<byte[]>();
-
             while (currentAddress < addressRange.End && !process.HasExited)
             {
                 WindowsApi.MEMORY_BASIC_INFORMATION64 memoryRegion;
@@ -94,8 +92,6 @@ namespace SmartHunter.Core.Helpers
 
                     int lpNumberOfBytesRead = 0;
                     WindowsApi.ReadProcessMemory(process.Handle, (IntPtr)regionStartAddress, regionBytes, regionBytes.Length, ref lpNumberOfBytesRead);
-
-                    byteArrays.Add(regionBytes);
 
                     var matchIndices = FindPatternMatchIndices(regionBytes, pattern, stopAfterFirst);
 
