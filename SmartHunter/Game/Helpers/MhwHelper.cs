@@ -24,7 +24,7 @@ namespace SmartHunter.Game.Helpers
                 public static readonly ulong ModelPtr = 0x290;
                 public static readonly ulong PartCollection = 0x129D8;
                 public static readonly ulong RemovablePartCollection = PartCollection + 0x1ED0;
-                public static readonly ulong StatusEffectCollection = 0x19870;
+                public static readonly ulong StatusEffectCollection = 0x19900;
             }
 
             public static class MonsterModel
