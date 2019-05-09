@@ -111,6 +111,7 @@
             new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_APOTHECARY", StatusEffectConfig.MemorySource.Equipment, "A98"),
             new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_IMMUNITY", StatusEffectConfig.MemorySource.Equipment, "A9C"),
             new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_BANDIT", StatusEffectConfig.MemorySource.Equipment, "AA4"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_ASSASSINS_HOOD", StatusEffectConfig.MemorySource.Equipment, "AD8"),
             new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_AFFINITY_BOOSTER", StatusEffectConfig.MemorySource.Equipment, "B38"),
 
             new StatusEffectConfig("Weapon", "LOC_WEAPON_INSECT_GLAIVE_ATTACK", StatusEffectConfig.MemorySource.Weapon, "1FE8", new MemoryConditionConfig(".*rod[0-9]", "290", "3E0", "10")),

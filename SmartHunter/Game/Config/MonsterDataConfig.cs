@@ -671,6 +671,24 @@ namespace SmartHunter.Game.Config
                 },
                 25764.59f, 1f,
                 null)
+            },
+            {
+                "em127_00",
+                new MonsterConfig("LOC_MONSTER_LESHEN",
+                new string[]
+                {
+                    "LOC_REMOVABLE_PART_ANTLER_LEFT",
+                    "LOC_REMOVABLE_PART_ANTLER_RIGHT"
+                },
+                new string[]
+                {
+                    "LOC_PART_HEAD",
+                    "LOC_PART_BODY",
+                    "LOC_PART_LEGS",
+                    "LOC_PART_ARMS"
+                },
+                549.70f, 1f,
+                null)
             }
         };
 

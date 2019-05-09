@@ -236,7 +236,12 @@ namespace SmartHunter.Config
 
             { "LOC_STATUS_EFFECT_SHOCK_TRAP", "Shock Trap" },
             { "LOC_STATUS_EFFECT_PITFALL_TRAP", "Pitfall Trap" },
-            { "LOC_STATUS_EFFECT_ELDERSEAL", "Elderseal" }
+            { "LOC_STATUS_EFFECT_ELDERSEAL", "Elderseal" },
+
+            { "LOC_EQUIPMENT_ASSASSINS_HOOD", "Assassin's Hood" },
+            { "LOC_MONSTER_LESHEN", "Leshen" },
+            { "LOC_REMOVABLE_PART_ANTLER_LEFT", "Removable Left Antler" },
+            { "LOC_REMOVABLE_PART_ANTLER_RIGHT", "Removable Right Antler" }
         };
 
         public LocalizationConfig()
