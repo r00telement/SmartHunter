@@ -83,6 +83,8 @@
     <Compile Include="Core\Config\PreserveCollectionIntegrity.cs" />
     <Compile Include="Core\Data\TimedVisibility.cs" />
     <Compile Include="Core\Data\WidgetContext.cs" />
+    <Compile Include="Core\PointerTrace.cs" />
+    <Compile Include="Core\PointerTraceLevel.cs" />
     <Compile Include="Game\Config\DebugConfig.cs" />
     <Compile Include="Game\Config\MemoryConfig.cs" />
     <Compile Include="Game\Config\MonsterCrownConfig.cs" />

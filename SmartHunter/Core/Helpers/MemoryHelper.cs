@@ -5,10 +5,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace SmartHunter.Core.Helpers
-{
+{    
     public static class MemoryHelper
     {
-        static List<string> s_UniquePointerTraces = new List<string>();
+        static List<PointerTrace> s_UniquePointerTraces = new List<PointerTrace>();
 
         static WindowsApi.RegionPageProtection[] ProtectionExclusions
         {
@@ -266,7 +266,7 @@ namespace SmartHunter.Core.Helpers
 
         public static ulong ReadMultiLevelPointer(bool traceUniquePointers, Process process, ulong address, params long[] offsets)
         {
-            string trace = "";
+            PointerTrace trace = new PointerTrace();
 
             ulong result = address;
             foreach (var offset in offsets)
@@ -274,7 +274,7 @@ namespace SmartHunter.Core.Helpers
                 var readResult = Read<ulong>(process, address);
                 result = (ulong)((long)readResult + offset);
 
-                trace += $"{address:X} -> {readResult:X} + {offset:X} = {result:X}\r\n";
+                trace.Levels.Add(new PointerTraceLevel(address, readResult, offset, result));
 
                 address = result;
             }
@@ -282,7 +282,7 @@ namespace SmartHunter.Core.Helpers
             if (traceUniquePointers && !s_UniquePointerTraces.Contains(trace))
             {
                 s_UniquePointerTraces.Add(trace);
-                Log.WriteLine($"Unique pointer trace:\r\n{trace}");
+                Log.WriteLine($"Unique Pointer Trace:\r\n{trace}");
             }
 
             return result;
