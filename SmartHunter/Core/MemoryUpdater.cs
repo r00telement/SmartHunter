@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using System.Windows.Threading;
 
 namespace SmartHunter.Core
@@ -23,9 +24,11 @@ namespace SmartHunter.Core
         DispatcherTimer m_DispatcherTimer;
 
         protected abstract string ProcessName { get; }
-        protected abstract int ThreadsPerScan { get; }
         protected abstract BytePattern[] Patterns { get; }
-        protected abstract int UpdatesPerSecond { get; }
+
+        protected virtual int ThreadsPerScan { get { return 2; } }
+        protected virtual int UpdatesPerSecond { get { return 20; } }
+        protected virtual bool ShutdownWhenProcessExits { get { return false; } }
 
         protected Process Process { get; private set; }
 
@@ -138,7 +141,7 @@ namespace SmartHunter.Core
                         },
                         () =>
                         {
-                            Initialize();
+                            Initialize(true);
                         })
                 }));
 
@@ -164,12 +167,12 @@ namespace SmartHunter.Core
                         },
                         () =>
                         {
-                            Initialize();
+                            Initialize(true);
                         })
                 }));
         }
 
-        private void Initialize()
+        private void Initialize(bool processExited = false)
         {
             Process = null;
 
@@ -182,6 +185,12 @@ namespace SmartHunter.Core
             }
 
             m_MemoryScans = new List<ThreadedMemoryScan>();
+
+            if (processExited && ShutdownWhenProcessExits)
+            {
+                Log.WriteLine("Process exited. Shutting down.");
+                Application.Current.Shutdown();
+            }
         }
 
         private void Update(object sender, EventArgs e)

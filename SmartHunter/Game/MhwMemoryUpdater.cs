@@ -52,7 +52,15 @@ namespace SmartHunter.Game
                 return ConfigHelper.Main.Values.Overlay.UpdatesPerSecond;
             }
         }
-  
+
+        protected override bool ShutdownWhenProcessExits
+        {
+            get
+            {
+                return ConfigHelper.Main.Values.ShutdownWhenProcessExits;
+            }
+        }
+
         public MhwMemoryUpdater()
         {
             ConfigHelper.Main.Loaded += (s, e) => { TryUpdateTimerInterval(); };

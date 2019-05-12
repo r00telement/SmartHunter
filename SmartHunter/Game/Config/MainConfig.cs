@@ -12,6 +12,8 @@ namespace SmartHunter.Game.Config
         public string PlayerDataFileName = "PlayerData.json";
         public string MemoryFileName = "Memory.json";
 
+        public bool ShutdownWhenProcessExits = false;
+
         public OverlayConfig Overlay = new OverlayConfig();
 
         [PreserveCollectionIntegrity]
