@@ -69,6 +69,10 @@ namespace SmartHunter.Game
                     ConfigHelper.Main.Save();
                 }
             }
+            else if (control == InputControl.HideWidgets)
+            {
+                OverlayViewModel.Instance.HideWidgetsRequested = isDown;
+            }
         }
     }
 }

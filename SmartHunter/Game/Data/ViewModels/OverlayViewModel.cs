@@ -37,11 +37,38 @@ namespace SmartHunter.Game.Data.ViewModels
             set { SetProperty(ref m_CanManipulateWindows, value); }
         }
 
-        bool m_IsVisible = true;
+        bool m_HideWidgetsRequested;
+        public bool HideWidgetsRequested
+        {
+            get { return m_HideWidgetsRequested; }
+            set
+            {
+                if (SetProperty(ref m_HideWidgetsRequested, value))
+                {
+                    NotifyPropertyChanged(nameof(IsVisible));
+                }
+            }
+        }
+
+        bool m_IsGameActive = true;
+        public bool IsGameActive
+        {
+            get { return m_IsGameActive; }
+            set
+            {
+                if (SetProperty(ref m_IsGameActive, value))
+                {
+                    NotifyPropertyChanged(nameof(IsVisible));
+                }
+            }
+        }
+
         public bool IsVisible
         {
-            get { return m_IsVisible; }
-            set { SetProperty(ref m_IsVisible, value); }
+            get
+            {
+                return IsGameActive && !HideWidgetsRequested;
+            }
         }
 
         public OverlayViewModel()

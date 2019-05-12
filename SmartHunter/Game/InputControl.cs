@@ -2,6 +2,7 @@
 {
     public enum InputControl
     {
-        ManipulateWidget
+        ManipulateWidget,
+        HideWidgets
     }
 }

@@ -134,12 +134,12 @@ namespace SmartHunter.Game
             var foregroundWindowHandle = WindowsApi.GetForegroundWindow();
             if (ConfigHelper.Main.Values.Overlay.HideWhenGameWindowIsInactive && OverlayViewModel.Instance.IsVisible && foregroundWindowHandle != Process.MainWindowHandle)
             {
-                OverlayViewModel.Instance.IsVisible = false;
+                OverlayViewModel.Instance.IsGameActive = false;
             }
             else if (!OverlayViewModel.Instance.IsVisible && 
                 (!ConfigHelper.Main.Values.Overlay.HideWhenGameWindowIsInactive || foregroundWindowHandle == Process.MainWindowHandle))
             {
-                OverlayViewModel.Instance.IsVisible = true;
+                OverlayViewModel.Instance.IsGameActive = true;
             }
         }
     }
