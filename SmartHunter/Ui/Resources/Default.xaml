@@ -293,6 +293,26 @@
                 </Setter>
             </DataTrigger>
 
+            <!--When the UI needs to show the duration timer instead of the buildup timer-->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Duration.Fraction, Converter={StaticResource A_Converter_NumberNotEqual}, ConverterParameter=1}" Value="True" />
+                    <Condition Binding="{Binding Duration.Fraction, Converter={StaticResource A_Converter_NumberNotEqual}, ConverterParameter=0}" Value="True" />
+                    <Condition Binding="{Binding Duration.Max, Converter={StaticResource A_Converter_NumberNotEqual}, ConverterParameter=0}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="BuildupBlockShadow" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="BuildupBlock" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="DurationBlockShadow" Property="Visibility" Value="Visible" />
+                <Setter TargetName="DurationBlock" Property="Visibility" Value="Visible" />
+
+                <Setter TargetName="Bar" Property="Content" Value="{Binding Duration.Fraction}" />
+                <Setter TargetName="NameBlock" Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource A_Color_Monster_StatusEffect_Bar}" />
+                    </Setter.Value>
+                </Setter>
+            </MultiDataTrigger>
+
             <!--Show Numbers AND Percents-->
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
@@ -697,7 +717,6 @@
                 <Setter TargetName="Root" Property="Opacity" Value="1" />
                 <Setter TargetName="PartsControl" Property="ItemsSource" Value="{Binding Parts}" />
             </Trigger>
-
             
             <DataTrigger Binding="{Binding IsVisible}" Value="True">
                 <DataTrigger.EnterActions>

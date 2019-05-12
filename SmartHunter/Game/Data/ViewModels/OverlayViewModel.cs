@@ -118,6 +118,9 @@ namespace SmartHunter.Game.Data.ViewModels
             monster1.UpdateAndGetStatusEffect(2, 100, 100, 7, 0, 0);
             monster1.UpdateAndGetStatusEffect(2, 100, 0, 7, 3, 0);
 
+            monster1.UpdateAndGetStatusEffect(13, 50, 50, 50, 0, 1);
+            monster1.UpdateAndGetStatusEffect(13, 50, 30, 50, 20, 1);
+
             PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(1, 20, true);
             PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(1, 15.5f, true);
 
