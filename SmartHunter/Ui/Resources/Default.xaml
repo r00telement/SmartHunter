@@ -687,7 +687,7 @@
                 </ContentControl>
             </StackPanel>
 
-            <ItemsControl ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" />
+            <ItemsControl Name="PartsControl" ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" />
             <ItemsControl ItemsSource="{Binding StatusEffects}" />
         </StackPanel>
 
@@ -695,8 +695,10 @@
             <Trigger Property="pfComponentModel:DesignerProperties.IsInDesignMode" Value="True">
                 <Setter TargetName="Root" Property="Visibility" Value="Visible" />
                 <Setter TargetName="Root" Property="Opacity" Value="1" />
+                <Setter TargetName="PartsControl" Property="ItemsSource" Value="{Binding Parts}" />
             </Trigger>
 
+            
             <DataTrigger Binding="{Binding IsVisible}" Value="True">
                 <DataTrigger.EnterActions>
                     <StopStoryboard BeginStoryboardName="Hide" />
