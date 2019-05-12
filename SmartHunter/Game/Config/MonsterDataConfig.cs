@@ -11,7 +11,7 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_ANJANATH",
                     new MonsterPartConfig[]
                     {
-                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL"),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
                         new MonsterPartConfig("Part", "LOC_PART_LEG_LEFT"),
