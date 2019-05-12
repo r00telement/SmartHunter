@@ -370,7 +370,7 @@ namespace SmartHunter.Game.Helpers
                     {
                         removablePartAddress += 8;
                     }
-
+                    
                     // This is rough/hacky but it removes seemingly valid parts that aren't actually "removable".
                     // TODO: Figure out why Paolumu, Barroth, Radobaan have these mysterious removable parts
                     int validity1 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity1);

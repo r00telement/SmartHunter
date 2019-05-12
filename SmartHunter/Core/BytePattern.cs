@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartHunter.Game.Config;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -6,15 +7,27 @@ namespace SmartHunter.Core
 {
     public class BytePattern
     {
-        public string String { get; private set; }
+        public BytePatternConfig Config { get; }
         public byte?[] Bytes { get; private set; }
-        public List<ulong> Addresses { get; private set; }
+        public List<ulong> MatchedAddresses { get; private set; }
+        public AddressRange AddressRange { get; private set; }
 
-        public BytePattern(string byteString)
+        public BytePattern(BytePatternConfig config)
         {
-            String = byteString;
-            Bytes = BytesFromString(byteString);
-            Addresses = new List<ulong>();
+            Config = config;
+            Bytes = BytesFromString(config.String);
+            MatchedAddresses = new List<ulong>();
+
+            if (ulong.TryParse(config.AddressRangeStart, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out ulong start)
+                && ulong.TryParse(config.AddressRangeEnd, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out ulong end))
+            {
+                AddressRange = new AddressRange(start, end);
+            }
+            else
+            {
+                AddressRange = new AddressRange(0, 0);
+                Log.WriteLine($"Failed to parse address range ({config.AddressRangeStart} - {config.AddressRangeEnd}) for pattern: {config.String}");
+            }
         }
 
         public static byte?[] BytesFromString(string byteString)
@@ -37,20 +50,6 @@ namespace SmartHunter.Core
             }
 
             return byteList.ToArray();
-        }
-
-        public static List<BytePattern> PatternsFromString(string patternString)
-        {
-            List<BytePattern> patterns = new List<BytePattern>();
-
-            string[] byteStrings = patternString.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var byteString in byteStrings)
-            {
-                patterns.Add(new BytePattern(byteString));
-            }
-
-            return patterns;
         }
     }
 }

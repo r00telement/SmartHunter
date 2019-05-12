@@ -70,7 +70,6 @@ namespace SmartHunter.Core
         Stopwatch m_Stopwatch;
 
         public Process Process { get; private set; }
-        public AddressRange AddressRange { get; private set; }
         public BytePattern Pattern { get; private set; }
         public bool StopAfterFirst { get; private set; }
 
@@ -91,10 +90,9 @@ namespace SmartHunter.Core
             }
         }
 
-        public ThreadedMemoryScan(Process process, AddressRange addressRange, BytePattern pattern, bool stopAfterFirst, int threads = 2)
+        public ThreadedMemoryScan(Process process, BytePattern pattern, bool stopAfterFirst, int threads = 2)
         {
             Process = process;
-            AddressRange = addressRange;
             Pattern = pattern;
             StopAfterFirst = stopAfterFirst;
 
@@ -103,7 +101,7 @@ namespace SmartHunter.Core
             m_Stopwatch = new Stopwatch();
             m_Stopwatch.Start();
 
-            var addressRangeDivisions = MemoryHelper.DivideAddressRange(addressRange, threads);
+            var addressRangeDivisions = MemoryHelper.DivideAddressRange(pattern.AddressRange, threads);
             foreach (var addressRangeDivision in addressRangeDivisions)
             {
                 AddScanTask(addressRangeDivision);
@@ -155,7 +153,7 @@ namespace SmartHunter.Core
 
                     if (continuingTask.Result != null && continuingTask.Result.Any())
                     {           
-                        Pattern.Addresses.AddRange(continuingTask.Result.Select(address => address));
+                        Pattern.MatchedAddresses.AddRange(continuingTask.Result.Select(address => address));
                         data.Result.Matches.AddRange(continuingTask.Result);
 
                         // Cancel all other threads and complete the scan because we needed only 1 result

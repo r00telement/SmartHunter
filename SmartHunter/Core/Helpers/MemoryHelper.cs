@@ -22,18 +22,7 @@ namespace SmartHunter.Core.Helpers
             }
         }
 
-        static WindowsApi.RegionPageProtection[] ProtectionInclusions
-        {
-            get
-            {
-                return new WindowsApi.RegionPageProtection[]
-                {
-                    WindowsApi.RegionPageProtection.PAGE_EXECUTE_READ
-                };
-            }
-        }
-
-        static bool CheckProtection(uint flags)
+        static bool CheckProtection(BytePattern pattern, uint flags)
         {
             var protectionFlags = (WindowsApi.RegionPageProtection)flags;
 
@@ -45,7 +34,7 @@ namespace SmartHunter.Core.Helpers
                 }
             }
 
-            foreach (var protectionOrInclusive in ProtectionInclusions)
+            foreach (var protectionOrInclusive in pattern.Config.PageProtections)
             {
                 if (protectionFlags.HasFlag(protectionOrInclusive))
                 {
@@ -68,7 +57,7 @@ namespace SmartHunter.Core.Helpers
                 if (WindowsApi.VirtualQueryEx(process.Handle, (IntPtr)currentAddress, out memoryRegion, (uint)Marshal.SizeOf(typeof(WindowsApi.MEMORY_BASIC_INFORMATION64))) > 0
                     && memoryRegion.RegionSize > 0
                     && memoryRegion.State == (uint)WindowsApi.RegionPageState.MEM_COMMIT
-                    && CheckProtection(memoryRegion.Protect))
+                    && CheckProtection(pattern, memoryRegion.Protect))
                 {
                     var regionStartAddress = memoryRegion.BaseAddress;
                     if (addressRange.Start > regionStartAddress)

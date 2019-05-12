@@ -93,6 +93,7 @@
     <Compile Include="Game\Config\LocalizationConfig.cs" />
     <Compile Include="Game\Config\MonsterConfig.cs" />
     <Compile Include="Game\Config\OverlayConfig.cs" />
+    <Compile Include="Game\Config\BytePatternConfig.cs" />
     <Compile Include="Game\Config\PlayerDataConfig.cs" />
     <Compile Include="Game\Config\MemoryConditionConfig.cs" />
     <Compile Include="Game\Config\StatusEffectConfig.cs" />

@@ -24,7 +24,6 @@ namespace SmartHunter.Core
 
         protected abstract string ProcessName { get; }
         protected abstract int ThreadsPerScan { get; }
-        protected abstract AddressRange ScanAddressRange { get; }
         protected abstract BytePattern[] Patterns { get; }
         protected abstract int UpdatesPerSecond { get; }
 
@@ -90,7 +89,7 @@ namespace SmartHunter.Core
                         {
                             foreach (var pattern in Patterns)
                             {
-                                var memoryScan = new ThreadedMemoryScan(Process, ScanAddressRange, pattern, true, ThreadsPerScan);
+                                var memoryScan = new ThreadedMemoryScan(Process, pattern, true, ThreadsPerScan);
                                 m_MemoryScans.Add(memoryScan);
                             }
                         })
@@ -128,7 +127,7 @@ namespace SmartHunter.Core
                         () =>
                         {
                             var failedMemoryScans = m_MemoryScans.Where(memoryScan => !memoryScan.Results.SelectMany(result => result.Matches).Any());
-                            string failedPatterns = String.Join("\r\n", failedMemoryScans.Select(failedMemoryScan => failedMemoryScan.Pattern.String));
+                            string failedPatterns = String.Join("\r\n", failedMemoryScans.Select(failedMemoryScan => failedMemoryScan.Pattern.Config.String));
                             Log.WriteLine($"Failed Patterns:\r\n{failedPatterns}");
                         }),
                     new StateMachine<State>.Transition(
