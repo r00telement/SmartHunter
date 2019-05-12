@@ -7,104 +7,29 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SmartHunter.Core.Config;
 
 namespace SmartHunter.Game.Helpers
 {
     public static class MhwHelper
     {
-        // TODO: Wouldn't it be nice if all this were data driven?
-        private static class DataOffsets
-        {
-            public static class Monster
-            {
-                // Doubly linked list
-                public static readonly ulong PreviousMonsterPtr = 0x28;
-                public static readonly ulong NextMonsterPtr = 0x30;
-                public static readonly ulong SizeScale = 0x174;
-                public static readonly ulong ModelPtr = 0x290;
-                public static readonly ulong PartCollection = 0x129D8;
-                public static readonly ulong RemovablePartCollection = PartCollection + 0x1ED0;
-                public static readonly ulong StatusEffectCollection = 0x19900;
-            }
-
-            public static class MonsterModel
-            {
-                public static readonly int IdLength = 64;
-                public static readonly ulong Id = 0x0C;
-            }
-
-            public static class MonsterHealthComponent
-            {
-                public static readonly ulong MaxHealth = 0x60;
-                public static readonly ulong CurrentHealth = 0x64;
-            }
-
-            public static class MonsterPartCollection
-            {
-                public static readonly int MaxItemCount = 16;
-                public static readonly ulong HealthComponentPtr = 0x48;
-                public static readonly ulong FirstPart = 0x50;
-            }
-
-            public static class MonsterPart
-            {
-                public static readonly ulong MaxHealth = 0x0C;
-                public static readonly ulong CurrentHealth = 0x10;
-                public static readonly ulong TimesBrokenCount = 0x18;
-                public static readonly ulong NextPart = 0x1E8;
-            }
-
-            public static class MonsterRemovablePartCollection
-            {
-                public static readonly int MaxItemCount = 32;
-                public static readonly ulong FirstRemovablePart = 0x08;
-            }
-
-            public static class MonsterRemovablePart
-            {
-                public static readonly ulong MaxHealth = 0x0C;
-                public static readonly ulong CurrentHealth = 0x10;
-                public static readonly ulong Validity1 = 0x14;
-                public static readonly ulong TimesBrokenCount = 0x18;
-                public static readonly ulong Validity2 = 0x28;
-                public static readonly ulong Validity3 = 0x40;
-                public static readonly ulong NextRemovablePart = 0x78;
-            }
-
-            public static class MonsterStatusEffectCollection
-            {
-                public static int MaxItemCount = 20;
-                public static ulong NextStatusEffectPtr = 0x08;
-            }
-
-            public static class MonsterStatusEffect
-            {
-                public static readonly ulong Id = 0x158;
-                public static readonly ulong MaxDuration = 0x15C;
-                public static readonly ulong CurrentBuildup = 0x178;
-                public static readonly ulong MaxBuildup = 0x17C;
-                public static readonly ulong CurrentDuration = 0x1A4;
-                public static readonly ulong TimesActivatedCount = 0x1A8;
-            }
-
-            public static class PlayerNameCollection
-            {
-                public static readonly int PlayerNameLength = 32 + 1; // +1 for null terminator
-                public static readonly ulong FirstPlayerName = 0x54A45;
-            }
-
-            public static class PlayerDamageCollection
-            {
-                public static readonly int MaxPlayerCount = 4;
-                public static readonly ulong FirstPlayerPtr = 0x48;
-                public static readonly ulong NextPlayerPtr = 0x58;
-            }
-
-            public static class PlayerDamage
-            {
-                public static readonly ulong Damage = 0x48;
-            }
+        private class DataOffsetContainer {
+            public MonsterOffsets Monster = new MonsterOffsets();
+            public MonsterModelOffsets MonsterModel = new MonsterModelOffsets();
+            public MonsterHealthComponentOffsets MonsterHealthComponent = new MonsterHealthComponentOffsets();
+            public MonsterPartCollectionOffsets MonsterPartCollection = new MonsterPartCollectionOffsets();
+            public MonsterPartOffsets MonsterPart = new MonsterPartOffsets();
+            public MonsterRemovablePartCollectionOffsets MonsterRemovablePartCollection = new MonsterRemovablePartCollectionOffsets();
+            public MonsterRemovablePartOffsets MonsterRemovablePart = new MonsterRemovablePartOffsets();
+            public MonsterStatusEffectCollectionOffsets MonsterStatusEffectCollection = new MonsterStatusEffectCollectionOffsets();
+            public MonsterStatusEffectOffsets MonsterStatusEffect = new MonsterStatusEffectOffsets();
+            public PlayerNameCollectionOffsets PlayerNameCollection = new PlayerNameCollectionOffsets();
+            public PlayerDamageCollectionOffsets PlayerDamageCollection = new PlayerDamageCollectionOffsets();
+            public PlayerDamageOffsets PlayerDamage = new PlayerDamageOffsets();
         }
+
+        private static ConfigContainer<DataOffsetContainer> _dataOffsets;
+        private static DataOffsetContainer DataOffsets => (_dataOffsets ?? (_dataOffsets = new ConfigContainer<DataOffsetContainer>(ConfigHelper.Main.Values.OffsetsFileName))).Values;
 
         public static void UpdatePlayerWidget(Process process, ulong baseAddress, ulong equipmentAddress, ulong weaponAddress)
         {

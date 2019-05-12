@@ -11,6 +11,7 @@ namespace SmartHunter.Game.Config
         public string MonsterDataFileName = "MonsterData.json";
         public string PlayerDataFileName = "PlayerData.json";
         public string MemoryFileName = "Memory.json";
+        public string OffsetsFileName = "Offsets.json";
 
         public OverlayConfig Overlay = new OverlayConfig();
 

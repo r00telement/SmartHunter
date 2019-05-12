@@ -81,6 +81,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\Config\PreserveCollectionIntegrity.cs" />
+    <Compile Include="Core\Config\StringAddrConverter.cs" />
     <Compile Include="Core\Data\TimedVisibility.cs" />
     <Compile Include="Core\Data\WidgetContext.cs" />
     <Compile Include="Game\Config\DebugConfig.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Game\Config\TeamWidgetConfig.cs" />
     <Compile Include="Game\Data\PlayerStatusEffect.cs" />
     <Compile Include="Game\Data\WidgetContexts\PlayerWidgetContext.cs" />
+    <Compile Include="Game\Helpers\OffsetLoader.cs" />
     <Compile Include="Game\InputControl.cs" />
     <Compile Include="Game\Data\MonsterStatusEffect.cs" />
     <Compile Include="Game\MhwMemoryUpdater.cs" />

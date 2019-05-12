@@ -57,6 +57,7 @@ namespace SmartHunter.Core.Config
                     // settings.ObjectCreationHandling = ObjectCreationHandling.Replace;
                     settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
                     settings.Converters.Add(new StringFloatConverter());
+                    settings.Converters.Add(new StringAddrConverter());
 
                     JsonConvert.PopulateObject(contents, Values, settings);
 
@@ -92,6 +93,7 @@ namespace SmartHunter.Core.Config
 
                 settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
                 settings.Converters.Add(new StringFloatConverter());
+                settings.Converters.Add(new StringAddrConverter());
 
                 var jsonString = JsonConvert.SerializeObject(Values, settings);
 
