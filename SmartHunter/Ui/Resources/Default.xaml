@@ -275,6 +275,14 @@
             </DataTrigger>
 
             <DataTrigger Binding="{Binding TimesActivatedCount, Converter={StaticResource A_Converter_NumberGreater}}" Value="True">
+                <Setter TargetName="NameBlockShadow" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0} ({1}x)">
+                            <Binding Path="Name" Mode="OneWay" />
+                            <Binding Path="TimesActivatedCount" Mode="OneWay" />
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
                 <Setter TargetName="NameBlock" Property="Text">
                     <Setter.Value>
                         <MultiBinding StringFormat="{}{0} ({1}x)">
@@ -1127,8 +1135,14 @@
                 <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding Monsters}" />
             </Grid.Resources>
 
-            <ItemsControl ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" Style="{StaticResource A_Style_ItemsControl_Monsters}" />
+            <ItemsControl Name="MonstersControl" ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" Style="{StaticResource A_Style_ItemsControl_Monsters}" />
         </Grid>
+
+        <DataTemplate.Triggers>
+            <Trigger Property="pfComponentModel:DesignerProperties.IsInDesignMode" Value="True">
+                <Setter TargetName="MonstersControl" Property="ItemsSource" Value="{Binding Monsters}" />
+            </Trigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
     <Style x:Key="A_Style_ItemsControl_PlayerStatusEffects" TargetType="ItemsControl">
@@ -1170,8 +1184,14 @@
                 </CollectionViewSource>
             </Grid.Resources>
 
-            <ItemsControl ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" Style="{StaticResource A_Style_ItemsControl_PlayerStatusEffects}" />
+            <ItemsControl Name="StatusEffectsControl" ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" Style="{StaticResource A_Style_ItemsControl_PlayerStatusEffects}" />
         </Grid>
+
+        <DataTemplate.Triggers>
+            <Trigger Property="pfComponentModel:DesignerProperties.IsInDesignMode" Value="True">
+                <Setter TargetName="StatusEffectsControl" Property="ItemsSource" Value="{Binding StatusEffects}" />
+            </Trigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
     <Style x:Key="A_Style_ItemsControl_Players" TargetType="ItemsControl">
@@ -1212,7 +1232,13 @@
                 </CollectionViewSource>
             </Grid.Resources>
 
-            <ItemsControl ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" Style="{StaticResource A_Style_ItemsControl_Players}" />
+            <ItemsControl Name="PlayersControl" ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" Style="{StaticResource A_Style_ItemsControl_Players}" />
         </Grid>
+
+        <DataTemplate.Triggers>
+            <Trigger Property="pfComponentModel:DesignerProperties.IsInDesignMode" Value="True">
+                <Setter TargetName="PlayersControl" Property="ItemsSource" Value="{Binding Players}" />
+            </Trigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 </ResourceDictionary>
