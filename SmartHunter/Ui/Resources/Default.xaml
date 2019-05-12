@@ -72,9 +72,6 @@
 
         <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
         <Setter Property="LineHeight" Value="20" />
-
-        <!-- Uncomment the next line to add a drop shadow to all text. Note: this is not enabled by default because it can make text blurry -->
-        <!-- <Setter Property="Effect" Value="{StaticResource A_Effect_DropShadow}" /> -->
     </Style>
 
     <Style x:Key="A_Style_TextBlock_Standard" TargetType="TextBlock" BasedOn="{StaticResource A_Style_TextBlock_Heading}">

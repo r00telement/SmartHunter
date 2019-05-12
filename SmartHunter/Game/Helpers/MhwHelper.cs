@@ -446,8 +446,7 @@ namespace SmartHunter.Game.Helpers
                         rootAddress = MemoryHelper.ReadMultiLevelPointer(false, process, (ulong)((long)rootAddress + pointerOffset), 0);
                     }
                 }
-
-
+                
                 float maxBuildup = 0;
                 float currentBuildup = 0;
                 if (TryParseHex(statusEffectConfig.CurrentBuildupOffset, out var currentBuildupOffset)
@@ -482,7 +481,7 @@ namespace SmartHunter.Game.Helpers
 
                 if (maxBuildup > 0 || maxDuration > 0)
                 {
-                    monster.UpdateAndGetStatusEffect(index, maxBuildup > 0 ? maxBuildup : 1, currentBuildup, maxDuration, currentDuration, timesActivatedCount);
+                    monster.UpdateAndGetStatusEffect(index, maxBuildup > 0 ? maxBuildup : 1, !statusEffectConfig.InvertBuildup ? currentBuildup : maxBuildup - currentBuildup, maxDuration, !statusEffectConfig.InvertDuration ? currentDuration : maxDuration - currentDuration, timesActivatedCount);
                 }
             }
         }

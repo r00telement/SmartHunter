@@ -12,7 +12,10 @@
         public string CurrentDurationOffset;
         public string TimesActivatedOffset;
 
-        public MonsterStatusEffectConfig(string nameStringId, string pointerOffset, string maxDurationOffset, string currentBuildupOffset, string maxBuildupOffset, string currentDurationoffset, string timesActivatedOffset)
+        public bool InvertBuildup;
+        public bool InvertDuration;
+
+        public MonsterStatusEffectConfig(string nameStringId, string pointerOffset, string maxDurationOffset, string currentBuildupOffset, string maxBuildupOffset, string currentDurationoffset, string timesActivatedOffset, bool invertBuildup = false, bool invertDuration = true)
         {
             NameStringId = nameStringId;
             PointerOffset = pointerOffset;
@@ -22,6 +25,9 @@
             MaxBuildupOffset = maxBuildupOffset;
             CurrentDurationOffset = currentDurationoffset;
             TimesActivatedOffset = timesActivatedOffset;
+
+            InvertBuildup = invertBuildup;
+            InvertDuration = invertDuration;
         }
     }
 }

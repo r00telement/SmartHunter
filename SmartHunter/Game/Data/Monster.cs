@@ -170,7 +170,7 @@ namespace SmartHunter.Game.Data
             if (statusEffect != null)
             {
                 statusEffect.Duration.Max = maxDuration;
-                statusEffect.Duration.Current = maxDuration - currentDuration;
+                statusEffect.Duration.Current = currentDuration;
                 statusEffect.Buildup.Max = maxBuildup;
                 statusEffect.Buildup.Current = currentBuildup;
                 statusEffect.TimesActivatedCount = timesActivatedCount;

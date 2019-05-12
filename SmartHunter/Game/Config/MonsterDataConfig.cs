@@ -708,8 +708,7 @@ namespace SmartHunter.Game.Config
             new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_PITFALL_TRAP", "70", "15C", "178", "17C", "1A4", "1A8"),
             new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_ELDERSEAL",    "88", "15C", "178", "17C", "1A4", "1A8"),
             new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_RAGE",         null, "190", "180", "1A0", "18C",  null),
-            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_STAMINA",      null,  null, "420", "424",  null,  null),
-            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_FATIGUE",      null,  "42C", null, null,  "430",  null),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_FATIGUE",      null,  "42C", "420", "424", "430",  null, true),
         };
     }
 }

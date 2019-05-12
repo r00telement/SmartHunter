@@ -45,7 +45,7 @@ namespace SmartHunter.Game.Data
             m_Owner = owner;
             m_Index = index;
             Buildup = new Progress(maxBuildup, currentBuildup, true);
-            Duration = new Progress(maxDuration, maxDuration - currentDuration, true);
+            Duration = new Progress(maxDuration, currentDuration, true);
             m_TimesActivatedCount = timesActivatedCount;
 
             PropertyChanged += MonsterStatusEffect_PropertyChanged;
