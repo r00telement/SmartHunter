@@ -9,17 +9,15 @@ namespace SmartHunter.Game.Config
     public class MonsterConfig
     {
         public string NameStringId;
-        public string[] RemovablePartStringIds;
-        public string[] PartStringIds;
+        public MonsterPartConfig[] Parts;
         public float BaseSize;
         public float ScaleModifier = 1f;
         public MonsterCrownConfig Crowns;
 
-        public MonsterConfig(string nameStringId, string[] removablePartStringIds, string[] partStringIds, float baseSize, float scaleModifier, MonsterCrownConfig crowns)
+        public MonsterConfig(string nameStringId, MonsterPartConfig[] parts, float baseSize, float scaleModifier, MonsterCrownConfig crowns)
         {
             NameStringId = nameStringId;
-            RemovablePartStringIds = removablePartStringIds;
-            PartStringIds = partStringIds;
+            Parts = parts;
             BaseSize = baseSize;
             ScaleModifier = scaleModifier;
             Crowns = crowns;

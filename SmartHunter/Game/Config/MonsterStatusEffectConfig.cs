@@ -2,6 +2,7 @@
 {
     public class MonsterStatusEffectConfig
     {
+        public string GroupId;
         public string NameStringId;
 
         public string PointerOffset;
@@ -15,8 +16,9 @@
         public bool InvertBuildup;
         public bool InvertDuration;
 
-        public MonsterStatusEffectConfig(string nameStringId, string pointerOffset, string maxDurationOffset, string currentBuildupOffset, string maxBuildupOffset, string currentDurationoffset, string timesActivatedOffset, bool invertBuildup = false, bool invertDuration = true)
+        public MonsterStatusEffectConfig(string groupId, string nameStringId, string pointerOffset, string maxDurationOffset, string currentBuildupOffset, string maxBuildupOffset, string currentDurationoffset, string timesActivatedOffset, bool invertBuildup = false, bool invertDuration = true)
         {
+            GroupId = groupId;
             NameStringId = nameStringId;
             PointerOffset = pointerOffset;
 

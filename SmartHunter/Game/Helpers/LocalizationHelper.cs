@@ -1,4 +1,5 @@
 ﻿using SmartHunter.Core;
+using System.Linq;
 
 namespace SmartHunter.Game.Helpers
 {
@@ -36,45 +37,34 @@ namespace SmartHunter.Game.Helpers
             return GetString(UnknownMonsterStringId);
         }
 
-        public static string GetMonsterPartName(string monsterId, int partIndex)
+        public static string GetMonsterPartName(string monsterId, int partIndex, bool isRemovable)
         {
             if (ConfigHelper.MonsterData.Values.Monsters.TryGetValue(monsterId, out var monsterConfig))
             {
-                if (monsterConfig.PartStringIds != null && monsterConfig.PartStringIds.Length > partIndex)
+                var parts = monsterConfig.Parts.Where(part => part.IsRemovable == isRemovable);
+                if (parts.Count() > partIndex)
                 {
-                    return GetString(monsterConfig.PartStringIds[partIndex]);
+                    return GetString(parts.ElementAt(partIndex).StringId);
                 }
-                else
+                else if (!isRemovable)
                 {
                     Log.WriteLine($"Localization: Monster '{monsterId}' part '{partIndex}' not found in {ConfigHelper.MonsterData.FileName}");
                 }
-            }
-            else
-            {
-                Log.WriteLine($"Localization: Monster '{monsterId}' not found in {ConfigHelper.MonsterData.FileName}");
-            }
-
-            return GetString(UnknownPartStringId);
-        }
-
-        public static string GetMonsterRemovablePartName(string monsterId, int removablePartIndex)
-        {
-            if (ConfigHelper.MonsterData.Values.Monsters.TryGetValue(monsterId, out var monsterConfig))
-            {
-                if (monsterConfig.RemovablePartStringIds != null && monsterConfig.RemovablePartStringIds.Length > removablePartIndex)
-                {
-                    return GetString(monsterConfig.RemovablePartStringIds[removablePartIndex]);
-                }
                 else
                 {
-                    Log.WriteLine($"Localization: Monster '{monsterId}' removable part '{removablePartIndex}' not found in {ConfigHelper.MonsterData.FileName}");
+                    Log.WriteLine($"Localization: Monster '{monsterId}' removable part '{partIndex}' not found in {ConfigHelper.MonsterData.FileName}");
                 }
             }
             else
             {
                 Log.WriteLine($"Localization: Monster '{monsterId}' not found in {ConfigHelper.MonsterData.FileName}");
             }
-            
+
+            if (!isRemovable)
+            {
+                return GetString(UnknownPartStringId);
+            }
+
             return GetString(UnknownRemovablePartStringId);
         }
 

@@ -9,20 +9,6 @@ namespace SmartHunter.Game.Data.WidgetContexts
     {
         public ObservableCollection<Monster> Monsters { get; private set; }
 
-        bool m_ShowHealthBar = true;
-        public bool ShowHealthBar
-        {
-            get { return m_ShowHealthBar; }
-            set { SetProperty(ref m_ShowHealthBar, value); }
-        }
-
-        bool m_ShowHealth = true;
-        public bool ShowHealth
-        {
-            get { return m_ShowHealth; }
-            set { SetProperty(ref m_ShowHealth, value); }
-        }
-
         bool m_ShowCrown = true;
         public bool ShowCrown
         {
@@ -30,25 +16,25 @@ namespace SmartHunter.Game.Data.WidgetContexts
             set { SetProperty(ref m_ShowCrown, value); }
         }
 
-        bool m_ShowRemovableParts = true;
-        public bool ShowRemovableParts
+        bool m_ShowBars = true;
+        public bool ShowBars
         {
-            get { return m_ShowRemovableParts; }
-            set { SetProperty(ref m_ShowRemovableParts, value); }
+            get { return m_ShowBars; }
+            set { SetProperty(ref m_ShowBars, value); }
         }
 
-        bool m_ShowParts = true;
-        public bool ShowParts
+        bool m_ShowNumbers = true;
+        public bool ShowNumbers
         {
-            get { return m_ShowParts; }
-            set { SetProperty(ref m_ShowParts, value); }
+            get { return m_ShowNumbers; }
+            set { SetProperty(ref m_ShowNumbers, value); }
         }
 
-        bool m_ShowStatusEffects = true;
-        public bool ShowStatusEffects
+        bool m_ShowPercents = true;
+        public bool ShowPercents
         {
-            get { return m_ShowStatusEffects; }
-            set { SetProperty(ref m_ShowStatusEffects, value); }
+            get { return m_ShowPercents; }
+            set { SetProperty(ref m_ShowPercents, value); }
         }
 
         public MonsterWidgetContext()
@@ -76,7 +62,7 @@ namespace SmartHunter.Game.Data.WidgetContexts
                 Monsters.Add(monster);
             }
 
-            monster.UpdateVisibility();
+            monster.NotifyPropertyChanged(nameof(Monster.IsVisible));
 
             return monster;
         }
@@ -85,12 +71,10 @@ namespace SmartHunter.Game.Data.WidgetContexts
         {
             base.UpdateFromConfig();
 
-            ShowHealthBar = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowHealthBar;
-            ShowHealth = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowHealth;
             ShowCrown = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowCrown;
-            ShowRemovableParts = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowRemovableParts;
-            ShowParts = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowParts;
-            ShowStatusEffects = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowStatusEffects;
+            ShowBars = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowBars;
+            ShowNumbers = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowNumbers;
+            ShowPercents = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowPercents;
 
             foreach (var monster in Monsters)
             {

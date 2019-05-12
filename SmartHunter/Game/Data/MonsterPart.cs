@@ -1,5 +1,6 @@
 ﻿using SmartHunter.Core.Data;
 using SmartHunter.Game.Helpers;
+using System.Linq;
 
 namespace SmartHunter.Game.Data
 {
@@ -28,15 +29,26 @@ namespace SmartHunter.Game.Data
         {
             get
             {
-                if (IsRemovable)
-                {
-                    return LocalizationHelper.GetMonsterRemovablePartName(m_Owner.Id, m_Owner.RemovableParts.IndexOf(this));
-                }
-
-                return LocalizationHelper.GetMonsterPartName(m_Owner.Id, m_Owner.Parts.IndexOf(this));
+                return LocalizationHelper.GetMonsterPartName(m_Owner.Id, m_Owner.Parts.Where(part => part.IsRemovable == IsRemovable).ToList().IndexOf(this), IsRemovable);
             }
         }
-        
+
+        public string GroupId
+        {
+            get
+            {
+                return GetGroupIdFromIndex(m_Owner.Id, m_Owner.Parts.Where(part => part.IsRemovable == IsRemovable).ToList().IndexOf(this), IsRemovable);
+            }
+        }
+
+        public bool IsVisible
+        {
+            get
+            {
+                return IsIncluded(GroupId) && IsTimeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedParts, ConfigHelper.Main.Values.Overlay.MonsterWidget.HidePartsAfterSeconds);
+            }
+        }
+
         public MonsterPart(Monster owner, ulong address, bool isRemovable, float maxHealth, float currentHealth, int timesBrokenCount)
         {
             m_Owner = owner;
@@ -65,9 +77,23 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        public override void UpdateVisibility()
+        public static string GetGroupIdFromIndex(string monsterId, int index, bool isRemovable)
         {
-            IsVisible = CanBeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedParts, ConfigHelper.Main.Values.Overlay.MonsterWidget.HidePartsAfterSeconds);
+            if (ConfigHelper.MonsterData.Values.Monsters.TryGetValue(monsterId, out var monsterConfig))
+            {
+                var parts = monsterConfig.Parts.Where(part => part.IsRemovable == isRemovable);
+                if (parts.Count() > index)
+                {
+                    return parts.ElementAt(index).GroupId;
+                }
+            }
+
+            return "";
+        }
+
+        public static bool IsIncluded(string groupId)
+        {
+            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchIncludePartGroupIdRegex(groupId);
         }
     }
 }

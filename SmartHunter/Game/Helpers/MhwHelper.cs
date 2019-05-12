@@ -319,9 +319,10 @@ namespace SmartHunter.Game.Helpers
 
         private static void UpdateMonsterParts(Process process, Monster monster)
         {
-            if (monster.Parts.Any())
+            var parts = monster.Parts.Where(part => !part.IsRemovable);
+            if (parts.Any())
             {
-                foreach (var part in monster.Parts)
+                foreach (var part in parts)
                 {
                     UpdateMonsterPart(process, monster, part.Address);
                 }
@@ -361,9 +362,10 @@ namespace SmartHunter.Game.Helpers
 
         private static void UpdateMonsterRemovableParts(Process process, Monster monster)
         {
-            if (monster.RemovableParts.Any())
+            var removableParts = monster.Parts.Where(part => part.IsRemovable);
+            if (removableParts.Any())
             {
-                foreach (var removablePart in monster.RemovableParts)
+                foreach (var removablePart in removableParts)
                 {
                     UpdateMonsterRemovablePart(process, monster, removablePart.Address);
                 }
@@ -380,29 +382,30 @@ namespace SmartHunter.Game.Helpers
                     {
                         removablePartAddress += 8;
                     }
+                    
+                    // This is rough/hacky but it removes seemingly valid parts that aren't actually "removable".
+                    // TODO: Figure out why Paolumu, Barroth, Radobaan have these mysterious removable parts
+                    bool isValid1 = true;
+                    bool isValid2 = true;
+                    bool isValid3 = true;
 
-                    bool isValid = true;                    
+                    int validity1 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity1);
+                    isValid1 = validity1 == 1;
                     if (!ConfigHelper.Main.Values.Debug.ShowWeirdRemovableParts)
-                    {
-                        // This is rough/hacky but it removes seemingly valid parts that aren't actually "removable".
-                        // TODO: Figure out why Paolumu, Barroth, Radobaan have these mysterious removable parts
-                        int validity1 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity1);
+                    {                                           
                         int validity2 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity2);
                         int validity3 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity3);
 
-                        bool isValid1 = validity1 == 1;
-                        bool isValid2 = validity3 == 0 || validity3 == 1;
+                        isValid2 = validity3 == 0 || validity3 == 1;
 
-                        bool isValid3 = true;
+                        isValid3 = true;
                         if (validity3 == 0 && validity2 != 1)
                         {
                             isValid3 = false;
                         }
-
-                        isValid = isValid1 && isValid2 && isValid3;
                     }
 
-                    if (isValid)
+                    if (isValid1 && isValid2 && isValid3)
                     {
                         float maxHealth = MemoryHelper.Read<float>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.MaxHealth);
                         if (maxHealth > 0)

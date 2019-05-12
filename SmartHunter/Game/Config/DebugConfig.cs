@@ -5,6 +5,6 @@
         public bool UseInternalSkin = false;
         public bool UseSampleData = false;
         public bool TraceUniquePointers = false;
-        public bool ShowWeirdRemovableParts = true;
+        public bool ShowWeirdRemovableParts = false;
     }
 }

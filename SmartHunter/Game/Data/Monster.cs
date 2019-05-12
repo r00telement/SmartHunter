@@ -120,8 +120,15 @@ namespace SmartHunter.Game.Data
 
         public Progress Health { get; private set; }
         public ObservableCollection<MonsterPart> Parts { get; private set; }
-        public ObservableCollection<MonsterPart> RemovableParts { get; private set; }
         public ObservableCollection<MonsterStatusEffect> StatusEffects { get; private set; }
+
+        public bool IsVisible
+        {
+            get
+            {
+                return IsIncluded(Id) && IsTimeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedMonsters, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideMonstersAfterSeconds);
+            }
+        }
 
         public Monster(ulong address, string id, float maxHealth, float currentHealth, float sizeScale)
         {
@@ -131,19 +138,12 @@ namespace SmartHunter.Game.Data
             m_SizeScale = sizeScale;
 
             Parts = new ObservableCollection<MonsterPart>();
-            RemovableParts = new ObservableCollection<MonsterPart>();
             StatusEffects = new ObservableCollection<MonsterStatusEffect>();
         }
 
         public MonsterPart UpdateAndGetPart(ulong address, bool isRemovable, float maxHealth, float currentHealth, int timesBrokenCount)
         {
-            ObservableCollection<MonsterPart> collection = Parts;
-            if (isRemovable)
-            {
-                collection = RemovableParts;
-            }
-
-            MonsterPart part = collection.SingleOrDefault(collectionPart => collectionPart.Address == address);
+            MonsterPart part = Parts.SingleOrDefault(collectionPart => collectionPart.Address == address);
             if (part != null)
             {
                 part.IsRemovable = isRemovable;
@@ -156,10 +156,10 @@ namespace SmartHunter.Game.Data
                 part = new MonsterPart(this, address, isRemovable, maxHealth, currentHealth, timesBrokenCount);
                 part.Changed += PartOrStatusEffect_Changed;
 
-                collection.Add(part);
+                Parts.Add(part);
             }
 
-            part.UpdateVisibility();
+            part.NotifyPropertyChanged(nameof(MonsterPart.IsVisible));
 
             return part;
         }
@@ -183,7 +183,7 @@ namespace SmartHunter.Game.Data
                 StatusEffects.Add(statusEffect);
             }
 
-            statusEffect.UpdateVisibility();
+            statusEffect.NotifyPropertyChanged(nameof(MonsterStatusEffect.IsVisible));
 
             return statusEffect;
         }
@@ -192,17 +192,13 @@ namespace SmartHunter.Game.Data
         {
             NotifyPropertyChanged(nameof(Name));
 
-            foreach (var removablePart in RemovableParts)
-            {
-                removablePart.NotifyPropertyChanged(nameof(MonsterPart.Name));
-            }
             foreach (var part in Parts)
             {
                 part.NotifyPropertyChanged(nameof(MonsterPart.Name));
             }
             foreach (var statusEffect in StatusEffects)
             {
-                statusEffect.NotifyPropertyChanged(nameof(MonsterPart.Name));
+                statusEffect.NotifyPropertyChanged(nameof(MonsterStatusEffect.Name));
             }
         }
 
@@ -214,11 +210,6 @@ namespace SmartHunter.Game.Data
         private void PartOrStatusEffect_Changed(object sender, GenericEventArgs<DateTimeOffset> e)
         {
             UpdateLastChangedTime();
-        }
-        
-        public override void UpdateVisibility()
-        {
-            IsVisible = IsIncluded(Id) && CanBeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedMonsters, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideMonstersAfterSeconds);
         }
     }
 }

@@ -4,13 +4,6 @@ namespace SmartHunter.Core.Data
 {
     public abstract class TimedVisibility : Bindable
     {
-        bool m_IsVisible = false;
-        public bool IsVisible
-        {
-            get { return m_IsVisible; }
-            set { SetProperty(ref m_IsVisible, value); }
-        }
-
         public DateTimeOffset InitialTime { get; private set; }
         public DateTimeOffset? LastChangedTime { get; private set; }
 
@@ -31,7 +24,7 @@ namespace SmartHunter.Core.Data
             }
         }
 
-        protected bool CanBeVisible(bool showUnchanged, float hideAfterSeconds)
+        protected bool IsTimeVisible(bool showUnchanged, float hideAfterSeconds)
         {
             if (!showUnchanged && LastChangedTime == null)
             {
@@ -54,7 +47,5 @@ namespace SmartHunter.Core.Data
                 return true;
             }
         }
-
-        public abstract void UpdateVisibility();
     }
 }

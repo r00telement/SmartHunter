@@ -15,10 +15,18 @@ namespace SmartHunter.Game.Data
             {
                 if (SetProperty(ref m_Index, value))
                 {
-                    //NotifyPropertyChanged(nameof(GroupId));
+                    NotifyPropertyChanged(nameof(GroupId));
                     NotifyPropertyChanged(nameof(Name));
                     NotifyPropertyChanged(nameof(IsVisible));
                 }
+            }
+        }
+
+        public string GroupId
+        {
+            get
+            {
+                return GetGroupIdFromIndex(Index);
             }
         }
 
@@ -37,6 +45,14 @@ namespace SmartHunter.Game.Data
             get
             {
                 return LocalizationHelper.GetMonsterStatusEffectName(Index);
+            }
+        }
+
+        public bool IsVisible
+        {
+            get
+            {
+                return IsIncluded(GroupId) && IsTimeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedStatusEffects, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideStatusEffectsAfterSeconds);
             }
         }
 
@@ -66,9 +82,14 @@ namespace SmartHunter.Game.Data
             UpdateLastChangedTime();
         }
 
-        public override void UpdateVisibility()
+        public static string GetGroupIdFromIndex(int index)
         {
-            IsVisible = CanBeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedStatusEffects, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideStatusEffectsAfterSeconds);
+            return ConfigHelper.MonsterData.Values.StatusEffects[index].GroupId;
+        }
+
+        public static bool IsIncluded(string groupId)
+        {
+            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchIncludeStatusEffectGroupIdRegex(groupId);
         }
     }
 }

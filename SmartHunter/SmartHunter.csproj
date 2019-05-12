@@ -89,6 +89,7 @@
     <Compile Include="Game\Config\MemoryConfig.cs" />
     <Compile Include="Game\Config\MonsterCrownConfig.cs" />
     <Compile Include="Game\Config\MonsterDataConfig.cs" />
+    <Compile Include="Game\Config\MonsterPartConfig.cs" />
     <Compile Include="Game\Config\MonsterStatusEffectConfig.cs" />
     <Compile Include="Game\Config\MonsterWidgetConfig.cs" />
     <Compile Include="Core\Config\StringFloatConverter.cs" />
