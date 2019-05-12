@@ -85,11 +85,11 @@ namespace SmartHunter.Game.Data.ViewModels
             monster1.UpdateAndGetPart(0, true, 864, 864, 0);
             monster1.UpdateAndGetPart(0, true, 864, 811, 0);
 
-            monster1.UpdateAndGetStatusEffect(0, 5, 50, 50, 50, 0, 1);
-            monster1.UpdateAndGetStatusEffect(0, 5, 50, 40, 50, 0, 1);
+            monster1.UpdateAndGetStatusEffect(5, 50, 50, 50, 0, 1);
+            monster1.UpdateAndGetStatusEffect(5, 50, 40, 50, 0, 1);
 
-            monster1.UpdateAndGetStatusEffect(2, 2, 100, 100, 7, 0, 0);
-            monster1.UpdateAndGetStatusEffect(2, 2, 100, 0, 7, 3, 0);
+            monster1.UpdateAndGetStatusEffect(2, 100, 100, 7, 0, 0);
+            monster1.UpdateAndGetStatusEffect(2, 100, 0, 7, 3, 0);
 
             PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(1, 20, true);
             PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(1, 15.5f, true);

@@ -191,7 +191,7 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_DEMONDRUG", "Demondrug" },
             { "LOC_STATUS_EFFECT_MEGA_DEMONDRUG", "Mega Demondrug" },
             { "LOC_STATUS_EFFECT_ARMORSKIN", "Armorskin" },
-            { "LOC_STATUS_EFFECT_MEGA_ARMORSKIN", "Mega Armorskin" },            
+            { "LOC_STATUS_EFFECT_MEGA_ARMORSKIN", "Mega Armorskin" },
             { "LOC_STATUS_EFFECT_COOL_DRINK", "Cool Drink" },
             { "LOC_STATUS_EFFECT_PROTECTIVE_POLISH", "Protective Polish" },
             { "LOC_STATUS_EFFECT_AFFINITY_SLIDING", "Affinity Sliding" },
@@ -241,9 +241,13 @@ namespace SmartHunter.Config
             { "LOC_EQUIPMENT_ASSASSINS_HOOD", "Assassin's Hood" },
             { "LOC_MONSTER_LESHEN", "Leshen" },
             { "LOC_REMOVABLE_PART_ANTLER_LEFT", "Removable Left Antler" },
-            { "LOC_REMOVABLE_PART_ANTLER_RIGHT", "Removable Right Antler" }
-        };
+            { "LOC_REMOVABLE_PART_ANTLER_RIGHT", "Removable Right Antler" },
 
+            { "LOC_STATUS_EFFECT_RAGE", "Rage" },
+            { "LOC_STATUS_EFFECT_STAMINA", "Stamina" },
+            { "LOC_STATUS_EFFECT_FATIGUE", "Fatigue" },
+        };
+        
         public LocalizationConfig()
         {
         }

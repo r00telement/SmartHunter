@@ -12,6 +12,16 @@ namespace SmartHunter.Game.Helpers
 {
     public static class MhwHelper
     {
+        public static bool TryParseHex(string hexString, out long hexNumber)
+        {
+            return long.TryParse(hexString, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out hexNumber);
+        }
+
+        public static ulong AddOffset(ulong address, long offset)
+        {
+            return (ulong)((long)address + offset);
+        }
+
         // TODO: Wouldn't it be nice if all this were data driven?
         private static class DataOffsets
         {
@@ -131,7 +141,7 @@ namespace SmartHunter.Game.Helpers
                         List<long> offsets = new List<long>();
                         foreach (var offsetString in condition.Offsets)
                         {
-                            if (long.TryParse(offsetString, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var offset))
+                            if (TryParseHex(offsetString, out var offset))
                             {
                                 offsets.Add(offset);
                             }
@@ -178,9 +188,9 @@ namespace SmartHunter.Game.Helpers
                 float? timer = null;
                 if (allConditionsPassed && statusEffectConfig.TimerOffset != null)
                 {
-                    if (ulong.TryParse(statusEffectConfig.TimerOffset, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var timerOffset))
+                    if (TryParseHex(statusEffectConfig.TimerOffset, out var timerOffset))
                     {
-                        timer = MemoryHelper.Read<float>(process, sourceAddress + timerOffset);
+                        timer = MemoryHelper.Read<float>(process, (ulong)((long)sourceAddress + timerOffset));
                     }
 
                     if (timer <= 0)
@@ -415,42 +425,60 @@ namespace SmartHunter.Game.Helpers
 
         private static void UpdateMonsterStatusEffects(Process process, Monster monster)
         {
-            if (monster.StatusEffects.Any())
-            {
-                foreach (var statusEffect in monster.StatusEffects)
-                {
-                    UpdateStatusEffect(process, monster, statusEffect.Address);
-                }
-            }
-            else
-            {
-                ulong statusEffectCollectionAddress = monster.Address + DataOffsets.Monster.StatusEffectCollection;
+            ulong statusEffectCollectionAddress = monster.Address + DataOffsets.Monster.StatusEffectCollection;
 
-                for (int index = 0; index < DataOffsets.MonsterStatusEffectCollection.MaxItemCount; ++index)
-                {
-                    ulong statusEffectPtr = statusEffectCollectionAddress + ((ulong)index * DataOffsets.MonsterStatusEffectCollection.NextStatusEffectPtr);
-                    ulong statusEffectAddress = MemoryHelper.Read<ulong>(process, statusEffectPtr);
+            for (int index = 0; index < ConfigHelper.MonsterData.Values.StatusEffects.Length; ++index)
+            {
+                var statusEffectConfig = ConfigHelper.MonsterData.Values.StatusEffects[index];
 
-                    float maxDuration = MemoryHelper.Read<float>(process, statusEffectAddress + DataOffsets.MonsterStatusEffect.MaxDuration);
-                    float maxBuildup = MemoryHelper.Read<float>(process, statusEffectAddress + DataOffsets.MonsterStatusEffect.MaxBuildup);
-                    if (maxDuration > 0 || maxBuildup > 0)
+                var rootAddress = statusEffectCollectionAddress;
+
+                if (statusEffectConfig.PointerOffset != null)
+                {
+                    if (TryParseHex(statusEffectConfig.PointerOffset, out var pointerOffset))
                     {
-                        UpdateStatusEffect(process, monster, statusEffectAddress);
+                        rootAddress = MemoryHelper.ReadMultiLevelPointer(false, process, (ulong)((long)rootAddress + pointerOffset), 0);
                     }
                 }
+
+
+                float maxBuildup = 0;
+                float currentBuildup = 0;
+                if (TryParseHex(statusEffectConfig.CurrentBuildupOffset, out var currentBuildupOffset)
+                    && TryParseHex(statusEffectConfig.MaxBuildupOffset, out var maxBuildupOffset)
+                    )
+                {
+                    maxBuildup = MemoryHelper.Read<float>(process, AddOffset(rootAddress, maxBuildupOffset));
+                    if (maxBuildup > 0)
+                    {
+                        currentBuildup = MemoryHelper.Read<float>(process, AddOffset(rootAddress, currentBuildupOffset));
+                    }
+                }
+
+                float maxDuration = 0;
+                float currentDuration = 0;
+                if (TryParseHex(statusEffectConfig.MaxDurationOffset, out var maxDurationOffset)
+                   && TryParseHex(statusEffectConfig.CurrentDurationOffset, out var currentDurationOffset)
+                   )
+                {
+                    maxDuration = MemoryHelper.Read<float>(process, AddOffset(rootAddress, maxDurationOffset));
+                    if (maxDuration > 0)
+                    {
+                        currentDuration = MemoryHelper.Read<float>(process, AddOffset(rootAddress, currentDurationOffset));
+                    }
+                }
+
+                int timesActivatedCount = 0;
+                if (TryParseHex(statusEffectConfig.TimesActivatedOffset, out var timesActivatedOffset))
+                {
+                    timesActivatedCount = MemoryHelper.Read<int>(process, AddOffset(rootAddress, timesActivatedOffset));
+                }
+
+                if (maxBuildup > 0 || maxDuration > 0)
+                {
+                    monster.UpdateAndGetStatusEffect(index, maxBuildup > 0 ? maxBuildup : 1, currentBuildup, maxDuration, currentDuration, timesActivatedCount);
+                }
             }
-        }
-
-        private static void UpdateStatusEffect(Process process, Monster monster, ulong statusEffectAddress)
-        {
-            int id = MemoryHelper.Read<int>(process, statusEffectAddress + DataOffsets.MonsterStatusEffect.Id);
-            float maxDuration = MemoryHelper.Read<float>(process, statusEffectAddress + DataOffsets.MonsterStatusEffect.MaxDuration);
-            float currentBuildup = MemoryHelper.Read<float>(process, statusEffectAddress + DataOffsets.MonsterStatusEffect.CurrentBuildup);
-            float maxBuildup = MemoryHelper.Read<float>(process, statusEffectAddress + DataOffsets.MonsterStatusEffect.MaxBuildup);
-            float currentDuration = MemoryHelper.Read<float>(process, statusEffectAddress + DataOffsets.MonsterStatusEffect.CurrentDuration);
-            int timesActivatedCount = MemoryHelper.Read<int>(process, statusEffectAddress + DataOffsets.MonsterStatusEffect.TimesActivatedCount);
-
-            var statusEffect = monster.UpdateAndGetStatusEffect(statusEffectAddress, id, maxBuildup, currentBuildup, maxDuration, currentDuration, timesActivatedCount);
         }
     }
 }

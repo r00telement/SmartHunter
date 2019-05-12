@@ -164,9 +164,9 @@ namespace SmartHunter.Game.Data
             return part;
         }
 
-        public MonsterStatusEffect UpdateAndGetStatusEffect(ulong address, int id, float maxBuildup, float currentBuildup, float maxDuration, float currentDuration, int timesActivatedCount)
+        public MonsterStatusEffect UpdateAndGetStatusEffect(int index, float maxBuildup, float currentBuildup, float maxDuration, float currentDuration, int timesActivatedCount)
         {
-            MonsterStatusEffect statusEffect = StatusEffects.SingleOrDefault(collectionStatusEffect => collectionStatusEffect.Address == address);
+            MonsterStatusEffect statusEffect = StatusEffects.SingleOrDefault(collectionStatusEffect => collectionStatusEffect.Index == index);
             if (statusEffect != null)
             {
                 statusEffect.Duration.Max = maxDuration;
@@ -175,27 +175,15 @@ namespace SmartHunter.Game.Data
                 statusEffect.Buildup.Current = currentBuildup;
                 statusEffect.TimesActivatedCount = timesActivatedCount;
             }
-            else if (!ConfigHelper.MonsterData.Values.StatusEffects.ContainsKey(id))
-            {
-                return null;
-            }
             else
             {
-                statusEffect = new MonsterStatusEffect(this, address, id, maxBuildup, currentBuildup, maxDuration, currentDuration, timesActivatedCount);
+                statusEffect = new MonsterStatusEffect(this, index, maxBuildup, currentBuildup, maxDuration, currentDuration, timesActivatedCount);
                 statusEffect.Changed += PartOrStatusEffect_Changed;
 
                 StatusEffects.Add(statusEffect);
             }
 
-            bool isValidId = ConfigHelper.MonsterData.Values.StatusEffects.ContainsKey(id);
-            if (!isValidId)
-            {
-                statusEffect.IsVisible = false;
-            }
-            else
-            {
-                statusEffect.UpdateVisibility();
-            }
+            statusEffect.UpdateVisibility();
 
             return statusEffect;
         }

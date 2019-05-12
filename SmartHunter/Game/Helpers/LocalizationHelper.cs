@@ -78,14 +78,14 @@ namespace SmartHunter.Game.Helpers
             return GetString(UnknownRemovablePartStringId);
         }
 
-        public static string GetMonsterStatusEffectName(int statusEffectId)
+        public static string GetMonsterStatusEffectName(int index)
         {
-            if (ConfigHelper.MonsterData.Values.StatusEffects.TryGetValue(statusEffectId, out var stringId))
+            if (ConfigHelper.MonsterData.Values.StatusEffects.Length > index)
             {
-                return GetString(stringId);
+                return GetString(ConfigHelper.MonsterData.Values.StatusEffects[index].NameStringId);
             }
 
-            Log.WriteLine($"Localization: Status effect '{statusEffectId}' not found in {ConfigHelper.MonsterData.FileName}");
+            Log.WriteLine($"Localization: Monster status effect with index '{index}' not found in {ConfigHelper.MonsterData.FileName}");
 
             return GetString(UnknownMonsterStatusEffectStringId);
         }

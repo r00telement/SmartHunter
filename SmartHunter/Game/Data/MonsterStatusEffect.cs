@@ -7,17 +7,17 @@ namespace SmartHunter.Game.Data
     {
         Monster m_Owner;
 
-        public ulong Address { get; private set; }
-
-        int m_Id;
-        public int Id
+        int m_Index;
+        public int Index
         {
-            get { return m_Id; }
+            get { return m_Index; }
             set
             {
-                if (SetProperty(ref m_Id, value))
+                if (SetProperty(ref m_Index, value))
                 {
+                    //NotifyPropertyChanged(nameof(GroupId));
                     NotifyPropertyChanged(nameof(Name));
+                    NotifyPropertyChanged(nameof(IsVisible));
                 }
             }
         }
@@ -36,17 +36,16 @@ namespace SmartHunter.Game.Data
         {
             get
             {
-                return LocalizationHelper.GetMonsterStatusEffectName(Id);
+                return LocalizationHelper.GetMonsterStatusEffectName(Index);
             }
         }
 
-        public MonsterStatusEffect(Monster owner, ulong address, int id, float maxBuildup, float currentBuildup, float maxDuration, float currentDuration, int timesActivatedCount)
+        public MonsterStatusEffect(Monster owner, int index, float maxBuildup, float currentBuildup, float maxDuration, float currentDuration, int timesActivatedCount)
         {
             m_Owner = owner;
-            Address = address;
-            Id = id;
-            Buildup = new Progress(maxBuildup, currentBuildup);
-            Duration = new Progress(maxDuration, maxDuration - currentDuration);
+            m_Index = index;
+            Buildup = new Progress(maxBuildup, currentBuildup, true);
+            Duration = new Progress(maxDuration, maxDuration - currentDuration, true);
             m_TimesActivatedCount = timesActivatedCount;
 
             PropertyChanged += MonsterStatusEffect_PropertyChanged;

@@ -8,7 +8,10 @@ namespace SmartHunter.Core.Data
         public float Max
         {
             get { return m_Max; }
-            set { SetProperty(ref m_Max, value); }
+            set
+            {
+                SetProperty(ref m_Max, value);
+            }
         }
 
         float m_Current;
@@ -17,6 +20,11 @@ namespace SmartHunter.Core.Data
             get { return m_Current; }
             set
             {
+                if (ShouldCapCurrent)
+                { 
+                    value = Cap(value, m_Max);
+                }
+
                 if (SetProperty(ref m_Current, value))
                 {
                     if (m_Current > m_Max)
@@ -33,10 +41,14 @@ namespace SmartHunter.Core.Data
         public float Fraction { get { return m_Current / m_Max; } }
         public float Angle { get { return Fraction * 359.999f; } }
 
-        public Progress(float max, float current)
+        public bool ShouldCapCurrent { get; set; }
+
+        public Progress(float max, float current, bool shouldCapCurrent = false)
         {
-            m_Max = max;
-            m_Current = current;
+            ShouldCapCurrent = shouldCapCurrent;
+
+            Max = max;
+            Current = current;
         }
 
         // We only really want the default compare to compare nulls.
@@ -49,6 +61,21 @@ namespace SmartHunter.Core.Data
             }
 
             return 0;
+        }
+
+        public float Cap(float value, float max)
+        {
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (value > max)
+            {
+                value = max;
+            }
+
+            return value;
         }
     }
 }

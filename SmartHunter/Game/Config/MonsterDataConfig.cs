@@ -691,22 +691,25 @@ namespace SmartHunter.Game.Config
                 null)
             }
         };
-
-        public Dictionary<int, string> StatusEffects = new Dictionary<int, string>()
+        
+        public MonsterStatusEffectConfig[] StatusEffects =
         {
-            { 1, "LOC_STATUS_EFFECT_POISON" },
-            { 2, "LOC_STATUS_EFFECT_PARALYSIS" },
-            { 3, "LOC_STATUS_EFFECT_SLEEP" },
-            { 4, "LOC_STATUS_EFFECT_BLAST" },
-            { 5, "LOC_STATUS_EFFECT_MOUNT" },
-            { 6, "LOC_STATUS_EFFECT_EXHAUST" },
-            { 7, "LOC_STATUS_EFFECT_STUN" },
-            { 8, "LOC_STATUS_EFFECT_TRANQUILIZE" },
-            { 9, "LOC_STATUS_EFFECT_FLASH" },
-            { 11, "LOC_STATUS_EFFECT_DUNG" },
-            { 13, "LOC_STATUS_EFFECT_SHOCK_TRAP" },
-            { 14, "LOC_STATUS_EFFECT_PITFALL_TRAP" },
-            { 17, "LOC_STATUS_EFFECT_ELDERSEAL" }
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_POISON",       "08", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_PARALYSIS",    "10", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_SLEEP",        "18", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_BLAST",        "20", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_MOUNT",        "28", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_EXHAUST",      "30", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_STUN",         "38", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_TRANQUILIZE",  "40", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_FLASH",        "48", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_DUNG",         "58", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_SHOCK_TRAP",   "68", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_PITFALL_TRAP", "70", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_ELDERSEAL",    "88", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_RAGE",         null, "190", "180", "1A0", "18C",  null),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_STAMINA",      null,  null, "420", "424",  null,  null),
+            new MonsterStatusEffectConfig("LOC_STATUS_EFFECT_FATIGUE",      null,  "42C", null, null,  "430",  null),
         };
     }
 }
