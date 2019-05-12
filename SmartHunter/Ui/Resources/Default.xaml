@@ -53,6 +53,13 @@
     <Color x:Key="A_Color_Crown_Silver_Body">#eeeeee</Color>
     <Color x:Key="A_Color_Crown_Silver_Gem">#dd0000</Color>
 
+    <Color x:Key="A_Color_DropShadow">#88000000</Color>
+    <SolidColorBrush x:Key="A_Brush_DropShadow" Color="{StaticResource A_Color_DropShadow}" />
+
+    <TransformGroup x:Key="A_Transform_DropShadow">
+        <TranslateTransform X="2" Y="2" />
+    </TransformGroup>
+
     <DropShadowEffect x:Key="A_Effect_DropShadow" ShadowDepth="1" Direction="-45" Color="Black" Opacity="0.66" BlurRadius="1" RenderingBias="Quality" />
     
     <FontFamily x:Key="Roboto">pack://application:,,,/Ui/Fonts/#Roboto</FontFamily>
@@ -123,7 +130,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="A_Graphic_Crown">
-        <Viewbox Effect="{StaticResource A_Effect_DropShadow}">
+        <Viewbox>
             <Canvas RenderTransform="1.0, 0.0, 0.0, 1.0, 0, 0" Width="512.001" Height="512.001">
                 <!-- Rim -->
                 <Path Data="F1 M512.001,512.001z M0,0z M471.688,448.561L40.311,448.561C31.475,448.561,24.311,441.397,24.311,432.562L24.311,350.881C24.311,342.045,31.475,334.882,40.311,334.882L471.687,334.882C480.523,334.882,487.687,342.046,487.687,350.881L487.687,432.562C487.687,441.398,480.525,448.561,471.688,448.561z" Fill="{Binding Background, RelativeSource={RelativeSource AncestorType=ContentControl}}" />
@@ -179,24 +186,46 @@
     <DataTemplate DataType="{x:Type data:MonsterStatusEffect}">
         <StackPanel Name="Root" Margin="0 9 0 0" Visibility="Collapsed" Opacity="0">
             <DockPanel>
-                <TextBlock Name="NameBlock" Style="{StaticResource A_Style_TextBlock_Standard}">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0}">
-                            <Binding Path="Name" Mode="OneWay" />
-                            <Binding Path="TimesActivatedCount" Mode="OneWay" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+                <Grid>
+                    <TextBlock Name="NameBlockShadow" Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}">
+                                <Binding Path="Name" Mode="OneWay" />
+                                <Binding Path="TimesActivatedCount" Mode="OneWay" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
 
-                <TextBlock Name="DescriptionBlock" Style="{StaticResource A_Style_TextBlock_Standard}" HorizontalAlignment="Right" Margin="12 0 0 0">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
-                            <Binding Path="Buildup.Current" Mode="OneWay" />
-                            <Binding Path="Buildup.Max" Mode="OneWay" />
-                            <Binding Path="Buildup.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+                    <TextBlock Name="NameBlock" Style="{StaticResource A_Style_TextBlock_Standard}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}">
+                                <Binding Path="Name" Mode="OneWay" />
+                                <Binding Path="TimesActivatedCount" Mode="OneWay" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
+
+                <Grid HorizontalAlignment="Right" Margin="12 0 0 0">
+                    <TextBlock Name="DescriptionBlockShadow" Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
+                                <Binding Path="Buildup.Current" Mode="OneWay" />
+                                <Binding Path="Buildup.Max" Mode="OneWay" />
+                                <Binding Path="Buildup.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock Name="DescriptionBlock" Style="{StaticResource A_Style_TextBlock_Standard}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
+                                <Binding Path="Buildup.Current" Mode="OneWay" />
+                                <Binding Path="Buildup.Max" Mode="OneWay" />
+                                <Binding Path="Buildup.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
             </DockPanel>
 
             <ContentControl Name="Bar" Content="{Binding Buildup.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="2" Margin="0 2 0 0">
@@ -243,6 +272,15 @@
                     <Condition Binding="{Binding Duration.Fraction, Converter={StaticResource A_Converter_NumberNotEqual}, ConverterParameter=0}" Value="True" />
                     <Condition Binding="{Binding Duration.Max, Converter={StaticResource A_Converter_NumberNotEqual}, ConverterParameter=0}" Value="True" />
                 </MultiDataTrigger.Conditions>
+                <Setter TargetName="DescriptionBlockShadow" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
+                            <Binding Path="Duration.Current" Mode="OneWay" />
+                            <Binding Path="Duration.Max" Mode="OneWay" />
+                            <Binding Path="Duration.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
                 <Setter TargetName="DescriptionBlock" Property="Text">
                     <Setter.Value>
                         <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
@@ -270,24 +308,47 @@
     <DataTemplate DataType="{x:Type data:MonsterPart}">
         <StackPanel Name="Root" Margin="0 9 0 0" Visibility="Collapsed" Opacity="0">
             <DockPanel>
-                <TextBlock Name="NameBlock" Style="{StaticResource A_Style_TextBlock_Standard}">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0}">
-                            <Binding Path="Name" Mode="OneWay" />
-                            <Binding Path="TimesBrokenCount" Mode="OneWay" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+                <Grid>
+                    <TextBlock Name="NameBlockShadow" Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}">
+                                <Binding Path="Name" Mode="OneWay" />
+                                <Binding Path="TimesBrokenCount" Mode="OneWay" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
 
-                <TextBlock Style="{StaticResource A_Style_TextBlock_Standard}" HorizontalAlignment="Right" Margin="12 0 0 0">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
-                            <Binding Path="Health.Current" Mode="OneWay" />
-                            <Binding Path="Health.Max" Mode="OneWay" />
-                            <Binding Path="Health.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+                    <TextBlock Name="NameBlock" Style="{StaticResource A_Style_TextBlock_Standard}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}">
+                                <Binding Path="Name" Mode="OneWay" />
+                                <Binding Path="TimesBrokenCount" Mode="OneWay" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
+
+                <Grid HorizontalAlignment="Right" Margin="12 0 0 0">
+                    <TextBlock Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
+                                <Binding Path="Health.Current" Mode="OneWay" />
+                                <Binding Path="Health.Max" Mode="OneWay" />
+                                <Binding Path="Health.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <TextBlock Style="{StaticResource A_Style_TextBlock_Standard}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
+                                <Binding Path="Health.Current" Mode="OneWay" />
+                                <Binding Path="Health.Max" Mode="OneWay" />
+                                <Binding Path="Health.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
             </DockPanel>
 
             <ContentControl Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="2" Margin="0 2 0 0">
@@ -318,6 +379,14 @@
             </DataTrigger>
 
             <DataTrigger Binding="{Binding TimesBrokenCount, Converter={StaticResource A_Converter_NumberGreater}}" Value="True">
+                <Setter TargetName="NameBlockShadow" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0} ({1}x)">
+                            <Binding Path="Name" Mode="OneWay" />
+                            <Binding Path="TimesBrokenCount" Mode="OneWay" />
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
                 <Setter TargetName="NameBlock" Property="Text">
                     <Setter.Value>
                         <MultiBinding StringFormat="{}{0} ({1}x)">
@@ -335,29 +404,47 @@
             <StackPanel>
                 <DockPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Heading}" VerticalAlignment="Bottom" />
+                        <Grid VerticalAlignment="Bottom">
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Heading}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}" />
+                            <TextBlock Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Heading}" />
+                        </Grid>
 
                         <Grid Name="Crown" Height="20" Margin="6 0 0 0">
-                            <ContentControl Name="Icon" ContentTemplate="{StaticResource A_Graphic_Crown}">
-                                <ContentControl.Background>
-                                    <SolidColorBrush Color="{StaticResource A_Color_Crown_Gold_Body}" />
-                                </ContentControl.Background>
-                                <ContentControl.Foreground>
-                                    <SolidColorBrush Color="{StaticResource A_Color_Crown_Gold_Gem}" />
-                                </ContentControl.Foreground>
-                            </ContentControl>
+                            <Grid Name="InnerCrown">
+                                <ContentControl ContentTemplate="{StaticResource A_Graphic_Crown}" Background="#000000" Foreground="#000000" Opacity="0.5" RenderTransform="{StaticResource A_Transform_DropShadow}" />
+
+                                <ContentControl Name="Icon" ContentTemplate="{StaticResource A_Graphic_Crown}">
+                                    <ContentControl.Background>
+                                        <SolidColorBrush Color="{StaticResource A_Color_Crown_Gold_Body}" />
+                                    </ContentControl.Background>
+                                    <ContentControl.Foreground>
+                                        <SolidColorBrush Color="{StaticResource A_Color_Crown_Gold_Gem}" />
+                                    </ContentControl.Foreground>
+                                </ContentControl>
+                            </Grid>
                         </Grid>
                     </StackPanel>
 
-                    <TextBlock Name="Health" Style="{StaticResource A_Style_TextBlock_Standard}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="12 0 0 0">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
-                                <Binding Path="Health.Current" Mode="OneWay" />
-                                <Binding Path="Health.Max" Mode="OneWay" />
-                                <Binding Path="Health.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                    <Grid Name="Health" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="12 0 0 0">
+                        <TextBlock Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
+                                    <Binding Path="Health.Current" Mode="OneWay" />
+                                    <Binding Path="Health.Max" Mode="OneWay" />
+                                    <Binding Path="Health.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource A_Style_TextBlock_Standard}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
+                                    <Binding Path="Health.Current" Mode="OneWay" />
+                                    <Binding Path="Health.Max" Mode="OneWay" />
+                                    <Binding Path="Health.Fraction" Converter="{StaticResource A_Converter_FractionToPercentage}" Mode="OneWay" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Grid>
                 </DockPanel>
 
                 <ContentControl Name="HealthBar" Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="10" Margin="0 2 0 0">
@@ -412,7 +499,7 @@
             </DataTrigger>
             
             <DataTrigger Binding="{Binding Crown, Converter={StaticResource A_Converter_EnumComparison}, ConverterParameter={x:Static data:MonsterCrown.None}}" Value="True">
-                <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="InnerCrown" Property="Visibility" Value="Collapsed" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Crown, Converter={StaticResource A_Converter_EnumComparison}, ConverterParameter={x:Static data:MonsterCrown.Silver}}" Value="True">
                 <Setter TargetName="Icon" Property="Background">
@@ -427,8 +514,8 @@
                 </Setter>
             </DataTrigger>
             <DataTrigger Binding="{Binding Crown, Converter={StaticResource A_Converter_EnumComparison}, ConverterParameter={x:Static data:MonsterCrown.Mini}}" Value="True">
-                <Setter TargetName="Icon" Property="Width" Value="12" />
-                <Setter TargetName="Icon" Property="Height" Value="12" />
+                <Setter TargetName="InnerCrown" Property="Width" Value="12" />
+                <Setter TargetName="InnerCrown" Property="Height" Value="12" />
                 <Setter TargetName="Icon" Property="Background">
                     <Setter.Value>
                         <SolidColorBrush Color="{StaticResource A_Color_Crown_Mini_Body}" />
@@ -537,7 +624,7 @@
         </ObjectAnimationUsingKeyFrames>
 
         <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Root" Storyboard.TargetProperty="Opacity">
-            <EasingDoubleKeyFrame KeyTime="00:00:00.3" Value="1">
+            <EasingDoubleKeyFrame KeyTime="00:00:01" Value="1">
                 <EasingDoubleKeyFrame.EasingFunction>
                     <ExponentialEase EasingMode="EaseOut" />
                 </EasingDoubleKeyFrame.EasingFunction>
@@ -546,7 +633,7 @@
 
         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)">
             <EasingDoubleKeyFrame KeyTime="00:00:00" Value="-25"/>
-            <EasingDoubleKeyFrame KeyTime="00:00:00.3" Value="0">
+            <EasingDoubleKeyFrame KeyTime="00:00:01" Value="0">
                 <EasingDoubleKeyFrame.EasingFunction>
                     <ExponentialEase EasingMode="EaseOut" />
                 </EasingDoubleKeyFrame.EasingFunction>
@@ -565,14 +652,25 @@
             <StackPanel Orientation="Horizontal">
                 <ContentControl Name="CircleProgress" Content="{Binding Time}" Width="14" Height="14" ContentTemplate="{StaticResource A_DataTemplate_CircleProgress}" />
 
-                <TextBlock Name="NameBlock" Style="{StaticResource A_Style_TextBlock_Standard}" Margin="6 2 0 0">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0:0} ({1:0})">
-                            <Binding Path="Name" Mode="OneWay" />
-                            <Binding Path="Time.Current" Mode="OneWay" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+                <Grid Margin="6 2 0 0">
+                    <TextBlock Name="NameBlockShadow" Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0:0} ({1:0})">
+                                <Binding Path="Name" Mode="OneWay" />
+                                <Binding Path="Time.Current" Mode="OneWay" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    
+                    <TextBlock Name="NameBlock" Style="{StaticResource A_Style_TextBlock_Standard}">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0:0} ({1:0})">
+                                <Binding Path="Name" Mode="OneWay" />
+                                <Binding Path="Time.Current" Mode="OneWay" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
             </StackPanel>
         </StackPanel>
 
@@ -601,6 +699,14 @@
             </DataTrigger>
 
             <DataTrigger Binding="{Binding Time}" Value="{x:Null}">
+                <Setter TargetName="NameBlockShadow" Property="Text">
+                    <Setter.Value>
+                        <MultiBinding StringFormat="{}{0:0}">
+                            <Binding Path="Name" Mode="OneWay" />
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+
                 <Setter TargetName="NameBlock" Property="Text">
                     <Setter.Value>
                         <MultiBinding StringFormat="{}{0:0}">
