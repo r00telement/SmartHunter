@@ -12,9 +12,9 @@ namespace SmartHunter.Game.Config
         public bool ShowUnchangedMonsters = true;
         public float HideMonstersAfterSeconds = 9999;
         public bool ShowUnchangedParts = false;
-        public float HidePartsAfterSeconds = 20f;
+        public float HidePartsAfterSeconds = 12f;
         public bool ShowUnchangedStatusEffects = false;
-        public float HideStatusEffectsAfterSeconds = 20f;
+        public float HideStatusEffectsAfterSeconds = 12f;
 
         public bool ShowCrown = true;
         public bool ShowBars = true;

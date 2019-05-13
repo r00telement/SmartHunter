@@ -178,18 +178,106 @@
     </Storyboard>
 
     <DataTemplate x:Key="A_DataTemplate_SquareInfoGraphic">
-        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid>
             <Grid.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=Border1}" />
             </Grid.OpacityMask>
             <Border x:Name="Border1" CornerRadius="3" Background="{Binding Background, RelativeSource={RelativeSource AncestorType=ContentControl}}">
                 <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3 2 3 1">
-                    <TextBlock Text="{Binding .}" Style="{StaticResource A_Style_TextBlock_Heading}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}" FontSize="11" LineHeight="11" />
-                    <TextBlock Text="{Binding .}" Style="{StaticResource A_Style_TextBlock_Heading}" FontSize="11" LineHeight="11" />
+                    <TextBlock Text="{Binding .}" Style="{StaticResource A_Style_TextBlock_Heading}" Foreground="{StaticResource A_Brush_DropShadow}" FontSize="11" LineHeight="11">
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform X="1" Y="1" />
+                            </TransformGroup>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+
+                    <TextBlock Text="{Binding .}" Style="{StaticResource A_Style_TextBlock_Heading}" FontSize="12" LineHeight="12" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ContentControl}, FallbackValue=White}" />
                 </Grid>
             </Border>
         </Grid>
     </DataTemplate>
+
+    <Storyboard x:Key="A_Storyboard_StatusEffect_Active" RepeatBehavior="Forever">
+        <!--Exclamation Mark Bounce-->
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IsActiveGraphic" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+            <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="00:00:00.25" Value="0.75">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+            <EasingDoubleKeyFrame KeyTime="00:00:00.5" Value="1.5">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+            <EasingDoubleKeyFrame KeyTime="00:00:01" Value="1">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+            <EasingDoubleKeyFrame KeyTime="00:00:02" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IsActiveGraphic" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+            <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="00:00:00.25" Value="0.75">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+            <EasingDoubleKeyFrame KeyTime="00:00:00.5" Value="1.5">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+            <EasingDoubleKeyFrame KeyTime="00:00:01" Value="1">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+            <EasingDoubleKeyFrame KeyTime="00:00:02" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+
+        <!--Pulse Effect-->
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Pulse" Storyboard.TargetProperty="Opacity">
+            <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="00:00:01" Value="0">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+        </DoubleAnimationUsingKeyFrames>
+        
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Pulse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+            <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="00:00:00.25" Value="1">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+            <EasingDoubleKeyFrame KeyTime="00:00:01" Value="80">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+        </DoubleAnimationUsingKeyFrames>
+
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Pulse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+            <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="00:00:00.25" Value="1">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+            <EasingDoubleKeyFrame KeyTime="00:00:01" Value="80">
+                <EasingDoubleKeyFrame.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" />
+                </EasingDoubleKeyFrame.EasingFunction>
+            </EasingDoubleKeyFrame>
+        </DoubleAnimationUsingKeyFrames>
+    </Storyboard>
 
     <DataTemplate DataType="{x:Type data:MonsterStatusEffect}">
         <StackPanel Name="Root" Margin="0 9 0 0" Visibility="Collapsed" Opacity="0">
@@ -199,7 +287,7 @@
                     <TextBlock Name="NameBlock" Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Standard}" />
                 </Grid>
 
-                <ContentControl Name="TimesActivatedGraphic" Visibility="Collapsed" Margin="6 -2 0 0" ContentTemplate="{StaticResource A_DataTemplate_SquareInfoGraphic}">
+                <ContentControl Name="TimesActivatedGraphic" Visibility="Collapsed" Margin="6 -3 0 0" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" ContentTemplate="{StaticResource A_DataTemplate_SquareInfoGraphic}">
                     <ContentControl.Content>
                         <MultiBinding ConverterParameter="{}{0}" Converter="{StaticResource A_Converter_StringFormat}">
                             <Binding Path="TimesActivatedCount" Mode="OneWay" />
@@ -209,6 +297,33 @@
                         <SolidColorBrush Color="{Binding Source={StaticResource A_Color_Monster_StatusEffect_Bar}}" />
                     </ContentControl.Background>
                 </ContentControl>
+
+                <Grid Name="IsActiveContainer" Margin="6 -3 0 0" Visibility="Collapsed">
+                    <Ellipse Name="Pulse" Width="1" Height="1" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5 0.5">
+                        <Ellipse.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </TransformGroup>
+                        </Ellipse.RenderTransform>
+                        <Ellipse.Fill>
+                            <SolidColorBrush Color="#FFFFF300" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    
+                    <ContentControl Name="IsActiveGraphic" Width="13" Content="!" VerticalAlignment="Center" HorizontalAlignment="Left" ContentTemplate="{StaticResource A_DataTemplate_SquareInfoGraphic}" RenderTransformOrigin="0.5 0.5">
+                        <ContentControl.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </TransformGroup>
+                        </ContentControl.RenderTransform>
+                        <ContentControl.Background>
+                            <SolidColorBrush Color="#FFEED76F" />
+                        </ContentControl.Background>
+                        <ContentControl.Foreground>
+                            <SolidColorBrush Color="Black" />
+                        </ContentControl.Foreground>
+                    </ContentControl>
+                </Grid>
 
                 <Grid HorizontalAlignment="Right" Margin="12 0 0 0">
                     <TextBlock Name="BuildupBlockShadow" Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}">
@@ -240,7 +355,6 @@
                         </TextBlock.Text>
                     </TextBlock>
                     <TextBlock Name="DurationBlock" Visibility="Collapsed" Style="{StaticResource A_Style_TextBlock_Standard}">
-
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
                                 <Binding Path="Duration.Current" Mode="OneWay" />
@@ -264,6 +378,10 @@
                 <Setter TargetName="Root" Property="Visibility" Value="Visible" />
                 <Setter TargetName="Root" Property="Opacity" Value="1" />
             </Trigger>
+
+            <DataTrigger Binding="{Binding DataContext.ShowBars, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
+                <Setter TargetName="Bar" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
 
             <DataTrigger Binding="{Binding IsVisible}" Value="True">
                 <DataTrigger.EnterActions>
@@ -296,6 +414,12 @@
                 <Setter TargetName="DurationBlock" Property="Visibility" Value="Visible" />
 
                 <Setter TargetName="Bar" Property="Content" Value="{Binding Duration.Fraction}" />
+
+                <Setter TargetName="IsActiveContainer" Property="Visibility" Value="Visible" />
+
+                <MultiDataTrigger.EnterActions>
+                    <BeginStoryboard Name="BeginActiveStoryboard" Storyboard="{StaticResource A_Storyboard_StatusEffect_Active}" />
+                </MultiDataTrigger.EnterActions>
             </MultiDataTrigger>
 
             <!--Show Numbers AND Percents-->
@@ -452,7 +576,7 @@
                     <TextBlock Name="NameBlock" Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Standard}" />
                 </Grid>
 
-                <ContentControl Name="TimesBrokenGraphic" Visibility="Collapsed" Margin="6 -2 0 0" ContentTemplate="{StaticResource A_DataTemplate_SquareInfoGraphic}">
+                <ContentControl Name="TimesBrokenGraphic" Visibility="Collapsed" Margin="6 -3 0 0" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" ContentTemplate="{StaticResource A_DataTemplate_SquareInfoGraphic}">
                     <ContentControl.Content>
                         <MultiBinding ConverterParameter="{}{0}" Converter="{StaticResource A_Converter_StringFormat}">
                             <Binding Path="TimesBrokenCount" Mode="OneWay" />
@@ -486,7 +610,7 @@
                 </Grid>
             </DockPanel>
 
-            <ContentControl Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="3" Margin="0 2 0 0">
+            <ContentControl Name="Bar" Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="3" Margin="0 2 0 0">
                 <ContentControl.Foreground>
                     <SolidColorBrush Color="{StaticResource A_Color_Monster_Part_Bar}" />
                 </ContentControl.Foreground>
@@ -498,6 +622,10 @@
                 <Setter TargetName="Root" Property="Visibility" Value="Visible" />
                 <Setter TargetName="Root" Property="Opacity" Value="1" />
             </Trigger>
+
+            <DataTrigger Binding="{Binding DataContext.ShowBars, RelativeSource={RelativeSource AncestorType=ContentControl}}" Value="False">
+                <Setter TargetName="Bar" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
 
             <DataTrigger Binding="{Binding IsVisible}" Value="True">
                 <DataTrigger.EnterActions>
