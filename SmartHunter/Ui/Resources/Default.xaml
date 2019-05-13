@@ -25,8 +25,9 @@
     <converters:NumberComparisonConverter x:Key="A_Converter_NumberGreater" Comparison="Greater" />
     <converters:NumberComparisonConverter x:Key="A_Converter_NumberNotEqual" Comparison="NotEqual" />
     <converters:EnumComparisonConverter x:Key="A_Converter_EnumComparison" />
-    <converters:ColorTransformConverter x:Key="A_Converter_BackgroundColorTransform" SaturationAdjustment="-0.66" BrightnessAdjustment="0.66" OpacityOverride="0.3" />
-
+    <converters:ColorTransformConverter x:Key="A_Converter_BackgroundColorTransform" SaturationAdjustment="-0.8" BrightnessAdjustment="0.66" OpacityOverride="0.3" />
+    <converters:StringFormatConverter x:Key="A_Converter_StringFormat" />
+    
     <Color x:Key="A_Color_Widget_Background">#00000000</Color>
     <system:Double x:Key="A_Double_Widget_Opacity">1</system:Double>
     
@@ -83,10 +84,12 @@
     <DataTemplate x:Key="A_DataTemplate_BarProgress">
         <Grid>
             <Grid Name="BarBackground" Background="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentControl}, Converter={StaticResource A_Converter_BackgroundColorTransform}}" />
-            <Grid Name="BarForeground" Background="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentControl}}">
-                <Grid.RenderTransform>
+            <Grid HorizontalAlignment="Left" Name="BarForeground" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ContentControl}}" Background="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContentControl}}">
+                <Grid.LayoutTransform>
                     <ScaleTransform ScaleX="{Binding .}" />
-                </Grid.RenderTransform>
+                </Grid.LayoutTransform>
+
+                <!--<Border BorderBrush="#55ffffff" BorderThickness="1" />-->
             </Grid>
 
             <Grid>
@@ -180,28 +183,38 @@
         </DoubleAnimationUsingKeyFrames>
     </Storyboard>
 
+    <DataTemplate x:Key="A_DataTemplate_SquareInfoGraphic">
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid.OpacityMask>
+                <VisualBrush Visual="{Binding ElementName=Border1}" />
+            </Grid.OpacityMask>
+            <Border x:Name="Border1" CornerRadius="3" Background="{Binding Background, RelativeSource={RelativeSource AncestorType=ContentControl}}">
+                <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3 2 3 1">
+                    <TextBlock Text="{Binding .}" Style="{StaticResource A_Style_TextBlock_Heading}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}" FontSize="11" LineHeight="11" />
+                    <TextBlock Text="{Binding .}" Style="{StaticResource A_Style_TextBlock_Heading}" FontSize="11" LineHeight="11" />
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type data:MonsterStatusEffect}">
         <StackPanel Name="Root" Margin="0 9 0 0" Visibility="Collapsed" Opacity="0">
             <DockPanel>
                 <Grid>
-                    <TextBlock Name="NameBlockShadow" Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}">
-                                <Binding Path="Name" Mode="OneWay" />
-                                <Binding Path="TimesActivatedCount" Mode="OneWay" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-
-                    <TextBlock Name="NameBlock" Style="{StaticResource A_Style_TextBlock_Standard}">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}">
-                                <Binding Path="Name" Mode="OneWay" />
-                                <Binding Path="TimesActivatedCount" Mode="OneWay" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                    <TextBlock Name="NameBlockShadow" Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}" />
+                    <TextBlock Name="NameBlock" Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Standard}" />
                 </Grid>
+
+                <ContentControl Name="TimesActivatedGraphic" Visibility="Collapsed" Margin="6 -2 0 0" ContentTemplate="{StaticResource A_DataTemplate_SquareInfoGraphic}">
+                    <ContentControl.Content>
+                        <MultiBinding ConverterParameter="{}{0}" Converter="{StaticResource A_Converter_StringFormat}">
+                            <Binding Path="TimesActivatedCount" Mode="OneWay" />
+                        </MultiBinding>
+                    </ContentControl.Content>
+                    <ContentControl.Background>
+                        <SolidColorBrush Color="{Binding Source={StaticResource A_Color_Monster_StatusEffect_Bar}}" />
+                    </ContentControl.Background>
+                </ContentControl>
 
                 <Grid HorizontalAlignment="Right" Margin="12 0 0 0">
                     <TextBlock Name="BuildupBlockShadow" Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}">
@@ -233,9 +246,7 @@
                         </TextBlock.Text>
                     </TextBlock>
                     <TextBlock Name="DurationBlock" Visibility="Collapsed" Style="{StaticResource A_Style_TextBlock_Standard}">
-                        <TextBlock.Foreground>
-                            <SolidColorBrush Color="{StaticResource A_Color_Monster_StatusEffect_Bar}" />
-                        </TextBlock.Foreground>
+
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
                                 <Binding Path="Duration.Current" Mode="OneWay" />
@@ -247,7 +258,7 @@
                 </Grid>
             </DockPanel>
 
-            <ContentControl Name="Bar" Content="{Binding Buildup.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="2" Margin="0 2 0 0">
+            <ContentControl Name="Bar" Content="{Binding Buildup.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="3" Margin="0 2 0 0">
                 <ContentControl.Foreground>
                     <SolidColorBrush Color="{StaticResource A_Color_Monster_StatusEffect_Bar}" />
                 </ContentControl.Foreground>
@@ -275,22 +286,7 @@
             </DataTrigger>
 
             <DataTrigger Binding="{Binding TimesActivatedCount, Converter={StaticResource A_Converter_NumberGreater}}" Value="True">
-                <Setter TargetName="NameBlockShadow" Property="Text">
-                    <Setter.Value>
-                        <MultiBinding StringFormat="{}{0} ({1}x)">
-                            <Binding Path="Name" Mode="OneWay" />
-                            <Binding Path="TimesActivatedCount" Mode="OneWay" />
-                        </MultiBinding>
-                    </Setter.Value>
-                </Setter>
-                <Setter TargetName="NameBlock" Property="Text">
-                    <Setter.Value>
-                        <MultiBinding StringFormat="{}{0} ({1}x)">
-                            <Binding Path="Name" Mode="OneWay" />
-                            <Binding Path="TimesActivatedCount" Mode="OneWay" />
-                        </MultiBinding>
-                    </Setter.Value>
-                </Setter>
+                <Setter TargetName="TimesActivatedGraphic" Property="Visibility" Value="Visible" />
             </DataTrigger>
 
             <!--When the UI needs to show the duration timer instead of the buildup timer-->
@@ -306,11 +302,6 @@
                 <Setter TargetName="DurationBlock" Property="Visibility" Value="Visible" />
 
                 <Setter TargetName="Bar" Property="Content" Value="{Binding Duration.Fraction}" />
-                <Setter TargetName="NameBlock" Property="Foreground">
-                    <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_Monster_StatusEffect_Bar}" />
-                    </Setter.Value>
-                </Setter>
             </MultiDataTrigger>
 
             <!--Show Numbers AND Percents-->
@@ -463,24 +454,20 @@
         <StackPanel Name="Root" Margin="0 9 0 0" Visibility="Collapsed" Opacity="0">
             <DockPanel>
                 <Grid>
-                    <TextBlock Name="NameBlockShadow" Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}">
-                                <Binding Path="Name" Mode="OneWay" />
-                                <Binding Path="TimesBrokenCount" Mode="OneWay" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-
-                    <TextBlock Name="NameBlock" Style="{StaticResource A_Style_TextBlock_Standard}">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0}">
-                                <Binding Path="Name" Mode="OneWay" />
-                                <Binding Path="TimesBrokenCount" Mode="OneWay" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                    <TextBlock Name="NameBlockShadow" Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}" />
+                    <TextBlock Name="NameBlock" Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Standard}" />
                 </Grid>
+
+                <ContentControl Name="TimesBrokenGraphic" Visibility="Collapsed" Margin="6 -2 0 0" ContentTemplate="{StaticResource A_DataTemplate_SquareInfoGraphic}">
+                    <ContentControl.Content>
+                        <MultiBinding ConverterParameter="{}{0}" Converter="{StaticResource A_Converter_StringFormat}">
+                            <Binding Path="TimesBrokenCount" Mode="OneWay" />
+                        </MultiBinding>
+                    </ContentControl.Content>
+                    <ContentControl.Background>
+                        <SolidColorBrush Color="{Binding Source={StaticResource A_Color_Monster_Part_Bar}}" />
+                    </ContentControl.Background>
+                </ContentControl>
 
                 <Grid HorizontalAlignment="Right" Margin="12 0 0 0">
                     <TextBlock Name="HealthBlockShadow" Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}">
@@ -505,7 +492,7 @@
                 </Grid>
             </DockPanel>
 
-            <ContentControl Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="2" Margin="0 2 0 0">
+            <ContentControl Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="3" Margin="0 2 0 0">
                 <ContentControl.Foreground>
                     <SolidColorBrush Color="{StaticResource A_Color_Monster_Part_Bar}" />
                 </ContentControl.Foreground>
@@ -533,22 +520,7 @@
             </DataTrigger>
 
             <DataTrigger Binding="{Binding TimesBrokenCount, Converter={StaticResource A_Converter_NumberGreater}}" Value="True">
-                <Setter TargetName="NameBlockShadow" Property="Text">
-                    <Setter.Value>
-                        <MultiBinding StringFormat="{}{0} ({1}x)">
-                            <Binding Path="Name" Mode="OneWay" />
-                            <Binding Path="TimesBrokenCount" Mode="OneWay" />
-                        </MultiBinding>
-                    </Setter.Value>
-                </Setter>
-                <Setter TargetName="NameBlock" Property="Text">
-                    <Setter.Value>
-                        <MultiBinding StringFormat="{}{0} ({1}x)">
-                            <Binding Path="Name" Mode="OneWay" />
-                            <Binding Path="TimesBrokenCount" Mode="OneWay" />
-                        </MultiBinding>
-                    </Setter.Value>
-                </Setter>
+                <Setter TargetName="TimesBrokenGraphic" Property="Visibility" Value="Visible" />
             </DataTrigger>
 
             <!--Show Numbers AND Percents-->
@@ -642,7 +614,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type data:Monster}">
-        <StackPanel Name="Root" MinWidth="250" Margin="0 0 46 0" Visibility="Collapsed" Opacity="0">
+        <StackPanel Name="Root" Width="300" Margin="0 0 46 0" Visibility="Collapsed" Opacity="0">
             <StackPanel.Resources>
                 <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding Parts}" IsLiveSortingRequested="True">
                     <CollectionViewSource.LiveSortingProperties>
@@ -653,32 +625,38 @@
                     </CollectionViewSource.SortDescriptions>
                 </CollectionViewSource>
             </StackPanel.Resources>
-            
+
             <StackPanel>
-                <DockPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Grid VerticalAlignment="Bottom">
-                            <TextBlock Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Heading}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}" />
-                            <TextBlock Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Heading}" />
+                <StackPanel HorizontalAlignment="Center">
+                    <Grid Name="Crown" Height="20">
+                        <Grid Name="InnerCrown" VerticalAlignment="Bottom">
+                            <ContentControl ContentTemplate="{StaticResource A_Graphic_Crown}" Background="#000000" Foreground="#000000" Opacity="0.5" RenderTransform="{StaticResource A_Transform_DropShadow}" />
+
+                            <ContentControl Name="Icon" ContentTemplate="{StaticResource A_Graphic_Crown}">
+                                <ContentControl.Background>
+                                    <SolidColorBrush Color="{StaticResource A_Color_Crown_Gold_Body}" />
+                                </ContentControl.Background>
+                                <ContentControl.Foreground>
+                                    <SolidColorBrush Color="{StaticResource A_Color_Crown_Gold_Gem}" />
+                                </ContentControl.Foreground>
+                            </ContentControl>
                         </Grid>
+                    </Grid>
+                    
+                    <Grid VerticalAlignment="Bottom">
+                        <TextBlock Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Heading}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}" />
+                        <TextBlock Text="{Binding Name}" Style="{StaticResource A_Style_TextBlock_Heading}" />
+                    </Grid>
+                </StackPanel>
 
-                        <Grid Name="Crown" Height="20" Margin="6 0 0 0">
-                            <Grid Name="InnerCrown">
-                                <ContentControl ContentTemplate="{StaticResource A_Graphic_Crown}" Background="#000000" Foreground="#000000" Opacity="0.5" RenderTransform="{StaticResource A_Transform_DropShadow}" />
-
-                                <ContentControl Name="Icon" ContentTemplate="{StaticResource A_Graphic_Crown}">
-                                    <ContentControl.Background>
-                                        <SolidColorBrush Color="{StaticResource A_Color_Crown_Gold_Body}" />
-                                    </ContentControl.Background>
-                                    <ContentControl.Foreground>
-                                        <SolidColorBrush Color="{StaticResource A_Color_Crown_Gold_Gem}" />
-                                    </ContentControl.Foreground>
-                                </ContentControl>
-                            </Grid>
-                        </Grid>
-                    </StackPanel>
-
-                    <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="12 0 0 0">
+                <Grid Margin="0 2 0 0">
+                    <ContentControl Name="HealthBar" Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="20">
+                        <ContentControl.Foreground>
+                            <SolidColorBrush Color="{StaticResource A_Color_Monster_Bar}" />
+                        </ContentControl.Foreground>
+                    </ContentControl>
+                    
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 2 0 0">
                         <TextBlock Name="HealthBlockShadow" Style="{StaticResource A_Style_TextBlock_Standard}" Foreground="{StaticResource A_Brush_DropShadow}" RenderTransform="{StaticResource A_Transform_DropShadow}">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}{0:0}/{1:0} ({2})">
@@ -698,13 +676,7 @@
                             </TextBlock.Text>
                         </TextBlock>
                     </Grid>
-                </DockPanel>
-
-                <ContentControl Name="HealthBar" Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="10" Margin="0 2 0 0">
-                    <ContentControl.Foreground>
-                        <SolidColorBrush Color="{StaticResource A_Color_Monster_Bar}" />
-                    </ContentControl.Foreground>
-                </ContentControl>
+                </Grid>
             </StackPanel>
 
             <ItemsControl Name="PartsControl" ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" />

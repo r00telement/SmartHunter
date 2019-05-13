@@ -144,6 +144,7 @@
     <Compile Include="Game\Config\MainConfig.cs" />
     <Compile Include="Core\Overlay.cs" />
     <Compile Include="Core\Helpers\WindowHelper.cs" />
+    <Compile Include="Ui\Converters\StringFormatConverter.cs" />
     <Compile Include="Ui\Windows\MonsterWidgetWindow.xaml.cs">
       <DependentUpon>MonsterWidgetWindow.xaml</DependentUpon>
     </Compile>
