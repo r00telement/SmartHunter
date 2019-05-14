@@ -121,7 +121,6 @@ namespace SmartHunter.Game.Data.ViewModels
             monster1.UpdateAndGetStatusEffect(13, 50, 50, 50, 0, 1);
             monster1.UpdateAndGetStatusEffect(13, 50, 30, 50, 20, 1);
 
-
             monster1.UpdateAndGetStatusEffect(10, 50, 50, 50, 0, 1);
             monster1.UpdateAndGetStatusEffect(10, 50, 30, 50, 20, 1);
 
@@ -141,6 +140,46 @@ namespace SmartHunter.Game.Data.ViewModels
 
             PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(90, 120, true);
             PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(90, 111.5f, true);
+
+            //// PROMO DATA
+            //TeamWidget.Context.UpdateAndGetPlayer(0, "Jade", 1185);
+            //TeamWidget.Context.UpdateAndGetPlayer(1, "Kabuto", 838);
+            //TeamWidget.Context.UpdateAndGetPlayer(2, "mike the father", 632);
+            //TeamWidget.Context.UpdateAndGetPlayer(3, "SlashMaster", 134);
+            //TeamWidget.Context.UpdateFractions();
+
+            //// Legiana
+            //var monster1 = MonsterWidget.Context.UpdateAndGetMonster(0, "em111_00", 6060, 6060, 1.25f);
+            //MonsterWidget.Context.UpdateAndGetMonster(0, "em111_00", 6060, 3271, 1.25f);
+
+            //monster1.UpdateAndGetPart(0, false, 480, 208, 3);
+            //monster1.UpdateAndGetPart(0, false, 480, 207, 3);
+
+            //monster1.UpdateAndGetPart(1, false, 480, 154, 1);
+            //monster1.UpdateAndGetPart(1, false, 480, 153, 1);
+
+            //monster1.UpdateAndGetPart(2, false, 384, 323, 0);
+            //monster1.UpdateAndGetPart(2, false, 384, 322, 0);
+
+            //monster1.UpdateAndGetStatusEffect(4, 110, 57, 50, 0, 0);
+            //monster1.UpdateAndGetStatusEffect(4, 110, 55, 50, 0, 0);
+
+            //monster1.UpdateAndGetStatusEffect(13, 50, 31, 100, 68, 1);
+            //monster1.UpdateAndGetStatusEffect(13, 50, 30, 100, 68, 1);
+
+            //// Iceblight
+            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(61, 60, true);
+            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(61, 20, true);
+
+            //// Might Seed
+            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(74, 180, true);
+            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(74, 97, true);
+
+            //// Mega Armorskin
+            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(82, null, true);
+
+            //// Mega Demondrug
+            //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(80, null, true);
         }
     }    
 }

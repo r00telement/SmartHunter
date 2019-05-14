@@ -6,7 +6,7 @@ namespace SmartHunter.Game.Config
     {
         public bool ShowBars = true;
         public bool ShowNumbers = true;
-        public bool ShowPercents = false;
+        public bool ShowPercents = true;
 
         public TeamWidgetConfig(float x, float y) : base(x, y)
         {
