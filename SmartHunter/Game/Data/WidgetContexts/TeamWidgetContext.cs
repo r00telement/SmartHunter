@@ -10,11 +10,25 @@ namespace SmartHunter.Game.Data.WidgetContexts
     {
         public ObservableCollection<Player> Players { get; private set; }
 
-        bool m_ShowDamageNumber = true;
-        public bool ShowDamageNumber
+        bool m_ShowBars = true;
+        public bool ShowBars
         {
-            get { return m_ShowDamageNumber; }
-            set { SetProperty(ref m_ShowDamageNumber, value); }
+            get { return m_ShowBars; }
+            set { SetProperty(ref m_ShowBars, value); }
+        }
+
+        bool m_ShowNumbers = true;
+        public bool ShowNumbers
+        {
+            get { return m_ShowNumbers; }
+            set { SetProperty(ref m_ShowNumbers, value); }
+        }
+
+        bool m_ShowPercents = false;
+        public bool ShowPercents
+        {
+            get { return m_ShowPercents; }
+            set { SetProperty(ref m_ShowPercents, value); }
         }
 
         public TeamWidgetContext()
@@ -86,7 +100,9 @@ namespace SmartHunter.Game.Data.WidgetContexts
         {
             base.UpdateFromConfig();
 
-            ShowDamageNumber = ConfigHelper.Main.Values.Overlay.TeamWidget.ShowDamageNumber;
+            ShowBars = ConfigHelper.Main.Values.Overlay.TeamWidget.ShowBars;
+            ShowNumbers = ConfigHelper.Main.Values.Overlay.TeamWidget.ShowNumbers;
+            ShowPercents = ConfigHelper.Main.Values.Overlay.TeamWidget.ShowPercents;
         }
     }
 }
