@@ -736,7 +736,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type data:Monster}">
-        <StackPanel Name="Root" Width="300" Margin="0 0 46 0" Visibility="Collapsed" Opacity="0">
+        <StackPanel Name="Root" MinWidth="250" Margin="0 0 46 0" Visibility="Collapsed" Opacity="0">
             <StackPanel.Resources>
                 <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding Parts}" IsLiveSortingRequested="True">
                     <CollectionViewSource.LiveSortingProperties>
