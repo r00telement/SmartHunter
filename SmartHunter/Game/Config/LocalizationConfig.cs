@@ -246,6 +246,8 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_RAGE", "Rage" },
             { "LOC_STATUS_EFFECT_STAMINA", "Stamina" },
             { "LOC_STATUS_EFFECT_FATIGUE", "Fatigue" },
+
+            { "LOC_MONSTER_ANCIENT_LESHEN", "Ancient Leshen" },
         };
         
         public LocalizationConfig()
