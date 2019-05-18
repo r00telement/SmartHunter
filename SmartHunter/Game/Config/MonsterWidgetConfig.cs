@@ -6,9 +6,9 @@ namespace SmartHunter.Game.Config
     public class MonsterWidgetConfig : WidgetConfig
     {
         // em[0-9]|ems[0-9]|gm[0-9]
-        public string MonsterIdInclude = "em[0-9]";
-        public string PartGroupIdInclude = "";
-        public string StatusEffectGroupIdInclude = "";
+        public string MonsterIdRegex = "em[0-9]";
+        public string PartGroupIdRegex = "";
+        public string StatusEffectGroupIdRegex = "";
         public bool ShowUnchangedMonsters = true;
         public float HideMonstersAfterSeconds = 9999;
         public bool ShowUnchangedParts = false;
@@ -25,19 +25,19 @@ namespace SmartHunter.Game.Config
         {
         }
 
-        public bool MatchMonsterIdInclude(string monsterId)
+        public bool MatchMonsterId(string monsterId)
         {
-            return new Regex(MonsterIdInclude).IsMatch(monsterId);
+            return new Regex(MonsterIdRegex).IsMatch(monsterId);
         }
 
-        public bool MatchPartGroupIdInclude(string groupId)
+        public bool MatchPartGroupId(string groupId)
         {
-            return new Regex(PartGroupIdInclude).IsMatch(groupId);
+            return new Regex(PartGroupIdRegex).IsMatch(groupId);
         }
 
-        public bool MatchStatusEffectGroupIdInclude(string groupId)
+        public bool MatchStatusEffectGroupId(string groupId)
         {
-            return new Regex(StatusEffectGroupIdInclude).IsMatch(groupId);
+            return new Regex(StatusEffectGroupIdRegex).IsMatch(groupId);
         }
     }
 }

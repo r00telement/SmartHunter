@@ -204,7 +204,7 @@ namespace SmartHunter.Game.Data
 
         public static bool IsIncluded(string monsterId)
         {
-            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchMonsterIdInclude(monsterId);
+            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchMonsterId(monsterId);
         }
 
         private void PartOrStatusEffect_Changed(object sender, GenericEventArgs<DateTimeOffset> e)

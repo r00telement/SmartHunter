@@ -93,7 +93,7 @@ namespace SmartHunter.Game.Data
 
         public static bool IsIncluded(string groupId)
         {
-            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchPartGroupIdInclude(groupId);
+            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchPartGroupId(groupId);
         }
     }
 }
