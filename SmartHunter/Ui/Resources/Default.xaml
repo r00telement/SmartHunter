@@ -740,7 +740,7 @@
             <StackPanel.Resources>
                 <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding Parts}" IsLiveSortingRequested="True">
                     <CollectionViewSource.LiveSortingProperties>
-                        <system:String>Damage</system:String>
+                        <system:String>IsRemovable</system:String>
                     </CollectionViewSource.LiveSortingProperties>
                     <CollectionViewSource.SortDescriptions>
                         <wbComponentModel:SortDescription PropertyName="IsRemovable" Direction="Descending" />
@@ -1330,10 +1330,6 @@
 
     <DataTemplate DataType="{x:Type widgetContexts:MonsterWidgetContext}">
         <Grid Opacity="{StaticResource A_Double_Widget_Opacity}">
-            <Grid.Background>
-                <SolidColorBrush Color="{StaticResource A_Color_Widget_Background}" />
-            </Grid.Background>
-            
             <Grid.Resources>
                 <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding Monsters}" />
             </Grid.Resources>
@@ -1370,10 +1366,6 @@
 
     <DataTemplate DataType="{x:Type widgetContexts:PlayerWidgetContext}">
         <Grid Opacity="{StaticResource A_Double_Widget_Opacity}">
-            <Grid.Background>
-                <SolidColorBrush Color="{StaticResource A_Color_Widget_Background}" />
-            </Grid.Background>
-            
             <Grid.Resources>
                 <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding StatusEffects}" IsLiveSortingRequested="True">
                     <CollectionViewSource.LiveSortingProperties>
@@ -1419,10 +1411,6 @@
 
     <DataTemplate DataType="{x:Type widgetContexts:TeamWidgetContext}">
         <Grid Opacity="{StaticResource A_Double_Widget_Opacity}">
-            <Grid.Background>
-                <SolidColorBrush Color="{StaticResource A_Color_Widget_Background}" />
-            </Grid.Background>
-            
             <Grid.Resources>
                 <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding Players}" IsLiveSortingRequested="True">
                     <CollectionViewSource.LiveSortingProperties>

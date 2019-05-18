@@ -13,9 +13,34 @@ namespace SmartHunter.Core.Windows
         protected abstract float ScaleMin { get; }
         protected abstract float ScaleStep { get; }
 
+        public bool IsConfiguredForLayered { get; private set; }
+
         public WidgetWindow(Widget widget)
         {
             Widget = widget;
+
+            ShowActivated = false;
+
+            ConfigureForLayered();
+        }
+
+        public void ConfigureForLayered()
+        {
+            IsConfiguredForLayered = true;
+
+            AllowsTransparency = true;
+            WindowStyle = WindowStyle.None;
+            ShowInTaskbar = false;
+        }
+
+        public void ConfigureForSolid()
+        {
+            IsConfiguredForLayered = false;
+
+            AllowsTransparency = false;
+            WindowStyle = WindowStyle.SingleBorderWindow;
+            ShowInTaskbar = true;
+            ResizeMode = ResizeMode.NoResize;
         }
 
         protected void WidgetWindow_MouseDown(object sender, MouseButtonEventArgs e)
