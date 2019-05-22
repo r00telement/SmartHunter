@@ -78,7 +78,10 @@ namespace SmartHunter.Core
 
                             return false;
                         },
-                        null)
+                        () =>
+                        {
+                            Log.WriteLine($"Attached to {Process.MainWindowTitle}");
+                        })
                 }));
 
             m_StateMachine.Add(State.ProcessFound, new StateMachine<State>.StateData(
