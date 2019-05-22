@@ -6,7 +6,7 @@ namespace SmartHunter.Game.Config
     {
         public string ProcessName = "MonsterHunterWorld";
 
-        public int ThreadsPerScan = 4;
+        public int ThreadsPerScan = 1;
 
         public BytePatternConfig PlayerDamagePattern = new BytePatternConfig(
             "48 8B 0D ?? ?? ?? ?? E8 ?? ?? ?? ?? 48 8B D8 48 85 C0 75 04 33 C9",
