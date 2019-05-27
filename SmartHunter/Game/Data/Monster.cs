@@ -98,17 +98,17 @@ namespace SmartHunter.Game.Data
                 MonsterConfig config = null;
                 if (ConfigHelper.MonsterData.Values.Monsters.TryGetValue(Id, out config) && config.Crowns != null)
                 {
-                    float modifiedSizeScale = ModifiedSizeScale;
+                    int modifiedSizeScale = (int)Math.Round(ModifiedSizeScale * 100, 0);
 
-                    if (modifiedSizeScale <= config.Crowns.Mini)
+                    if (modifiedSizeScale <= (int)Math.Round(config.Crowns.Mini * 100, 0))
                     {
                         crown = MonsterCrown.Mini;
                     }
-                    else if (modifiedSizeScale >= config.Crowns.Gold)
+                    else if (modifiedSizeScale >= (int)Math.Round(config.Crowns.Gold * 100, 0))
                     {
                         crown = MonsterCrown.Gold;
                     }
-                    else if (modifiedSizeScale >= config.Crowns.Silver)
+                    else if (modifiedSizeScale >= (int)Math.Round(config.Crowns.Silver * 100, 0))
                     {
                         crown = MonsterCrown.Silver;
                     }
