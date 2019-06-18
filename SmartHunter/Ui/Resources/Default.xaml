@@ -60,8 +60,6 @@
     <TransformGroup x:Key="A_Transform_DropShadow">
         <TranslateTransform X="1.5" Y="1.5" />
     </TransformGroup>
-
-    <DropShadowEffect x:Key="A_Effect_DropShadow" ShadowDepth="1" Direction="-45" Color="Black" Opacity="0.66" BlurRadius="1" RenderingBias="Quality" />
     
     <FontFamily x:Key="Roboto">pack://application:,,,/Ui/Fonts/#Roboto</FontFamily>
 
