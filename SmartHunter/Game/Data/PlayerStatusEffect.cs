@@ -78,7 +78,7 @@ namespace SmartHunter.Game.Data
 
         public static bool IsIncluded(string groupId)
         {
-            return ConfigHelper.Main.Values.Overlay.PlayerWidget.MatchIncludeStatusEffectGroupIdRegex(groupId);
+            return ConfigHelper.Main.Values.Overlay.PlayerWidget.MatchStatusEffectGroupId(groupId);
         }
     }
 }

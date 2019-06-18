@@ -26,7 +26,7 @@ namespace SmartHunter.Core
         protected abstract string ProcessName { get; }
         protected abstract BytePattern[] Patterns { get; }
 
-        protected virtual int ThreadsPerScan { get { return 2; } }
+        protected virtual int ThreadsPerScan { get { return 1; } }
         protected virtual int UpdatesPerSecond { get { return 20; } }
         protected virtual bool ShutdownWhenProcessExits { get { return false; } }
 
@@ -78,7 +78,10 @@ namespace SmartHunter.Core
 
                             return false;
                         },
-                        null)
+                        () =>
+                        {
+                            Log.WriteLine($"Attached to {Process.MainWindowTitle}");
+                        })
                 }));
 
             m_StateMachine.Add(State.ProcessFound, new StateMachine<State>.StateData(
