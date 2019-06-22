@@ -28,17 +28,17 @@ namespace SmartHunter.Game.Config
 
         public bool MatchMonsterId(string monsterId)
         {
-            return new Regex(MonsterIdRegex).IsMatch(monsterId);
+            return new Regex(MonsterIdRegex, RegexOptions.CultureInvariant).IsMatch(monsterId);
         }
 
         public bool MatchPartTags(string[] tags)
         {
-            return new Regex(PartTagsRegex).IsMatch(String.Join(" ", tags));
+            return new Regex(PartTagsRegex, RegexOptions.CultureInvariant).IsMatch(String.Join(" ", tags));
         }
 
         public bool MatchStatusEffectTags(string[] tags)
         {
-            return new Regex(StatusEffectTagsRegex).IsMatch(String.Join(" ", tags));
+            return new Regex(StatusEffectTagsRegex, RegexOptions.CultureInvariant).IsMatch(String.Join(" ", tags));
         }
     }
 }

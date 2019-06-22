@@ -174,7 +174,7 @@ namespace SmartHunter.Game.Helpers
                         else if (condition.StringRegexValue != null)
                         {
                             var conditionValue = MemoryHelper.ReadString(process, conditionAddress, 64);
-                            isPassed = new Regex(condition.StringRegexValue).IsMatch(conditionValue);
+                            isPassed = new Regex(condition.StringRegexValue, RegexOptions.CultureInvariant).IsMatch(conditionValue);
                         }
 
                         if (!isPassed)

@@ -14,7 +14,7 @@ namespace SmartHunter.Game.Config
 
         public bool MatchStatusEffectTags(string[] tags)
         {
-            return new Regex(StatusEffectTagsRegex).IsMatch(String.Join(" ", tags));
+            return new Regex(StatusEffectTagsRegex, RegexOptions.CultureInvariant).IsMatch(String.Join(" ", tags));
         }
     }
 }
