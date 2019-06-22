@@ -6,14 +6,14 @@ namespace SmartHunter.Game.Config
     public class MonsterPartConfig
     {
         public string StringId;
-        public bool IsRemovable;
         public string[] Tags;
+        public bool IsRemovable;
 
-        public MonsterPartConfig(string stringId, bool isRemovable, IEnumerable<string> tags)
+        public MonsterPartConfig(string stringId, IEnumerable<string> tags, bool isRemovable = false)
         {
             StringId = stringId;
-            IsRemovable = isRemovable;
             Tags = tags.ToArray();
+            IsRemovable = isRemovable;
         }
     }
 }
