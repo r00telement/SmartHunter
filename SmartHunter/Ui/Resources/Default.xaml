@@ -400,6 +400,11 @@
                 <Setter TargetName="TimesActivatedGraphic" Property="Visibility" Value="Visible" />
             </DataTrigger>
 
+            <!--Style based on status effect tags example-->
+            <!--<DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=Behavior}" Value="True">
+                <Setter TargetName="NameBlock" Property="Foreground" Value="Red" />
+            </DataTrigger>-->
+
             <!--When the UI needs to show the duration timer instead of the buildup timer-->
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>

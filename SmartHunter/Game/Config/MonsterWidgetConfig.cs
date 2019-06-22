@@ -9,7 +9,7 @@ namespace SmartHunter.Game.Config
         // em[0-9]|ems[0-9]|gm[0-9]
         public string MonsterIdRegex = "em[0-9]";
         public string PartTagsRegex = ".*|Removable|Head|Body|Tail|Wings|Limbs|Arms|Legs|Horns|Mud";
-        public string StatusEffectGroupIdRegex = "";
+        public string StatusEffectTagsRegex = ".*|Debuff|Behavior|Poison|Paralysis|Sleep|Blast|Mount|Exhaust|Stun|Tranquilize|Flash|Dung|ShockTrap|PitfallTrap|Elderseal|Rage|Fatigue";
         public bool ShowUnchangedMonsters = true;
         public float HideMonstersAfterSeconds = 9999;
         public bool ShowUnchangedParts = false;
@@ -36,9 +36,9 @@ namespace SmartHunter.Game.Config
             return new Regex(PartTagsRegex).IsMatch(String.Join(" ", tags));
         }
 
-        public bool MatchStatusEffectGroupId(string groupId)
+        public bool MatchStatusEffectTags(string[] tags)
         {
-            return new Regex(StatusEffectGroupIdRegex).IsMatch(groupId);
+            return new Regex(StatusEffectTagsRegex).IsMatch(String.Join(" ", tags));
         }
     }
 }

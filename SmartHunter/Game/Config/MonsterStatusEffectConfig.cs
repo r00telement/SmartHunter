@@ -1,8 +1,10 @@
-﻿namespace SmartHunter.Game.Config
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace SmartHunter.Game.Config
 {
     public class MonsterStatusEffectConfig
     {
-        public string GroupId;
         public string NameStringId;
 
         public string PointerOffset;
@@ -16,9 +18,10 @@
         public bool InvertBuildup;
         public bool InvertDuration;
 
-        public MonsterStatusEffectConfig(string groupId, string nameStringId, string pointerOffset, string maxDurationOffset, string currentBuildupOffset, string maxBuildupOffset, string currentDurationoffset, string timesActivatedOffset, bool invertBuildup = false, bool invertDuration = true)
+        public string[] Tags;
+
+        public MonsterStatusEffectConfig(string nameStringId, string pointerOffset, string maxDurationOffset, string currentBuildupOffset, string maxBuildupOffset, string currentDurationoffset, string timesActivatedOffset, bool invertBuildup, bool invertDuration, IEnumerable<string> tags)
         {
-            GroupId = groupId;
             NameStringId = nameStringId;
             PointerOffset = pointerOffset;
 
@@ -30,6 +33,8 @@
 
             InvertBuildup = invertBuildup;
             InvertDuration = invertDuration;
+
+            Tags = tags.ToArray();
         }
     }
 }
