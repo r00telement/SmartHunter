@@ -1,4 +1,7 @@
-﻿namespace SmartHunter.Game.Config
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace SmartHunter.Game.Config
 {
     public class MonsterPartConfig
     {
@@ -6,11 +9,11 @@
         public bool IsRemovable;
         public string[] Tags;
 
-        public MonsterPartConfig(string stringId, bool isRemovable, string[] tags)
+        public MonsterPartConfig(string stringId, bool isRemovable, IEnumerable<string> tags)
         {
             StringId = stringId;
             IsRemovable = isRemovable;
-            Tags = tags;
+            Tags = tags.ToArray();
         }
     }
 }

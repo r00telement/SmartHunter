@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SmartHunter.Game.Config
 {
@@ -16,6 +17,7 @@ namespace SmartHunter.Game.Config
             public static string[] Horns = { "Horns" };
             public static string[] RemovableHorns = { "Horns", "Removable" };
             public static string[] Limbs = { "Limbs" };
+            public static string[] Mud = { "Mud" };
         }
 
         public Dictionary<string, MonsterConfig> Monsters = new Dictionary<string, MonsterConfig>()
@@ -61,17 +63,17 @@ namespace SmartHunter.Game.Config
                     {
                         new MonsterPartConfig("LOC_REMOVABLE_PART_TAIL", true, Tags.RemovableTail),
                         new MonsterPartConfig("LOC_PART_HEAD", false, Tags.Head),
-                        new MonsterPartConfig("LOC_PART_HEAD_MUD", false, Tags.Head),
+                        new MonsterPartConfig("LOC_PART_HEAD_MUD", false, Tags.Head.Union(Tags.Mud)),
                         new MonsterPartConfig("LOC_PART_BODY", false, Tags.Body),
-                        new MonsterPartConfig("LOC_PART_BODY_MUD", false, Tags.Body),
+                        new MonsterPartConfig("LOC_PART_BODY_MUD", false, Tags.Body.Union(Tags.Mud)),
                         new MonsterPartConfig("LOC_PART_ARMS", false, Tags.Arms),
-                        new MonsterPartConfig("LOC_PART_ARMS_MUD", false, Tags.Arms),
+                        new MonsterPartConfig("LOC_PART_ARMS_MUD", false, Tags.Arms.Union(Tags.Mud)),
                         new MonsterPartConfig("LOC_PART_LEG_LEFT", false, Tags.Legs),
-                        new MonsterPartConfig("LOC_PART_LEG_LEFT_MUD", false, Tags.Legs),
+                        new MonsterPartConfig("LOC_PART_LEG_LEFT_MUD", false, Tags.Legs.Union(Tags.Mud)),
                         new MonsterPartConfig("LOC_PART_LEG_RIGHT", false, Tags.Legs),
-                        new MonsterPartConfig("LOC_PART_LEG_RIGHT_MUD", false, Tags.Legs),
+                        new MonsterPartConfig("LOC_PART_LEG_RIGHT_MUD", false, Tags.Legs.Union(Tags.Mud)),
                         new MonsterPartConfig("LOC_PART_TAIL", false, Tags.Tail),
-                        new MonsterPartConfig("LOC_PART_TAIL_MUD", false, Tags.Tail)
+                        new MonsterPartConfig("LOC_PART_TAIL_MUD", false, Tags.Tail.Union(Tags.Mud))
                     },
                     1383.07f, 0.81f,
                     new MonsterCrownConfig(CrownPreset.Standard)
@@ -226,11 +228,11 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("LOC_PART_LEG_LEFT", false, Tags.Legs),
                         new MonsterPartConfig("LOC_PART_LEG_RIGHT", false, Tags.Legs),
                         new MonsterPartConfig("LOC_PART_TAIL", false, Tags.Tail),
-                        new MonsterPartConfig("LOC_PART_HEAD_MUD", false, Tags.Head),
-                        new MonsterPartConfig("LOC_PART_BODY_MUD", false, Tags.Body),
-                        new MonsterPartConfig("LOC_PART_LEG_LEFT_MUD", false, Tags.Legs),
-                        new MonsterPartConfig("LOC_PART_LEG_RIGHT_MUD", false, Tags.Legs),
-                        new MonsterPartConfig("LOC_PART_TAIL_MUD", false, Tags.Tail),
+                        new MonsterPartConfig("LOC_PART_HEAD_MUD", false, Tags.Head.Union(Tags.Mud)),
+                        new MonsterPartConfig("LOC_PART_BODY_MUD", false, Tags.Body.Union(Tags.Mud)),
+                        new MonsterPartConfig("LOC_PART_LEG_LEFT_MUD", false, Tags.Legs.Union(Tags.Mud)),
+                        new MonsterPartConfig("LOC_PART_LEG_RIGHT_MUD", false, Tags.Legs.Union(Tags.Mud)),
+                        new MonsterPartConfig("LOC_PART_TAIL_MUD", false, Tags.Tail.Union(Tags.Mud)),
                     },
                     1508.71f, 1f,
                     new MonsterCrownConfig(CrownPreset.Standard)
