@@ -2,15 +2,15 @@
 {
     public class MonsterPartConfig
     {
-        public string GroupId;
         public string StringId;
         public bool IsRemovable;
+        public string[] Tags;
 
-        public MonsterPartConfig(string groupId, string stringId, bool isRemovable = false)
+        public MonsterPartConfig(string stringId, bool isRemovable, string[] tags)
         {
-            GroupId = groupId;
             StringId = stringId;
             IsRemovable = isRemovable;
+            Tags = tags;
         }
     }
 }

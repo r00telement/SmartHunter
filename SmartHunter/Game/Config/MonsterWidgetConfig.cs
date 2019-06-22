@@ -1,4 +1,5 @@
 ﻿using SmartHunter.Core.Config;
+using System;
 using System.Text.RegularExpressions;
 
 namespace SmartHunter.Game.Config
@@ -7,7 +8,7 @@ namespace SmartHunter.Game.Config
     {
         // em[0-9]|ems[0-9]|gm[0-9]
         public string MonsterIdRegex = "em[0-9]";
-        public string PartGroupIdRegex = "";
+        public string PartTagsRegex = ".*|Removable|Head|Body|Tail|Wings|Limbs|Arms|Legs|Horns";
         public string StatusEffectGroupIdRegex = "";
         public bool ShowUnchangedMonsters = true;
         public float HideMonstersAfterSeconds = 9999;
@@ -30,9 +31,9 @@ namespace SmartHunter.Game.Config
             return new Regex(MonsterIdRegex).IsMatch(monsterId);
         }
 
-        public bool MatchPartGroupId(string groupId)
+        public bool MatchPartTags(string[] tags)
         {
-            return new Regex(PartGroupIdRegex).IsMatch(groupId);
+            return new Regex(PartTagsRegex).IsMatch(String.Join(" ", tags));
         }
 
         public bool MatchStatusEffectGroupId(string groupId)

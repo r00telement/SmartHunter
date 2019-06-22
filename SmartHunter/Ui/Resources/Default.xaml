@@ -27,6 +27,7 @@
     <converters:EnumComparisonConverter x:Key="A_Converter_EnumComparison" />
     <converters:ColorTransformConverter x:Key="A_Converter_BackgroundColorTransform" SaturationAdjustment="-0.8" BrightnessAdjustment="0.66" OpacityOverride="0.3" />
     <converters:StringFormatConverter x:Key="A_Converter_StringFormat" />
+    <converters:StringArrayContainsConverter x:Key="A_Converter_StringArrayContains" />
     
     <Color x:Key="A_Color_Widget_Background">#00000000</Color>
     <system:Double x:Key="A_Double_Widget_Opacity">1</system:Double>
@@ -642,6 +643,11 @@
             <DataTrigger Binding="{Binding TimesBrokenCount, Converter={StaticResource A_Converter_NumberGreater}}" Value="True">
                 <Setter TargetName="TimesBrokenGraphic" Property="Visibility" Value="Visible" />
             </DataTrigger>
+
+            <!--Style based on part tags example-->
+            <!--<DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=Removable}" Value="True">
+                <Setter TargetName="NameBlock" Property="Foreground" Value="Red" />
+            </DataTrigger>-->
 
             <!--Show Numbers AND Percents-->
             <MultiDataTrigger>
