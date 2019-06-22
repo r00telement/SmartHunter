@@ -41,12 +41,12 @@
     <Color x:Key="A_Color_Monster_Part_Bar">#CC0000</Color>
     <Color x:Key="A_Color_Monster_StatusEffect_Bar">#00CCCC</Color>
 
-    <Color x:Key="A_Color_PlayerStatusEffect_Group_Horn">#FFE1A9</Color>
-    <Color x:Key="A_Color_PlayerStatusEffect_Group_Coral">#B0D0FF</Color>
-    <Color x:Key="A_Color_PlayerStatusEffect_Group_Debuff">#EC7A7A</Color>
-    <Color x:Key="A_Color_PlayerStatusEffect_Group_Buff">#DAFDBC</Color>
-    <Color x:Key="A_Color_PlayerStatusEffect_Group_Equipment">#FFFFFFFF</Color>
-    <Color x:Key="A_Color_PlayerStatusEffect_Group_Weapon">#FFFFFFFF</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Buff">#DAFDBC</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Debuff">#EC7A7A</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_HuntingHorn">#FFE1A9</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_CoralOrchestra">#B0D0FF</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Equipment">#FFFFFFFF</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Weapon">#FFFFFFFF</Color>
 
     <Color x:Key="A_Color_Crown_Mini_Body">#eed000</Color>
     <Color x:Key="A_Color_Crown_Mini_Gem">#00dd00</Color>
@@ -1236,80 +1236,80 @@
                 </Setter>
             </DataTrigger>
 
-            <DataTrigger Binding="{Binding GroupId}" Value="Horn">
+            <DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=Buff}" Value="True">
                 <Setter TargetName="NameBlock" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Horn}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Buff}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Horn}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Buff}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
 
-            <DataTrigger Binding="{Binding GroupId}" Value="Coral">
+            <DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=Debuff}" Value="True">
                 <Setter TargetName="NameBlock" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Coral}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Debuff}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Coral}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Debuff}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
 
-            <DataTrigger Binding="{Binding GroupId}" Value="Debuff">
+            <DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=HuntingHorn}" Value="True">
                 <Setter TargetName="NameBlock" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Debuff}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_HuntingHorn}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Debuff}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_HuntingHorn}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
 
-            <DataTrigger Binding="{Binding GroupId}" Value="Buff">
+            <DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=CoralOrchestra}" Value="True">
                 <Setter TargetName="NameBlock" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Buff}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_CoralOrchestra}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Buff}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_CoralOrchestra}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
 
-            <DataTrigger Binding="{Binding GroupId}" Value="Equipment">
+            <DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=Equipment}" Value="True">
                 <Setter TargetName="NameBlock" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Equipment}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Equipment}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Equipment}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Equipment}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
 
-            <DataTrigger Binding="{Binding GroupId}" Value="Weapon">
+            <DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=Weapon}" Value="True">
                 <Setter TargetName="NameBlock" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Weapon}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Weapon}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Weapon}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Weapon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>

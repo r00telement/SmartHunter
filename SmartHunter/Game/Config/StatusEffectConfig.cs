@@ -1,4 +1,7 @@
-﻿namespace SmartHunter.Game.Config
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace SmartHunter.Game.Config
 {
     public class StatusEffectConfig
     {
@@ -9,16 +12,16 @@
             Weapon
         }
 
-        public string GroupId;
         public string NameStringId;
+        public string[] Tags;
         public string TimerOffset;
         public MemorySource Source;
         public MemoryConditionConfig[] Conditions;
 
-        public StatusEffectConfig(string groupId, string nameStringId, MemorySource source, string timerOffset, params MemoryConditionConfig[] conditions)
+        public StatusEffectConfig(string nameStringId, IEnumerable<string> tags, MemorySource source, string timerOffset, params MemoryConditionConfig[] conditions)
         {
-            GroupId = groupId;
             NameStringId = nameStringId;
+            Tags = tags.ToArray();
             Source = source;
             TimerOffset = timerOffset;
             Conditions = conditions;
