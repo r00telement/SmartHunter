@@ -74,12 +74,51 @@ namespace SmartHunter.Game
 
             if (ConfigHelper.Main.Values.Overlay.MonsterWidget.IsVisible)
             {
-                //ulong ptr = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, 0x142c65a18, 0xb10, 0xf40, 0x6e8, 0x5c0, 0xf10, 0x18, 0);
-                var monsterRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_MonsterPattern.MatchedAddresses.First());
-                var monsterOffset = MemoryHelper.ReadStaticOffset(Process, m_MonsterOffsetPattern.MatchedAddresses.First());
-                var lastMonsterAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, monsterRootPtr, monsterOffset, 0x8F9BC * 8, 0, 0);
+                /*
+                var range = new AddressRange(0x140000000, 0x163B0A000);
+                var pattern = new BytePattern(new Config.BytePatternConfig("48 8b ?? ?? ?? ??", "140000000", "163B0A000", null));
 
-                MhwHelper.UpdateMonsterWidget(Process, lastMonsterAddress);
+                System.Collections.Generic.List<ulong> matches = MemoryHelper.FindPatternAddresses(Process, range, pattern, false);
+
+                System.Collections.Generic.List<ulong> res = new System.Collections.Generic.List<ulong>();
+
+                foreach (ulong address in matches)
+                {
+                    ulong lear = MemoryHelper.LoadEffectiveAddressRelative(Process, address);
+                    if (lear == 0x144e0c8d0 || lear == 0x144e0caf0)// || lear == 0x144ee4630)// || lear == 0x144e437d0)
+                    {
+                        res.Add(address);
+                    }
+                }
+
+
+                //0x140224589
+
+                ulong offset_for_next = 0x18;
+                ulong offset_for_start_monster_struct = 0x40;
+                ulong offset_for_component = 0x7670;
+                while (true)
+                {
+                    ulong ptr = 0x211a80e80;//0x2196f0e80;
+                    while (ptr != 0)
+                    {
+                        ulong health_component = MemoryHelper.Read<ulong>(Process, ptr + offset_for_start_monster_struct + offset_for_component);
+                        ulong tmp = ptr + offset_for_start_monster_struct + offset_for_component + 0x179;
+                        string name = MemoryHelper.ReadString(Process, tmp, 32);
+                        float current = MemoryHelper.Read<float>(Process, health_component + 0x60);
+                        float max = MemoryHelper.Read<float>(Process, health_component + 0x64);
+                        ptr = MemoryHelper.Read<ulong>(Process, ptr + offset_for_next);
+                    }
+                }
+                */
+
+                //the instructions commented sometimes return the right address (q.q)
+
+                var monsterRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_MonsterPattern.MatchedAddresses.First()) - 0x36CE0;//MemoryHelper.LoadEffectiveAddressRelative(Process, m_MonsterPattern.MatchedAddresses.First());
+                //var monsterOffset = MemoryHelper.ReadStaticOffset(Process, m_MonsterOffsetPattern.MatchedAddresses.First());
+                var monsterBaseList = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, monsterRootPtr, 0x128, 0x8, 0x0);//MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, monsterRootPtr, monsterOffset, 0x18, 0xD0, 0xC8, 0x738, 0x8, 0x0);
+
+                MhwHelper.UpdateMonsterWidget(Process, monsterBaseList);
             }
             else if (OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Any())
             {

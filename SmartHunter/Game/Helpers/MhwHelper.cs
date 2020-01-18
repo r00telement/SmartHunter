@@ -245,9 +245,9 @@ namespace SmartHunter.Game.Helpers
             return player;
         }
 
-        public static void UpdateMonsterWidget(Process process, ulong lastMonsterAddress)
+        public static void UpdateMonsterWidget(Process process, ulong monsterBaseList)
         {
-            if (lastMonsterAddress < 0xffffff)
+            if (monsterBaseList < 0xffffff)
             {
                 OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Clear();
                 return;
@@ -255,11 +255,13 @@ namespace SmartHunter.Game.Helpers
 
             List<ulong> monsterAddresses = new List<ulong>();
 
-            ulong currentMonsterAddress = lastMonsterAddress;
+            ulong firstMonster = MemoryHelper.Read<ulong>(process, monsterBaseList + 0x40 + 0x18);
+
+            ulong currentMonsterAddress = firstMonster;
             while (currentMonsterAddress != 0)
             {
                 monsterAddresses.Insert(0, currentMonsterAddress);
-                currentMonsterAddress = MemoryHelper.Read<ulong>(process, currentMonsterAddress + DataOffsets.Monster.PreviousMonsterPtr);
+                currentMonsterAddress = MemoryHelper.Read<ulong>(process, currentMonsterAddress + 0x18);
             }
 
             List<Monster> updatedMonsters = new List<Monster>();
@@ -284,8 +286,14 @@ namespace SmartHunter.Game.Helpers
         {
             Monster monster = null;
 
-            ulong modelPtr = MemoryHelper.Read<ulong>(process, monsterAddress + DataOffsets.Monster.ModelPtr);
-            string id = MemoryHelper.ReadString(process, modelPtr + DataOffsets.MonsterModel.Id, (uint)DataOffsets.MonsterModel.IdLength);
+            //ulong modelPtr = MemoryHelper.Read<ulong>(process, monsterAddress + DataOffsets.Monster.ModelPtr);
+            //string id = MemoryHelper.ReadString(process, modelPtr + DataOffsets.MonsterModel.Id, (uint)DataOffsets.MonsterModel.IdLength);
+
+            ulong tmp = monsterAddress + 0x40 + 0x7670;
+            ulong health_component = MemoryHelper.Read<ulong>(process, tmp);
+            
+            string id = MemoryHelper.ReadString(process, tmp + 0x179, 32);
+            float maxHealth = MemoryHelper.Read<float>(process, health_component + DataOffsets.MonsterHealthComponent.MaxHealth);
 
             if (String.IsNullOrEmpty(id))
             {
@@ -298,17 +306,15 @@ namespace SmartHunter.Game.Helpers
                 return monster;
             }
 
-            ulong healthComponentAddress = MemoryHelper.Read<ulong>(process, monsterAddress + DataOffsets.Monster.PartCollection + DataOffsets.MonsterPartCollection.HealthComponentPtr);
-            float maxHealth = MemoryHelper.Read<float>(process, healthComponentAddress + DataOffsets.MonsterHealthComponent.MaxHealth);
             if (maxHealth <= 0)
             {
                 return monster;
             }
 
-            float currentHealth = MemoryHelper.Read<float>(process, healthComponentAddress + DataOffsets.MonsterHealthComponent.CurrentHealth);
-            float sizeScale = MemoryHelper.Read<float>(process, monsterAddress + DataOffsets.Monster.SizeScale);
+            float currentHealth = MemoryHelper.Read<float>(process, health_component + DataOffsets.MonsterHealthComponent.CurrentHealth);
+            //float sizeScale = MemoryHelper.Read<float>(process, monsterAddress + DataOffsets.Monster.SizeScale);
 
-            monster = OverlayViewModel.Instance.MonsterWidget.Context.UpdateAndGetMonster(monsterAddress, id, maxHealth, currentHealth, sizeScale);
+            monster = OverlayViewModel.Instance.MonsterWidget.Context.UpdateAndGetMonster(monsterAddress, id, maxHealth, currentHealth, 1);
 
             UpdateMonsterParts(process, monster);
             UpdateMonsterRemovableParts(process, monster);

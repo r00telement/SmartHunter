@@ -13,6 +13,13 @@ namespace SmartHunter.Config
             { "LOC_WIDGET_TEAM", "Team Widget" },
             { "LOC_WIDGET_PLAYER", "Player Widget" },
 
+
+            { "LOC_MONSTER_NARCACUGA", "Narcacuga" },
+
+            { "LOC_MONSTER_NAMIELLE", "Namielle" },
+
+
+
             { "LOC_MONSTER_UKNOWN", "Unknown Monster" },
             { "LOC_MONSTER_ANJANATH", "Anjanath" },
             { "LOC_MONSTER_AZURE_RATHALOS", "Azure Rathalos" },

@@ -6,6 +6,31 @@ namespace SmartHunter.Game.Config
     {
         public Dictionary<string, MonsterConfig> Monsters = new Dictionary<string, MonsterConfig>()
         {
+
+            {
+                "em125_00",
+                new MonsterConfig("LOC_MONSTER_NAMIELLE",
+                    new MonsterPartConfig[]
+                    {
+
+                    },
+                    2519.35f, 1f,
+                    new MonsterCrownConfig(CrownPreset.Alternate)
+                )
+            },
+
+            {
+                "em037_00",
+                new MonsterConfig("LOC_MONSTER_NARCACUGA",
+                    new MonsterPartConfig[]
+                    {
+                        
+                    },
+                    2393.43f, 1f,
+                    new MonsterCrownConfig(CrownPreset.Alternate)
+                )
+            },
+
             {
                 "em100_00",
                 new MonsterConfig("LOC_MONSTER_ANJANATH",
