@@ -74,6 +74,7 @@ namespace SmartHunter.Game
 
             if (ConfigHelper.Main.Values.Overlay.MonsterWidget.IsVisible)
             {
+                //ulong ptr = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, 0x142c65a18, 0xb10, 0xf40, 0x6e8, 0x5c0, 0xf10, 0x18, 0);
                 var monsterRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_MonsterPattern.MatchedAddresses.First());
                 var monsterOffset = MemoryHelper.ReadStaticOffset(Process, m_MonsterOffsetPattern.MatchedAddresses.First());
                 var lastMonsterAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, monsterRootPtr, monsterOffset, 0x8F9BC * 8, 0, 0);
@@ -87,9 +88,9 @@ namespace SmartHunter.Game
 
             if (ConfigHelper.Main.Values.Overlay.TeamWidget.IsVisible)
             {
-                ulong playerNamesPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_PlayerNamePattern.MatchedAddresses.First());
+                ulong playerNamesPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_PlayerNamePattern.MatchedAddresses.First()); // Players Damages are not working (probably offset is wrong)
                 var playerDamageRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_PlayerDamagePattern.MatchedAddresses.First());
-                var playerDamageCollectionAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, playerDamageRootPtr, 0x48 + 0x20 * 0x58);
+                var playerDamageCollectionAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, playerDamageRootPtr, (long)MhwHelper.DataOffsets.PlayerDamageCollection.FirstPlayerPtr + (long)MhwHelper.DataOffsets.PlayerDamageCollection.MaxPlayerCount * sizeof(long) * (long)MhwHelper.DataOffsets.PlayerDamageCollection.NextPlayerPtr);
                 var playerNamesAddress = MemoryHelper.Read<uint>(Process, playerNamesPtr);
 
                 MhwHelper.UpdateTeamWidget(Process, playerDamageCollectionAddress, playerNamesAddress);
@@ -99,7 +100,7 @@ namespace SmartHunter.Game
                 OverlayViewModel.Instance.TeamWidget.Context.Players.Clear();
             }
 
-            if (ConfigHelper.Main.Values.Overlay.PlayerWidget.IsVisible)
+            if (ConfigHelper.Main.Values.Overlay.PlayerWidget.IsVisible && false)
             {
                 var playerBuffRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_PlayerBuffPattern.MatchedAddresses.First());
 

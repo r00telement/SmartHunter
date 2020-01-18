@@ -23,7 +23,7 @@ namespace SmartHunter.Game.Helpers
         }
 
         // TODO: Wouldn't it be nice if all this were data driven?
-        private static class DataOffsets
+        public static class DataOffsets
         {
             public static class Monster
             {
@@ -100,7 +100,7 @@ namespace SmartHunter.Game.Helpers
             public static class PlayerNameCollection
             {
                 public static readonly int PlayerNameLength = 32 + 1; // +1 for null terminator
-                public static readonly ulong FirstPlayerName = 0x54A45;
+                public static readonly ulong FirstPlayerName = 0x526AD;//0x54A45; //0x526AD OR 0x54238
             }
 
             public static class PlayerDamageCollection
@@ -174,7 +174,7 @@ namespace SmartHunter.Game.Helpers
                         else if (condition.StringRegexValue != null)
                         {
                             var conditionValue = MemoryHelper.ReadString(process, conditionAddress, 64);
-                            isPassed = new Regex(condition.StringRegexValue, RegexOptions.CultureInvariant).IsMatch(conditionValue);
+                            isPassed = new Regex(condition.StringRegexValue).IsMatch(conditionValue);
                         }
 
                         if (!isPassed)
@@ -232,7 +232,7 @@ namespace SmartHunter.Game.Helpers
 
             var playerNameOffset = (ulong)DataOffsets.PlayerNameCollection.PlayerNameLength * (ulong)playerIndex;
             string name = MemoryHelper.ReadString(process, playerNameCollectionAddress + DataOffsets.PlayerNameCollection.FirstPlayerName + playerNameOffset, (uint)DataOffsets.PlayerNameCollection.PlayerNameLength);
-            ulong firstPlayerPtr = playerDamageCollectionAddress + DataOffsets.PlayerDamageCollection.FirstPlayerPtr;
+            ulong firstPlayerPtr = playerDamageCollectionAddress + DataOffsets.PlayerDamageCollection.FirstPlayerPtr; // check those lines
             ulong currentPlayerPtr = firstPlayerPtr + ((ulong)playerIndex * DataOffsets.PlayerDamageCollection.NextPlayerPtr);
             ulong currentPlayerAddress = MemoryHelper.Read<ulong>(process, currentPlayerPtr);
             int damage = MemoryHelper.Read<int>(process, currentPlayerAddress + DataOffsets.PlayerDamage.Damage);

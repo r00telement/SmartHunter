@@ -15,10 +15,18 @@ namespace SmartHunter.Game.Data
             {
                 if (SetProperty(ref m_Index, value))
                 {
-                    NotifyPropertyChanged(nameof(Tags));
+                    NotifyPropertyChanged(nameof(GroupId));
                     NotifyPropertyChanged(nameof(Name));
                     NotifyPropertyChanged(nameof(IsVisible));
                 }
+            }
+        }
+
+        public string GroupId
+        {
+            get
+            {
+                return GetGroupIdFromIndex(Index);
             }
         }
 
@@ -40,19 +48,11 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        public string[] Tags
-        {
-            get
-            {
-                return GetTagsFromIndex(Index);
-            }
-        }
-
         public bool IsVisible
         {
             get
             {
-                return IsIncluded(Tags) && IsTimeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedStatusEffects, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideStatusEffectsAfterSeconds);
+                return IsIncluded(GroupId) && IsTimeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedStatusEffects, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideStatusEffectsAfterSeconds);
             }
         }
 
@@ -82,14 +82,14 @@ namespace SmartHunter.Game.Data
             UpdateLastChangedTime();
         }
 
-        public static string[] GetTagsFromIndex(int index)
+        public static string GetGroupIdFromIndex(int index)
         {
-            return ConfigHelper.MonsterData.Values.StatusEffects[index].Tags;
+            return ConfigHelper.MonsterData.Values.StatusEffects[index].GroupId;
         }
 
-        public static bool IsIncluded(string[] tags)
+        public static bool IsIncluded(string groupId)
         {
-            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchStatusEffectTags(tags);
+            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchIncludeStatusEffectGroupIdRegex(groupId);
         }
     }
 }

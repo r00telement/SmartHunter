@@ -27,7 +27,6 @@
     <converters:EnumComparisonConverter x:Key="A_Converter_EnumComparison" />
     <converters:ColorTransformConverter x:Key="A_Converter_BackgroundColorTransform" SaturationAdjustment="-0.8" BrightnessAdjustment="0.66" OpacityOverride="0.3" />
     <converters:StringFormatConverter x:Key="A_Converter_StringFormat" />
-    <converters:StringArrayContainsConverter x:Key="A_Converter_StringArrayContains" />
     
     <Color x:Key="A_Color_Widget_Background">#00000000</Color>
     <system:Double x:Key="A_Double_Widget_Opacity">1</system:Double>
@@ -41,12 +40,12 @@
     <Color x:Key="A_Color_Monster_Part_Bar">#CC0000</Color>
     <Color x:Key="A_Color_Monster_StatusEffect_Bar">#00CCCC</Color>
 
-    <Color x:Key="A_Color_PlayerStatusEffect_Buff">#DAFDBC</Color>
-    <Color x:Key="A_Color_PlayerStatusEffect_Debuff">#EC7A7A</Color>
-    <Color x:Key="A_Color_PlayerStatusEffect_HuntingHorn">#FFE1A9</Color>
-    <Color x:Key="A_Color_PlayerStatusEffect_CoralOrchestra">#B0D0FF</Color>
-    <Color x:Key="A_Color_PlayerStatusEffect_Equipment">#FFFFFFFF</Color>
-    <Color x:Key="A_Color_PlayerStatusEffect_Weapon">#FFFFFFFF</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Group_Horn">#FFE1A9</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Group_Coral">#B0D0FF</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Group_Debuff">#EC7A7A</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Group_Buff">#DAFDBC</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Group_Equipment">#FFFFFFFF</Color>
+    <Color x:Key="A_Color_PlayerStatusEffect_Group_Weapon">#FFFFFFFF</Color>
 
     <Color x:Key="A_Color_Crown_Mini_Body">#eed000</Color>
     <Color x:Key="A_Color_Crown_Mini_Gem">#00dd00</Color>
@@ -61,6 +60,8 @@
     <TransformGroup x:Key="A_Transform_DropShadow">
         <TranslateTransform X="1.5" Y="1.5" />
     </TransformGroup>
+
+    <DropShadowEffect x:Key="A_Effect_DropShadow" ShadowDepth="1" Direction="-45" Color="Black" Opacity="0.66" BlurRadius="1" RenderingBias="Quality" />
     
     <FontFamily x:Key="Roboto">pack://application:,,,/Ui/Fonts/#Roboto</FontFamily>
 
@@ -400,11 +401,6 @@
                 <Setter TargetName="TimesActivatedGraphic" Property="Visibility" Value="Visible" />
             </DataTrigger>
 
-            <!--Style based on status effect tags example-->
-            <!--<DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=Behavior}" Value="True">
-                <Setter TargetName="NameBlock" Property="Foreground" Value="Red" />
-            </DataTrigger>-->
-
             <!--When the UI needs to show the duration timer instead of the buildup timer-->
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
@@ -649,11 +645,6 @@
                 <Setter TargetName="TimesBrokenGraphic" Property="Visibility" Value="Visible" />
             </DataTrigger>
 
-            <!--Style based on part tags example-->
-            <!--<DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=Removable}" Value="True">
-                <Setter TargetName="NameBlock" Property="Foreground" Value="Red" />
-            </DataTrigger>-->
-
             <!--Show Numbers AND Percents-->
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
@@ -745,11 +736,11 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type data:Monster}">
-        <StackPanel Name="Root" MinWidth="250" Margin="0 0 46 0" Visibility="Collapsed" Opacity="0">
+        <StackPanel Name="Root" Width="300" Margin="0 0 46 0" Visibility="Collapsed" Opacity="0">
             <StackPanel.Resources>
                 <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding Parts}" IsLiveSortingRequested="True">
                     <CollectionViewSource.LiveSortingProperties>
-                        <system:String>IsRemovable</system:String>
+                        <system:String>Damage</system:String>
                     </CollectionViewSource.LiveSortingProperties>
                     <CollectionViewSource.SortDescriptions>
                         <wbComponentModel:SortDescription PropertyName="IsRemovable" Direction="Descending" />
@@ -1236,80 +1227,80 @@
                 </Setter>
             </DataTrigger>
 
-            <DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=Buff}" Value="True">
+            <DataTrigger Binding="{Binding GroupId}" Value="Horn">
                 <Setter TargetName="NameBlock" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Buff}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Horn}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Buff}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Horn}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
 
-            <DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=Debuff}" Value="True">
+            <DataTrigger Binding="{Binding GroupId}" Value="Coral">
                 <Setter TargetName="NameBlock" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Debuff}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Coral}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Debuff}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Coral}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
 
-            <DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=HuntingHorn}" Value="True">
+            <DataTrigger Binding="{Binding GroupId}" Value="Debuff">
                 <Setter TargetName="NameBlock" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_HuntingHorn}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Debuff}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_HuntingHorn}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Debuff}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
 
-            <DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=CoralOrchestra}" Value="True">
+            <DataTrigger Binding="{Binding GroupId}" Value="Buff">
                 <Setter TargetName="NameBlock" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_CoralOrchestra}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Buff}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_CoralOrchestra}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Buff}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
 
-            <DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=Equipment}" Value="True">
+            <DataTrigger Binding="{Binding GroupId}" Value="Equipment">
                 <Setter TargetName="NameBlock" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Equipment}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Equipment}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Equipment}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Equipment}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
 
-            <DataTrigger Binding="{Binding Tags, Converter={StaticResource A_Converter_StringArrayContains}, ConverterParameter=Weapon}" Value="True">
+            <DataTrigger Binding="{Binding GroupId}" Value="Weapon">
                 <Setter TargetName="NameBlock" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Weapon}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Weapon}" />
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="CircleProgress" Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Weapon}" />
+                        <SolidColorBrush Color="{StaticResource A_Color_PlayerStatusEffect_Group_Weapon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
@@ -1339,6 +1330,10 @@
 
     <DataTemplate DataType="{x:Type widgetContexts:MonsterWidgetContext}">
         <Grid Opacity="{StaticResource A_Double_Widget_Opacity}">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource A_Color_Widget_Background}" />
+            </Grid.Background>
+            
             <Grid.Resources>
                 <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding Monsters}" />
             </Grid.Resources>
@@ -1375,6 +1370,10 @@
 
     <DataTemplate DataType="{x:Type widgetContexts:PlayerWidgetContext}">
         <Grid Opacity="{StaticResource A_Double_Widget_Opacity}">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource A_Color_Widget_Background}" />
+            </Grid.Background>
+            
             <Grid.Resources>
                 <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding StatusEffects}" IsLiveSortingRequested="True">
                     <CollectionViewSource.LiveSortingProperties>
@@ -1420,6 +1419,10 @@
 
     <DataTemplate DataType="{x:Type widgetContexts:TeamWidgetContext}">
         <Grid Opacity="{StaticResource A_Double_Widget_Opacity}">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource A_Color_Widget_Background}" />
+            </Grid.Background>
+            
             <Grid.Resources>
                 <CollectionViewSource x:Key="CollectionViewSource" Source="{Binding Players}" IsLiveSortingRequested="True">
                     <CollectionViewSource.LiveSortingProperties>

@@ -1,5 +1,4 @@
 ﻿using SmartHunter.Core.Config;
-using System;
 using System.Text.RegularExpressions;
 
 namespace SmartHunter.Game.Config
@@ -7,9 +6,9 @@ namespace SmartHunter.Game.Config
     public class MonsterWidgetConfig : WidgetConfig
     {
         // em[0-9]|ems[0-9]|gm[0-9]
-        public string MonsterIdRegex = "em[0-9]";
-        public string PartTagsRegex = ".*|Removable|Head|Body|Tail|Wings|Limbs|Arms|Legs|Horns|Mud";
-        public string StatusEffectTagsRegex = ".*|Debuff|Behavior|Poison|Paralysis|Sleep|Blast|Mount|Exhaust|Stun|Tranquilize|Flash|Dung|ShockTrap|PitfallTrap|Elderseal|Rage|Fatigue";
+        public string IncludeMonsterIdRegex = "em[0-9]";
+        public string IncludePartGroupIdRegex = ".*";
+        public string IncludeStatusEffectGroupIdRegex = ".*";
         public bool ShowUnchangedMonsters = true;
         public float HideMonstersAfterSeconds = 9999;
         public bool ShowUnchangedParts = false;
@@ -26,19 +25,19 @@ namespace SmartHunter.Game.Config
         {
         }
 
-        public bool MatchMonsterId(string monsterId)
+        public bool MatchIncludeMonsterIdRegex(string monsterId)
         {
-            return new Regex(MonsterIdRegex, RegexOptions.CultureInvariant).IsMatch(monsterId);
+            return new Regex(IncludeMonsterIdRegex).IsMatch(monsterId);
         }
 
-        public bool MatchPartTags(string[] tags)
+        public bool MatchIncludePartGroupIdRegex(string groupId)
         {
-            return new Regex(PartTagsRegex, RegexOptions.CultureInvariant).IsMatch(String.Join(" ", tags));
+            return new Regex(IncludePartGroupIdRegex).IsMatch(groupId);
         }
 
-        public bool MatchStatusEffectTags(string[] tags)
+        public bool MatchIncludeStatusEffectGroupIdRegex(string groupId)
         {
-            return new Regex(StatusEffectTagsRegex, RegexOptions.CultureInvariant).IsMatch(String.Join(" ", tags));
+            return new Regex(IncludeStatusEffectGroupIdRegex).IsMatch(groupId);
         }
     }
 }

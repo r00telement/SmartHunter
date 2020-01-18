@@ -33,11 +33,11 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        public string[] Tags
+        public string GroupId
         {
             get
             {
-                return GetTagsFromIndex(m_Owner.Id, m_Owner.Parts.Where(part => part.IsRemovable == IsRemovable).ToList().IndexOf(this), IsRemovable);
+                return GetGroupIdFromIndex(m_Owner.Id, m_Owner.Parts.Where(part => part.IsRemovable == IsRemovable).ToList().IndexOf(this), IsRemovable);
             }
         }
 
@@ -45,7 +45,7 @@ namespace SmartHunter.Game.Data
         {
             get
             {
-                return IsIncluded(Tags) && IsTimeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedParts, ConfigHelper.Main.Values.Overlay.MonsterWidget.HidePartsAfterSeconds);
+                return IsIncluded(GroupId) && IsTimeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedParts, ConfigHelper.Main.Values.Overlay.MonsterWidget.HidePartsAfterSeconds);
             }
         }
 
@@ -77,23 +77,23 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        public static string[] GetTagsFromIndex(string monsterId, int index, bool isRemovable)
+        public static string GetGroupIdFromIndex(string monsterId, int index, bool isRemovable)
         {
             if (ConfigHelper.MonsterData.Values.Monsters.TryGetValue(monsterId, out var monsterConfig))
             {
                 var parts = monsterConfig.Parts.Where(part => part.IsRemovable == isRemovable);
                 if (parts.Count() > index)
                 {
-                    return parts.ElementAt(index).Tags;
+                    return parts.ElementAt(index).GroupId;
                 }
             }
 
-            return new string[] { };
+            return "";
         }
 
-        public static bool IsIncluded(string[] tags)
+        public static bool IsIncluded(string groupId)
         {
-            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchPartTags(tags);
+            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchIncludePartGroupIdRegex(groupId);
         }
     }
 }

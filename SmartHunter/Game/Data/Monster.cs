@@ -98,17 +98,17 @@ namespace SmartHunter.Game.Data
                 MonsterConfig config = null;
                 if (ConfigHelper.MonsterData.Values.Monsters.TryGetValue(Id, out config) && config.Crowns != null)
                 {
-                    int modifiedSizeScale = (int)Math.Round(ModifiedSizeScale * 100, 0);
+                    float modifiedSizeScale = ModifiedSizeScale;
 
-                    if (modifiedSizeScale <= (int)Math.Round(config.Crowns.Mini * 100, 0))
+                    if (modifiedSizeScale <= config.Crowns.Mini)
                     {
                         crown = MonsterCrown.Mini;
                     }
-                    else if (modifiedSizeScale >= (int)Math.Round(config.Crowns.Gold * 100, 0))
+                    else if (modifiedSizeScale >= config.Crowns.Gold)
                     {
                         crown = MonsterCrown.Gold;
                     }
-                    else if (modifiedSizeScale >= (int)Math.Round(config.Crowns.Silver * 100, 0))
+                    else if (modifiedSizeScale >= config.Crowns.Silver)
                     {
                         crown = MonsterCrown.Silver;
                     }
@@ -204,7 +204,7 @@ namespace SmartHunter.Game.Data
 
         public static bool IsIncluded(string monsterId)
         {
-            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchMonsterId(monsterId);
+            return ConfigHelper.Main.Values.Overlay.MonsterWidget.MatchIncludeMonsterIdRegex(monsterId);
         }
 
         private void PartOrStatusEffect_Changed(object sender, GenericEventArgs<DateTimeOffset> e)

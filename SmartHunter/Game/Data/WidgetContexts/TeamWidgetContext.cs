@@ -42,10 +42,14 @@ namespace SmartHunter.Game.Data.WidgetContexts
         {
             if (String.IsNullOrEmpty(name) && damage == 0)
             {
+                if (index < Players.Count)
+                {
+                    Players.RemoveAt(index);
+                }
                 return null;
             }
             
-            while (index >= Players.Count)
+            while (index >= Players.Count) // why while?
             {
                 Players.Add(new Player() { Index = Players.Count, Name = LocalizationHelper.GetString(LocalizationHelper.UnknownPlayerStringId) });
             }
