@@ -255,7 +255,7 @@ namespace SmartHunter.Game.Helpers
 
             List<ulong> monsterAddresses = new List<ulong>();
 
-            ulong firstMonster = MemoryHelper.Read<ulong>(process, monsterBaseList + 0x40 + 0x18);
+            ulong firstMonster = monsterBaseList + 0x40;//MemoryHelper.Read<ulong>(process, monsterBaseList + 0x40 + 0x18);
 
             ulong currentMonsterAddress = firstMonster;
             while (currentMonsterAddress != 0)
