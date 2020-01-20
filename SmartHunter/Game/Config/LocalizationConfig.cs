@@ -13,12 +13,10 @@ namespace SmartHunter.Config
             { "LOC_WIDGET_TEAM", "Team Widget" },
             { "LOC_WIDGET_PLAYER", "Player Widget" },
 
-
             { "LOC_MONSTER_NARCACUGA", "Narcacuga" },
-
             { "LOC_MONSTER_NAMIELLE", "Namielle" },
-
-
+            { "LOC_MONSTER_SHARA_ISHVALDA", "Shara Ishvalda" },
+            { "LOC_MONSTER_SHARA_BANDARO", "Banbaro" },
 
             { "LOC_MONSTER_UKNOWN", "Unknown Monster" },
             { "LOC_MONSTER_ANJANATH", "Anjanath" },
@@ -56,6 +54,29 @@ namespace SmartHunter.Config
             { "LOC_MONSTER_XENO_JIIVA", "Xeno'jiiva" },
             { "LOC_MONSTER_ZORAH_MAGDAROS", "Zorah Magdaros" },
             { "LOC_PART_UKNOWN", "Unknown Part" },
+
+
+
+
+            { "LOC_PART_NECK_ROCK_LEFT", "Left Neck Rock" },
+            { "LOC_PART_NECK_ROCK_RIGHT", "Left Right Rock" },
+            { "LOC_PART_HEAD_ROCK", "Head Rock" },
+            { "LOC_PART_TAIL_ROCK", "Tail Rock" },
+            { "LOC_PART_WING_ROCK_LEFT", "Left Wing Rock" },
+            { "LOC_PART_WING_ROCK_RIGHT", "Right Wing Rock" },
+            { "LOC_PART_FRONT_LIMB_ROCK_LEFT", "Front Left Limb Rock" },
+            { "LOC_PART_FRONT_LIMB_ROCK_RIGHT", "Front Right Limb Rock" },
+            { "LOC_PART_HIND_LIMBS_ROCK", "Hind Limbs Rock" },
+            { "LOC_PART_FRONT_LIMB_LEFT", "Front Left Limb" },
+            { "LOC_PART_FRONT_LIMB_RIGHT", "Fron Right Limb" },
+            { "LOC_PART_FACE", "Face" },
+            { "LOC_PART_FACE+", "Face+" },
+            { "LOC_PART_FACE++", "Face++" },
+            { "LOC_PART_FACE+++", "Face+++" },
+
+
+
+
             { "LOC_PART_HEAD", "Head" },
             { "LOC_PART_HEAD_LEFT", "Left Head" },
             { "LOC_PART_HEAD_RIGHT", "Right Head" },

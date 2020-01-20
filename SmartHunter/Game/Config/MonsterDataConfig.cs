@@ -8,6 +8,50 @@ namespace SmartHunter.Game.Config
         {
 
             {
+                "em126_00",
+                new MonsterConfig("LOC_MONSTER_SHARA_ISHVALDA",
+                    new MonsterPartConfig[]
+                    {
+                        new MonsterPartConfig("Part", "LOC_PART_NECK_ROCK_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_NECK_ROCK_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_HEAD_ROCK"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL_ROCK"),
+                        new MonsterPartConfig("Part", "LOC_PART_WING_ROCK_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_WING_ROCK_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_FRONT_LIMB_ROCK_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_FRONT_LIMB_ROCK_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_HIND_LIMBS_ROCK"),
+                        new MonsterPartConfig("Part", "LOC_PART_HEAD"),
+                        new MonsterPartConfig("Part", "LOC_PART_BODY"),
+                        new MonsterPartConfig("Part", "LOC_PART_BODY"),
+                        new MonsterPartConfig("Part", "LOC_PART_WING_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_FRONT_LIMB_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_FRONT_LIMB_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL"),
+                        new MonsterPartConfig("Part", "LOC_PART_FACE"),
+                        new MonsterPartConfig("Part", "LOC_PART_FACE+"),
+                        new MonsterPartConfig("Part", "LOC_PART_FACE++"),
+                        new MonsterPartConfig("Part", "LOC_PART_FACE+++")
+                    },
+                    2910.91f, 1f,
+                    new MonsterCrownConfig(CrownPreset.Alternate)
+                )
+            },
+
+            {
+                "em123_00",
+                new MonsterConfig("LOC_MONSTER_SHARA_BANBARO",
+                    new MonsterPartConfig[]
+                    {
+
+                    },
+                    2140.31f, 1f,
+                    new MonsterCrownConfig(CrownPreset.Alternate)
+                )
+            },
+
+            {
                 "em125_00",
                 new MonsterConfig("LOC_MONSTER_NAMIELLE",
                     new MonsterPartConfig[]

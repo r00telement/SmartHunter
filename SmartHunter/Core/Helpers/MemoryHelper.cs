@@ -87,6 +87,20 @@ namespace SmartHunter.Core.Helpers
 
                     var matchIndices = FindPatternMatchIndices(regionBytes, pattern, stopAfterFirst);
 
+                    foreach (var matchIndex in matchIndices)
+                    {
+                        var matchAddress = regionStartAddress + (ulong)matchIndex;
+                        matchAddresses.Add(matchAddress);
+
+                        Log.WriteLine($"Found '{pattern.Config.Name}' at address 0x{matchAddress.ToString("X8")}"); //'{pattern.Config.String}'");
+
+                        if (stopAfterFirst)
+                        {
+                            break;
+                        }
+                    }
+
+                    /*
                     if (matchIndices.Any() && stopAfterFirst)
                     {
                         var matchAddress = regionStartAddress + (ulong)matchIndices.First();
@@ -102,6 +116,7 @@ namespace SmartHunter.Core.Helpers
                             matchAddresses.Add(matchAddress);
                         }
                     }
+                    */
                 }
 
                 currentAddress = memoryRegion.BaseAddress + memoryRegion.RegionSize;
