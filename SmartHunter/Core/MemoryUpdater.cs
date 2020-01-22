@@ -22,7 +22,6 @@ namespace SmartHunter.Core
             CheckingForUpdates,
             DownloadingUpdates,
             Restarting,
-            DownloadFailed,
             WaitingForProcess,
             ProcessFound,
             PatternScanning,
@@ -113,11 +112,12 @@ namespace SmartHunter.Core
                             Log.WriteLine("Successfully downloaded all files!");
                         }),
                     new StateMachine<State>.Transition(
-                        State.DownloadFailed,
+                        State.WaitingForProcess,
                         () => !updater.DownloadUpdates(),
                         () =>
                         {
-                            Log.WriteLine("Failed to download Updates!");
+                            Log.WriteLine("Failed to download Updates... Resuming the normal flow of the application!");
+                            Initialize();
                         })
                 }));
 
@@ -134,7 +134,7 @@ namespace SmartHunter.Core
                             string file = $".\\SmartHunter_{ConfigHelper.Versions.Values.SmartHunter}.exe";
                             if (File.Exists(file))
                             {
-                                Process.Start(file);
+                               Process.Start(file);
                             }
                             
                             System.Environment.Exit(1);

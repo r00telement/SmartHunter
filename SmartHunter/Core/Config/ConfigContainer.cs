@@ -59,17 +59,7 @@ namespace SmartHunter.Core.Config
                     settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
                     settings.Converters.Add(new StringFloatConverter());
 
-                    // TODO: Remove this as it is only convient while I'm modifying json classes (to not delete those files every time)
-                    JObject loading = JObject.Parse(contents);
-                    JObject runtime = JObject.Parse(JsonConvert.SerializeObject(Values));
-
-                    loading.Merge(runtime, new JsonMergeSettings
-                    {
-                        // union array values together to avoid duplicates
-                        MergeArrayHandling = MergeArrayHandling.Union
-                    });
-
-                    JsonConvert.PopulateObject(loading.ToString(Formatting.None), Values, settings);
+                    JsonConvert.PopulateObject(contents, Values, settings);
 
                     Log.WriteLine($"{FileName} loaded");
                 }

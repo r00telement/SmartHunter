@@ -30,6 +30,7 @@ namespace SmartHunter.Core.Helpers
         private List<UpdateNode> NeedUpdates = new List<UpdateNode>();
         private string ApiEndpoint = "https://api.github.com/repos/gabrielefilipp/SmartHunter/commits?path=";
         private string ApiRaw = "https://github.com/gabrielefilipp/SmartHunter/raw";
+        private string dummyUserAgent = "Mozilla/4.0 (Compatible; Windows NT 5.1; MSIE 6.0) (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";
 
         public bool CheckForUpdates(bool forceCheck = false)
         {
@@ -50,7 +51,7 @@ namespace SmartHunter.Core.Helpers
                                 string nameWithNoExtension = Path.GetFileNameWithoutExtension(name);
 
                                 client.Dispose();
-                                client.Headers["User-Agent"] = "Mozilla/4.0 (Compatible; Windows NT 5.1; MSIE 6.0) (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";
+                                client.Headers["User-Agent"] = dummyUserAgent;
 
                                 string apiResponseStr = client.DownloadString(apiUrl);
                                 JArray json = JArray.Parse(apiResponseStr);
@@ -71,6 +72,7 @@ namespace SmartHunter.Core.Helpers
                 }
                 catch
                 {
+                    Log.WriteLine($"An error has occured while searching for updates... Resuming the normal flow of the application!");
                     return false;
                 }
             }
@@ -91,7 +93,7 @@ namespace SmartHunter.Core.Helpers
                         string nameWithNoExtension = Path.GetFileNameWithoutExtension(name);
                         Log.WriteLine($"Downloading file '{name}'");
                         client.Dispose();
-                        client.Headers["User-Agent"] = "Mozilla/4.0 (Compatible; Windows NT 5.1; MSIE 6.0) (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";
+                        client.Headers["User-Agent"] = dummyUserAgent;
                         if (Path.GetExtension(name).Equals(".exe"))
                         {
                             client.DownloadFile(url, $"{nameWithNoExtension}_{hash}.exe");
@@ -103,8 +105,8 @@ namespace SmartHunter.Core.Helpers
                         
                         ConfigHelper.Versions.Values.GetType().GetField(nameWithNoExtension).SetValue(ConfigHelper.Versions.Values, hash);
                     }
-                    NeedUpdates.Clear();
                     ConfigHelper.Versions.Save();
+                    NeedUpdates.Clear();
                 }
             }
             catch
