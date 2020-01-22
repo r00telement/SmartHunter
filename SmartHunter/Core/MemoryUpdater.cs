@@ -4,6 +4,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
+<<<<<<< Updated upstream
+=======
+using System.Net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using SmartHunter.Core.Helpers;
+using SmartHunter.Game.Helpers;
+>>>>>>> Stashed changes
 
 namespace SmartHunter.Core
 {
@@ -12,6 +21,13 @@ namespace SmartHunter.Core
         enum State
         {
             None,
+<<<<<<< Updated upstream
+=======
+            CheckingForUpdates,
+            DownloadingUpdates,
+            Restarting,
+            DownloadFailed,
+>>>>>>> Stashed changes
             WaitingForProcess,
             ProcessFound,
             PatternScanning,
@@ -53,13 +69,88 @@ namespace SmartHunter.Core
                 new StateMachine<State>.Transition[]
                 {
                     new StateMachine<State>.Transition(
+<<<<<<< Updated upstream
                         State.WaitingForProcess,
                         () => true,
                         () =>
                         {
                             Initialize();
+=======
+                        State.CheckingForUpdates,
+                        () => ConfigHelper.Main.Values.AutomaticallyCheckAndDownloadUpdates,
+                        () =>
+                        {
+                            Log.WriteLine("Searching for updates (You can disable this feature in file 'Config.json')!");
+                        }),
+                    new StateMachine<State>.Transition(
+                        State.WaitingForProcess,
+                        () => !ConfigHelper.Main.Values.AutomaticallyCheckAndDownloadUpdates,
+                        () =>
+                        {
+                            Initialize();
                         })
                 }));
+
+            m_StateMachine.Add(State.CheckingForUpdates, new StateMachine<State>.StateData(
+                null,
+                new StateMachine<State>.Transition[]
+                {
+                    new StateMachine<State>.Transition(
+                        State.WaitingForProcess,
+                        () => !updater.CheckForUpdates(),
+                        () =>
+                        {
+                            Initialize();
+                        }),
+                    new StateMachine<State>.Transition(
+                        State.DownloadingUpdates,
+                        () => updater.CheckForUpdates(),
+                        () =>
+                        {
+                            Log.WriteLine("Starting to download Updates!");
+                        })
+                }));
+
+            m_StateMachine.Add(State.DownloadingUpdates, new StateMachine<State>.StateData(
+                null,
+                new StateMachine<State>.Transition[]
+                {
+                    new StateMachine<State>.Transition(
+                        State.Restarting,
+                        () => updater.DownloadUpdates(),
+                        () =>
+                        {
+                            Log.WriteLine("Successfully downloaded all files!");
+                        }),
+                    new StateMachine<State>.Transition(
+                        State.DownloadFailed,
+                        () => !updater.DownloadUpdates(),
+                        () =>
+                        {
+                            Log.WriteLine("Failed to download Updates!");
+>>>>>>> Stashed changes
+                        })
+                }));
+
+            m_StateMachine.Add(State.Restarting, new StateMachine<State>.StateData(
+               null,
+               new StateMachine<State>.Transition[]
+               {
+                    new StateMachine<State>.Transition(
+                        State.Restarting,
+                        () => true,
+                        () =>
+                        {
+                            Log.WriteLine("Restarting Application!");
+                            string file = $".\\SmartHunter_{ConfigHelper.Versions.Values.SmartHunter}.exe";
+                            if (File.Exists(file))
+                            {
+                                Process.Start();
+                            }
+                            System.Environment.Exit(1);
+                            // kill current window, and at start of remove all exe that have no name of this ect...
+                        })
+               }));
 
             m_StateMachine.Add(State.WaitingForProcess, new StateMachine<State>.StateData(
                 null,

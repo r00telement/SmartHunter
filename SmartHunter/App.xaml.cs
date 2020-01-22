@@ -39,6 +39,33 @@ namespace SmartHunter
             m_SkinFile.Changed += (s1, e1) => { LoadSkin(); };
             LoadSkin();
 
+            try
+            {
+                string[] files = Directory.GetFiles(".");
+                string v = ConfigHelper.Versions.Values.SmartHunter;
+                foreach (string file in files)
+                {
+                    if (Path.GetExtension(file).Equals(".exe"))
+                    {
+                        if (file.Contains("SmartHunter_"))
+                        {
+                            if (!file.Contains(v))
+                            {
+                                File.Delete(file);
+                            }
+                        }
+                        else if (file.Contains("SmartHunter"))
+                        {
+                            File.Delete(file); // i feel dirty for this but didn't want to do something else :P
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+
             m_Overlay = new MhwOverlay(new ConsoleWindow(), new TeamWidgetWindow(), new MonsterWidgetWindow(), new PlayerWidgetWindow());
 
             base.OnStartup(e);
