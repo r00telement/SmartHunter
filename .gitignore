@@ -1,4 +1,6 @@
 .vs
-bin
+SmartHunter/bin/x64/Debug/*
 obj
 *.user
+
+!SmartHunter/bin/x64/Debug/SmartHunter.exe
