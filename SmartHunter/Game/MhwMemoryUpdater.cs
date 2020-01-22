@@ -39,8 +39,8 @@ namespace SmartHunter.Game
                     m_PlayerDamagePattern,
                     m_PlayerNamePattern,
                     m_MonsterPattern,
-                    m_MonsterOffsetPattern,
-                    m_PlayerBuffPattern
+                    //m_MonsterOffsetPattern,
+                    //m_PlayerBuffPattern
                 };
             }
         }

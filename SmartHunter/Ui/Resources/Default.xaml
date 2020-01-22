@@ -884,7 +884,7 @@
                     </Setter.Value>
                 </Setter>
             </MultiDataTrigger>
-
+            
             <!--Show NOT Numbers AND Percents-->
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
@@ -910,7 +910,7 @@
                     </Setter.Value>
                 </Setter>
             </MultiDataTrigger>
-
+           
             <!--Show NOT Numbers NOT Percents-->
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>

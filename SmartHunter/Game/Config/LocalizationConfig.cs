@@ -13,12 +13,20 @@ namespace SmartHunter.Config
             { "LOC_WIDGET_TEAM", "Team Widget" },
             { "LOC_WIDGET_PLAYER", "Player Widget" },
 
-            { "LOC_MONSTER_NARCACUGA", "Narcacuga" },
+            { "LOC_MONSTER_NARGACUGA", "Nargacuga" },
             { "LOC_MONSTER_NAMIELLE", "Namielle" },
             { "LOC_MONSTER_SHARA_ISHVALDA", "Shara Ishvalda" },
-            { "LOC_MONSTER_SHARA_BANDARO", "Banbaro" },
+            { "LOC_MONSTER_BANBARO", "Banbaro" },
+            { "LOC_MONSTER_TIGREX", "Tigrex" },
+            { "LOC_MONSTER_ZINOGRE", "Zinogre" },
+            { "LOC_MONSTER_PAOLUMU_NIGHTSHADE", "Nightshade Paolumu" },
+            { "LOC_MONSTER_EBONY_ODOGARON", "Ebony Odogaron" },
+            { "LOC_MONSTER_ANJANATH_FULGAR", "Fulgar Anjanath" },
+            { "LOC_MONSTER_PUKEI_PUKEI_CORAL", "Coral Pukei-Pukei" },
+            { "LOC_MONSTER_BRACHYDIOS", "Brachydios" },
 
-            { "LOC_MONSTER_UKNOWN", "Unknown Monster" },
+            //{ "LOC_MONSTER_UKNOWN", "Unknown Monster" },
+            { "LOC_MONSTER_UKNOWN", "DIO BRANDO" },
             { "LOC_MONSTER_ANJANATH", "Anjanath" },
             { "LOC_MONSTER_AZURE_RATHALOS", "Azure Rathalos" },
             { "LOC_MONSTER_BARROTH", "Barroth" },
@@ -56,25 +64,8 @@ namespace SmartHunter.Config
             { "LOC_PART_UKNOWN", "Unknown Part" },
 
 
-
-
-            { "LOC_PART_NECK_ROCK_LEFT", "Left Neck Rock" },
-            { "LOC_PART_NECK_ROCK_RIGHT", "Left Right Rock" },
-            { "LOC_PART_HEAD_ROCK", "Head Rock" },
-            { "LOC_PART_TAIL_ROCK", "Tail Rock" },
-            { "LOC_PART_WING_ROCK_LEFT", "Left Wing Rock" },
-            { "LOC_PART_WING_ROCK_RIGHT", "Right Wing Rock" },
-            { "LOC_PART_FRONT_LIMB_ROCK_LEFT", "Front Left Limb Rock" },
-            { "LOC_PART_FRONT_LIMB_ROCK_RIGHT", "Front Right Limb Rock" },
-            { "LOC_PART_HIND_LIMBS_ROCK", "Hind Limbs Rock" },
-            { "LOC_PART_FRONT_LIMB_LEFT", "Front Left Limb" },
-            { "LOC_PART_FRONT_LIMB_RIGHT", "Fron Right Limb" },
-            { "LOC_PART_FACE", "Face" },
-            { "LOC_PART_FACE+", "Face+" },
-            { "LOC_PART_FACE++", "Face++" },
-            { "LOC_PART_FACE+++", "Face+++" },
-
-
+            { "LOC_PART_FRONT_LEGS", "Front Legs" },
+            { "LOC_PART_BACK_LEGS", "Back Legs" },
 
 
             { "LOC_PART_HEAD", "Head" },

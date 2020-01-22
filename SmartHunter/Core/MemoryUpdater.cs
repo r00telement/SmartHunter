@@ -90,16 +90,10 @@ namespace SmartHunter.Core
                         () => true,
                         () =>
                         {
-                            int i = 0;
                             foreach (var pattern in Patterns)
                             {
                                 var memoryScan = new ThreadedMemoryScan(Process, pattern, true, ThreadsPerScan);
                                 m_MemoryScans.Add(memoryScan);
-                                if (i == 3)
-                                {
-                                    break;
-                                }
-                                i++;
                             }
                         })
                 }));
