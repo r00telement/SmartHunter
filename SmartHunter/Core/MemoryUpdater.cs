@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-<<<<<<< Updated upstream
-=======
 using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using SmartHunter.Core.Helpers;
 using SmartHunter.Game.Helpers;
->>>>>>> Stashed changes
 
 namespace SmartHunter.Core
 {
@@ -21,13 +19,10 @@ namespace SmartHunter.Core
         enum State
         {
             None,
-<<<<<<< Updated upstream
-=======
             CheckingForUpdates,
             DownloadingUpdates,
             Restarting,
             DownloadFailed,
->>>>>>> Stashed changes
             WaitingForProcess,
             ProcessFound,
             PatternScanning,
@@ -62,6 +57,8 @@ namespace SmartHunter.Core
 
         void CreateStateMachine()
         {
+            var updater = new Updater();
+
             m_StateMachine = new StateMachine<State>();
 
             m_StateMachine.Add(State.None, new StateMachine<State>.StateData(
@@ -69,13 +66,6 @@ namespace SmartHunter.Core
                 new StateMachine<State>.Transition[]
                 {
                     new StateMachine<State>.Transition(
-<<<<<<< Updated upstream
-                        State.WaitingForProcess,
-                        () => true,
-                        () =>
-                        {
-                            Initialize();
-=======
                         State.CheckingForUpdates,
                         () => ConfigHelper.Main.Values.AutomaticallyCheckAndDownloadUpdates,
                         () =>
@@ -128,7 +118,6 @@ namespace SmartHunter.Core
                         () =>
                         {
                             Log.WriteLine("Failed to download Updates!");
->>>>>>> Stashed changes
                         })
                 }));
 
@@ -145,10 +134,10 @@ namespace SmartHunter.Core
                             string file = $".\\SmartHunter_{ConfigHelper.Versions.Values.SmartHunter}.exe";
                             if (File.Exists(file))
                             {
-                                Process.Start();
+                                Process.Start(file);
                             }
+                            
                             System.Environment.Exit(1);
-                            // kill current window, and at start of remove all exe that have no name of this ect...
                         })
                }));
 
@@ -280,7 +269,7 @@ namespace SmartHunter.Core
             if (processExited && ShutdownWhenProcessExits)
             {
                 Log.WriteLine("Process exited. Shutting down.");
-                Application.Current.Shutdown();
+                System.Windows.Application.Current.Shutdown();
             }
         }
 

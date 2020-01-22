@@ -83,6 +83,7 @@
     <Compile Include="Core\Config\PreserveCollectionIntegrity.cs" />
     <Compile Include="Core\Data\TimedVisibility.cs" />
     <Compile Include="Core\Data\WidgetContext.cs" />
+    <Compile Include="Core\Helpers\Updater.cs" />
     <Compile Include="Core\PointerTrace.cs" />
     <Compile Include="Core\PointerTraceLevel.cs" />
     <Compile Include="Game\Config\DebugConfig.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Core\KeyboardInputEventArgs.cs" />
     <Compile Include="Game\Config\PlayerWidgetConfig.cs" />
     <Compile Include="Game\Config\TeamWidgetConfig.cs" />
+    <Compile Include="Game\Config\VersionsConfig.cs" />
     <Compile Include="Game\Data\PlayerStatusEffect.cs" />
     <Compile Include="Game\Data\WidgetContexts\PlayerWidgetContext.cs" />
     <Compile Include="Game\InputControl.cs" />

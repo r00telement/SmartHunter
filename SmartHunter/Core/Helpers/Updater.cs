@@ -41,7 +41,7 @@ namespace SmartHunter.Core.Helpers
                     {
                         using (client.OpenRead("http://google.com/generate_204")) // check connection (maybe pointless?)
                         {
-                            string branch = "Peppa";
+                            string branch = "master";
                             string[] files = new string[3] { "SmartHunter/Game/Config/MonsterDataConfig.cs", "SmartHunter/Game/Config/LocalizationConfig.cs", "SmartHunter/bin/x64/Debug/SmartHunter.exe" };
                             foreach (string file in files)
                             {
@@ -92,7 +92,7 @@ namespace SmartHunter.Core.Helpers
                         Log.WriteLine($"Downloading file '{name}'");
                         client.Dispose();
                         client.Headers["User-Agent"] = "Mozilla/4.0 (Compatible; Windows NT 5.1; MSIE 6.0) (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";
-                        if (Path.GetExtension(name).Equals("exe"))
+                        if (Path.GetExtension(name).Equals(".exe"))
                         {
                             client.DownloadFile(url, $"{nameWithNoExtension}_{hash}.exe");
                         }
