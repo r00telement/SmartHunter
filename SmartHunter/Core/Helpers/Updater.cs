@@ -43,7 +43,7 @@ namespace SmartHunter.Core.Helpers
                         using (client.OpenRead("http://google.com/generate_204")) // check connection (maybe pointless?)
                         {
                             string branch = "master";
-                            string[] files = new string[3] { "SmartHunter/Game/Config/MonsterDataConfig.cs", "SmartHunter/Game/Config/LocalizationConfig.cs", "SmartHunter/bin/x64/Debug/SmartHunter.exe" };
+                            string[] files = new string[5] { "SmartHunter/Game/Config/MemoryConfig.cs", "SmartHunter/Game/Config/PlayerDataConfig.cs", "SmartHunter/Game/Config/MonsterDataConfig.cs", "SmartHunter/Game/Config/LocalizationConfig.cs", "SmartHunter/bin/x64/Debug/SmartHunter.exe" };
                             foreach (string file in files)
                             {
                                 string apiUrl = $"{ApiEndpoint}{file}";
@@ -102,7 +102,6 @@ namespace SmartHunter.Core.Helpers
                         {
                             client.DownloadFile(url, name);
                         }
-                        
                         ConfigHelper.Versions.Values.GetType().GetField(nameWithNoExtension).SetValue(ConfigHelper.Versions.Values, hash);
                     }
                     ConfigHelper.Versions.Save();

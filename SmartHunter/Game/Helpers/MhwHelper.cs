@@ -30,9 +30,9 @@ namespace SmartHunter.Game.Helpers
                 // Doubly linked list
                 public static readonly ulong PreviousMonsterPtr = 0x28;
                 public static readonly ulong NextMonsterPtr = 0x30;
-                public static readonly ulong SizeScale = 0xB68;//0x174;
+                public static readonly ulong SizeScale = 0x180;
                 public static readonly ulong ModelPtr = 0x290;
-                public static readonly ulong PartCollection = 0x14528;//0x129D8 + 0x1BFA - 0x9A;
+                public static readonly ulong PartCollection = 0x14528;
                 public static readonly ulong RemovablePartCollection = PartCollection + 0x1ED0;
                 public static readonly ulong StatusEffectCollection = 0x19900;
             }
@@ -310,9 +310,9 @@ namespace SmartHunter.Game.Helpers
             {
                 return monster;
             }
-            //3 7FD0
+
             float currentHealth = MemoryHelper.Read<float>(process, health_component + DataOffsets.MonsterHealthComponent.CurrentHealth);
-            float sizeScale = 1.0f;//MemoryHelper.Read<float>(process, monsterAddress + DataOffsets.Monster.SizeScale + 0x40); // NON VA
+            float sizeScale = MemoryHelper.Read<float>(process, monsterAddress + DataOffsets.Monster.SizeScale + 0x40);
 
             monster = OverlayViewModel.Instance.MonsterWidget.Context.UpdateAndGetMonster(monsterAddress, id, maxHealth, currentHealth, sizeScale);
 

@@ -16,7 +16,7 @@ namespace SmartHunter.Core.Config
             bool isDesignInstance = System.ComponentModel.LicenseManager.UsageMode == System.ComponentModel.LicenseUsageMode.Designtime;
             if (!isDesignInstance)
             {
-                Load(true);
+                Load();
             }
         }
 
@@ -31,7 +31,7 @@ namespace SmartHunter.Core.Config
             Load();
         }
 
-        void Load(bool saveOnLoad = false)
+        void Load()
         {
             if (File.Exists(FullPathFileName))
             {
@@ -68,8 +68,7 @@ namespace SmartHunter.Core.Config
                     Log.WriteException(ex);
                 }
             }
-
-            if (saveOnLoad)
+            else
             {
                 Save();
             }
