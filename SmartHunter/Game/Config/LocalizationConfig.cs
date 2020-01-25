@@ -38,6 +38,8 @@ namespace SmartHunter.Config
             { "LOC_MONSTER_SEETHING_BAZELGEUSE", "Seething Bazelgeuse" },
             { "LOC_MONSTER_YIAN_GARUGA", "Yian Garuga" },
             { "LOC_MONSTER_SCARRED_YIAN_GARUGA", "Scarred Yian Garuga" },
+			{ "LOC_MONSTER_GOLD_RATHIAN", "Gold Rathian" },
+			{ "LOC_MONSTER_SILVER_RATHALOS", "Silver Rathalos" },
 
             //{ "LOC_MONSTER_UKNOWN", "Unknown Monster" },
             { "LOC_MONSTER_UKNOWN", "Kono Dio da!" },

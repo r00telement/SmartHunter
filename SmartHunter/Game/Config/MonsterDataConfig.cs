@@ -42,6 +42,24 @@ namespace SmartHunter.Game.Config
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
+			{
+                "em001_02", // true
+                new MonsterConfig("LOC_MONSTER_GOLD_RATHIAN",
+                    new MonsterPartConfig[]
+                    {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
+                        new MonsterPartConfig("Part", "LOC_PART_HEAD"),
+                        new MonsterPartConfig("Part", "LOC_PART_BODY"),
+                        new MonsterPartConfig("Part", "LOC_PART_WING_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL")
+                    },
+                    1754.37f, 1f,
+                    new MonsterCrownConfig(CrownPreset.Standard)
+                )
+            },
             {
                 "em002_00", // true
                 new MonsterConfig("LOC_MONSTER_RATHALOS",
@@ -63,6 +81,24 @@ namespace SmartHunter.Game.Config
             {
                 "em002_01", // true
                 new MonsterConfig("LOC_MONSTER_AZURE_RATHALOS",
+                    new MonsterPartConfig[]
+                    {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
+                        new MonsterPartConfig("Part", "LOC_PART_HEAD"),
+                        new MonsterPartConfig("Part", "LOC_PART_BODY"),
+                        new MonsterPartConfig("Part", "LOC_PART_WING_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL")
+                    },
+                    1704.22f, 1f,
+                    new MonsterCrownConfig(CrownPreset.Standard)
+                )
+            },
+			{
+                "em002_02", // true
+                new MonsterConfig("LOC_MONSTER_SILVER_RATHALOS",
                     new MonsterPartConfig[]
                     {
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
@@ -426,9 +462,9 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_FIN"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
                         new MonsterPartConfig("Part", "LOC_PART_BACK"),
-                        new MonsterPartConfig("Part", "LOC_PART_LEFT_LEG"),
-                        new MonsterPartConfig("Part", "LOC_PART_RIGTH_LEG"),
-                        new MonsterPartConfig("Part", "LOC_PART_RIGTH_TAIL")
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
                     1630.55f, 1f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
@@ -444,9 +480,9 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_FIN"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
                         new MonsterPartConfig("Part", "LOC_PART_BACK"),
-                        new MonsterPartConfig("Part", "LOC_PART_LEFT_LEG"),
-                        new MonsterPartConfig("Part", "LOC_PART_RIGTH_LEG"),
-                        new MonsterPartConfig("Part", "LOC_PART_RIGTH_TAIL")
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
                     1630.55f, 1f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
