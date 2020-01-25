@@ -61,7 +61,7 @@ namespace SmartHunter.Game.Helpers
                 public static readonly ulong MaxHealth = 0x0C;
                 public static readonly ulong CurrentHealth = 0x10;
                 public static readonly ulong TimesBrokenCount = 0x18;
-                public static readonly ulong NextPart = 0x3F0;
+                public static readonly ulong NextPart = 0x1F8;//0x3F0;
             }
 
             public static class MonsterRemovablePartCollection
@@ -255,7 +255,14 @@ namespace SmartHunter.Game.Helpers
 
             List<ulong> monsterAddresses = new List<ulong>();
 
-            ulong firstMonster = monsterBaseList + DataOffsets.Monster.MonsterStartOfStructOffset;
+            ulong firstMonster = MemoryHelper.Read<ulong>(process, monsterBaseList + DataOffsets.Monster.PreviousMonsterOffset);
+
+            if (firstMonster == 0x0)
+            {
+                firstMonster = monsterBaseList;// + DataOffsets.Monster.MonsterStartOfStructOffset;
+            }
+
+            firstMonster += DataOffsets.Monster.MonsterStartOfStructOffset;
 
             ulong currentMonsterAddress = firstMonster;
             while (currentMonsterAddress != 0)
@@ -367,6 +374,8 @@ namespace SmartHunter.Game.Helpers
             {
                 ulong firstPartAddress = monster.Address + DataOffsets.Monster.PartCollection + DataOffsets.MonsterPartCollection.FirstPart;
 
+                //TODO: probably here there's a linked list, for monster parts
+
                 for (int index = 0; index < DataOffsets.MonsterPartCollection.MaxItemCount; ++index)
                 {
                     ulong currentPartOffset = DataOffsets.MonsterPart.NextPart * (ulong)index;
@@ -378,10 +387,6 @@ namespace SmartHunter.Game.Helpers
                     if (maxHealth > 0)
                     {
                         UpdateMonsterPart(process, monster, currentPartAddress);
-                    }
-                    else
-                    {
-                        break;
                     }
                 }
             }
