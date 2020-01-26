@@ -337,9 +337,6 @@ namespace SmartHunter.Game.Helpers
                 var p = MemoryHelper.ReadMultiLevelPointer(false, process, monsterAddress + 0xF0, 0x198, 0x0);
                 var p1 = MemoryHelper.ReadMultiLevelPointer(false, process, monsterAddress + 0x10, 0x100, 0x128, 0x0);
                 var p2 = MemoryHelper.ReadMultiLevelPointer(false, process, monsterAddress + 0x10, 0xF8, 0xF8, 0x0);
-
-                List<ulong> b = new List<ulong>();
-                */
                 
 
                 var t = MemoryHelper.Read<ulong>(process, monsterAddress + DataOffsets.Monster.MonsterStartOfStructOffset + 0x78);
@@ -363,6 +360,8 @@ namespace SmartHunter.Game.Helpers
                     t2 = MemoryHelper.Read<ulong>(process, t2 + DataOffsets.Monster.NextMonsterOffset);
                     i++;
                 }
+
+                */
 
                 // TODO: I think here we can check if the current player is the host of the party, as if's not there's no point on updating monster parts (cause only the host of the party will see those parts)
                 UpdateMonsterParts(process, monster);
