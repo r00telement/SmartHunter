@@ -1,7 +1,5 @@
-.vs
-SmartHunter/bin/x64/Debug/*
-obj
-*.user
-
-!SmartHunter/bin/x64/Debug/SmartHunter.exe
-!SmartHunter/bin/x64/Debug/Newtonsoft.Json.dll
+[Bb]in
+[Dd]ebug/
+[Rr]elease*/
+obj/
+.vs/
