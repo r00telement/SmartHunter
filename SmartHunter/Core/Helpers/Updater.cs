@@ -23,7 +23,7 @@ namespace SmartHunter.Core.Helpers
                     using var client = new WebClient();
                     using var stream = client.OpenRead("http://google.com/generate_204");// check connection (maybe pointless?)
                     var branch = "master";
-                    var files = new string[5] { "SmartHunter/Game/Config/MemoryConfig.cs", "SmartHunter/Game/Config/PlayerDataConfig.cs", "SmartHunter/Game/Config/MonsterDataConfig.cs", "SmartHunter/Game/Config/LocalizationConfig.cs", "SmartHunter/bin/x64/Debug/SmartHunter.exe" };
+                    var files = new string[5] { "SmartHunter/Game/Config/MemoryConfig.cs", "SmartHunter/Game/Config/PlayerDataConfig.cs", "SmartHunter/Game/Config/MonsterDataConfig.cs", "SmartHunter/Game/Config/LocalizationConfig.cs", "SmartHunter/bin/Debug/SmartHunter.exe" };
                     foreach (var file in files)
                     {
                         var apiUrl = $"{_apiEndpoint}{file}";

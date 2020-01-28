@@ -1,5 +1,9 @@
-[Bb]in
-[Dd]ebug/
-[Rr]elease*/
+SmartHunter/bin/Debug/*
+SmartHunter/bin/Release/
 obj/
 .vs/
+
+# allow for auto updates
+!SmartHunter/bin/Debug/Newtonsoft.Json.dll
+!SmartHunter/bin/Debug/SmartHunter.exe
+
