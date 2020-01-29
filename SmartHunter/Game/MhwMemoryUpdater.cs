@@ -11,7 +11,6 @@ namespace SmartHunter.Game
         BytePattern m_PlayerDamagePattern = new BytePattern(ConfigHelper.Memory.Values.PlayerDamagePattern);
         BytePattern m_PlayerNamePattern = new BytePattern(ConfigHelper.Memory.Values.PlayerNamePattern);
         BytePattern m_MonsterPattern = new BytePattern(ConfigHelper.Memory.Values.MonsterPattern);
-        BytePattern m_MonsterOffsetPattern = new BytePattern(ConfigHelper.Memory.Values.MonsterOffsetPattern);
         BytePattern m_PlayerBuffPattern = new BytePattern(ConfigHelper.Memory.Values.PlayerBuffPattern);
 
         protected override string ProcessName
@@ -39,7 +38,6 @@ namespace SmartHunter.Game
                     m_PlayerDamagePattern,
                     m_PlayerNamePattern,
                     m_MonsterPattern,
-                    //m_MonsterOffsetPattern,
                     //m_PlayerBuffPattern
                 };
             }
@@ -115,7 +113,6 @@ namespace SmartHunter.Game
                 //the instructions commented sometimes return the right address (q.q)
 
                 var monsterRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_MonsterPattern.MatchedAddresses.First()) - 0x36CE0;//MemoryHelper.LoadEffectiveAddressRelative(Process, m_MonsterPattern.MatchedAddresses.First());
-                //var monsterOffset = MemoryHelper.ReadStaticOffset(Process, m_MonsterOffsetPattern.MatchedAddresses.First());
                 var monsterBaseList = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, monsterRootPtr, 0x128, 0x8, 0x0);//MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, monsterRootPtr, monsterOffset, 0x18, 0xD0, 0xC8, 0x738, 0x8, 0x0);
 
                 MhwHelper.UpdateMonsterWidget(Process, monsterBaseList);
@@ -145,7 +142,7 @@ namespace SmartHunter.Game
 
                 // The local player is guaranteed to be the last item in the list,
                 // So, keep reading each pointer in the collection until we reach null
-                var buffPtr = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, playerBuffRootPtr, 0X9B0 + 0XC8, 0);
+                var buffPtr = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, playerBuffRootPtr, 0x9B0 + 0xC8, 0); // 0xA78
                 ulong lastBuffAddress = 0;
                 ulong currentBuffAddress = MemoryHelper.Read<ulong>(Process, buffPtr);
                 while (currentBuffAddress != 0)

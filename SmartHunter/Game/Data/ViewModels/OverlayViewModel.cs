@@ -80,6 +80,7 @@ namespace SmartHunter.Game.Data.ViewModels
 
         void GenerateSampleData()
         {
+            /*
             TeamWidget.Context.UpdateAndGetPlayer(0, "Jade", 3244);
             TeamWidget.Context.UpdateAndGetPlayer(1, "Kabuto", 2182);
             TeamWidget.Context.UpdateAndGetPlayer(2, "mike the father", 569);
@@ -180,6 +181,7 @@ namespace SmartHunter.Game.Data.ViewModels
 
             //// Mega Demondrug
             //PlayerWidget.Context.UpdateAndGetPlayerStatusEffect(80, null, true);
+            */
         }
     }    
 }
