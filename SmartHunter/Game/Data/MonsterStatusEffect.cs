@@ -22,6 +22,8 @@ namespace SmartHunter.Game.Data
             }
         }
 
+        public ulong Address;
+
         public string GroupId
         {
             get
@@ -56,9 +58,10 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        public MonsterStatusEffect(Monster owner, int index, float maxBuildup, float currentBuildup, float maxDuration, float currentDuration, int timesActivatedCount)
+        public MonsterStatusEffect(Monster owner, ulong address, int index, float maxBuildup, float currentBuildup, float maxDuration, float currentDuration, int timesActivatedCount)
         {
             m_Owner = owner;
+            Address = address;
             m_Index = index;
             Buildup = new Progress(maxBuildup, currentBuildup, true);
             Duration = new Progress(maxDuration, currentDuration, true);

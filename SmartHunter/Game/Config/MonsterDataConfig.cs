@@ -160,7 +160,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEGS")
                     },
                     536.26f, 1f,
-                    new MonsterCrownConfig(CrownPreset.Standard)
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
                 )
             },
             { // true
@@ -213,7 +214,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WINGS")
                     },
                     1913.13f, 0.85f,
-                    new MonsterCrownConfig(CrownPreset.Standard)
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
                 )
             },
             { // true
@@ -230,7 +232,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
                     1828.69f, 0.85f,
-                    new MonsterCrownConfig(CrownPreset.Standard)
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
                 )
             },
             { // true
@@ -247,7 +250,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
                     1790.15f, 0.85f,
-                    new MonsterCrownConfig(CrownPreset.Standard)
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
                 )
             },
             {
@@ -590,7 +594,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
                     1848.12f, 1f,
-                    new MonsterCrownConfig(CrownPreset.Standard)
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
                 )
             },
             { // true
@@ -611,7 +616,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
                     1848.12f, 1f,
-                    new MonsterCrownConfig(CrownPreset.Standard)
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
                 )
             },
             { // true
@@ -632,7 +638,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
                     4509.1f, 1f,
-                    null
+                    null,
+                    true
                 )
             },
             { // true
@@ -657,7 +664,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WEAK_SHELL_RIGHT")
                     },
                     25764.59f, 1f,
-                    null
+                    null,
+                    true
                 )
             },
             { // true
@@ -882,7 +890,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WINGS")
                     },
                     2095.4f, 0.9f,
-                    new MonsterCrownConfig(CrownPreset.Standard)
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
                 )
             },
             { // true
@@ -902,7 +911,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WINGS")
                     },
                     2095.4f, 0.9f,
-                    new MonsterCrownConfig(CrownPreset.Standard)
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
                 )
             },
             { // true
@@ -946,7 +956,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL_RIGHT_GOLD")
                     },
                     4573.25f, 1f,
-                    null
+                    null,
+                    true
                 )
             },
             { // true
@@ -1014,7 +1025,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
                     3423.65f, 1f,
-                    null
+                    null,
+                    true
                 )
             },
             { // true
@@ -1071,7 +1083,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL_ICE")
                     },
                     2596.05f, 0.85f,
-                    new MonsterCrownConfig(CrownPreset.Standard)
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
                 )
             },
             { // true
@@ -1088,7 +1101,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WINGS")
                     },
                     2048.25f, 1f,
-                    new MonsterCrownConfig(CrownPreset.Standard)
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
                 )
             },
             { // true
@@ -1114,7 +1128,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
                     2910.91f, 1f,
-                    new MonsterCrownConfig(CrownPreset.Alternate)
+                    new MonsterCrownConfig(CrownPreset.Alternate),
+                    true
                 )
             },
             { // true
@@ -1127,14 +1142,38 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
                         new MonsterPartConfig("Part", "LOC_PART_LEGS"),
-                        new MonsterPartConfig("Part", "LOC_PART_ARMS")
+                        new MonsterPartConfig("Part", "LOC_PART_ARMS"),
+                        new MonsterPartConfig("Part", "LOC_4"),
+                        new MonsterPartConfig("Part", "LOC_5"),
+                        new MonsterPartConfig("Part", "LOC_JAGRAS_SUMMONER")
                     },
                     549.70f, 1f,
-                    null
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
+                )
+            },
+            { // true
+                "em127_01",
+                new MonsterConfig("LOC_MONSTER_ANCIENT_LESHEN",
+                    new MonsterPartConfig[]
+                    {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_ANTLER_LEFT", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_ANTLER_RIGHT", true),
+                        new MonsterPartConfig("Part", "LOC_PART_HEAD"),
+                        new MonsterPartConfig("Part", "LOC_PART_BODY"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEGS"),
+                        new MonsterPartConfig("Part", "LOC_PART_ARMS"),
+                        new MonsterPartConfig("Part", "LOC_4"),
+                        new MonsterPartConfig("Part", "LOC_5"),
+                        new MonsterPartConfig("Part", "LOC_JAGRAS_SUMMONER")
+                    },
+                    633.81f, 1f,
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
                 )
             }
         };
-
+        /*
         public MonsterStatusEffectConfig[] StatusEffects =
         {
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_POISON",       "08", "15C", "178", "17C", "1A4", "1A8"),
@@ -1146,12 +1185,51 @@ namespace SmartHunter.Game.Config
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_STUN",         "38", "15C", "178", "17C", "1A4", "1A8"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_TRANQUILIZE",  "40", "15C", "178", "17C", "1A4", "1A8"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_FLASH",        "48", "15C", "178", "17C", "1A4", "1A8"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_KNOW_DOWN",    "48", "15C", "178", "17C", "1A4", "1A8"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_DUNG",         "58", "15C", "178", "17C", "1A4", "1A8"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_SHOCK_TRAP",   "68", "15C", "178", "17C", "1A4", "1A8"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_PITFALL_TRAP", "70", "15C", "178", "17C", "1A4", "1A8"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_ELDERSEAL",    "88", "15C", "178", "17C", "1A4", "1A8"),
             new MonsterStatusEffectConfig("Rage",         "LOC_STATUS_EFFECT_RAGE",         null, "190", "180", "1A0", "18C", "198"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_FATIGUE",      null, "42C", "420", "424", "430",  null, true)
+        };
+        */
+
+        public MonsterStatusEffectConfig[] StatusEffects =
+        {
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_0"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_POISON"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_PARALYSIS"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_SLEEP"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_BLAST"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_MOUNT"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_EXHAUST"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_STUN"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_TRANQUILIZE"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_FLASH"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_10"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_KNOW_DOWN"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_12"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_13"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_SHOCK_TRAP"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_PITFALL_TRAP"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_16"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_17"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_ELDERSEAL"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_SMOKING"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_20"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_21"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_22"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_VIOLATED"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_24"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_25"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_26"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_27"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_28"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_29"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_30"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_31"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_32")
         };
     }
 }

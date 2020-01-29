@@ -90,6 +90,7 @@ namespace SmartHunter.Config
             { "LOC_PART_LEGS_ICE", "Legs Ice" },
             { "LOC_PART_TAIL_ICE", "Tail Ice" },
 
+            { "LOC_PART_HEAD_ROCK", "Head Rock" },
             { "LOC_PART_NECK_LEFT_ROCK", "Left Neck Rock" },
             { "LOC_PART_NECK_RIGHT_ROCK", "Right Right Rock" },
             { "LOC_PART_TAIL_ROCK", "Tail Rock" },
@@ -162,9 +163,13 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_MOUNT", "Mount" },
             { "LOC_STATUS_EFFECT_EXHAUST", "Exhaust" },
             { "LOC_STATUS_EFFECT_STUN", "Stun" },
+            { "LOC_STATUS_EFFECT_KO", "KO" },
             { "LOC_STATUS_EFFECT_TRANQUILIZE", "Tranquilize" },
             { "LOC_STATUS_EFFECT_FLASH", "Flash" },
             { "LOC_STATUS_EFFECT_DUNG", "Dung" },
+            { "LOC_STATUS_EFFECT_KNOW_DOWN", "Kown Down" },
+            { "LOC_STATUS_EFFECT_SMOKING", "Smoking" },
+            { "LOC_STATUS_EFFECT_VIOLATED", "Violated" },
 
             //To test monster parts
             { "LOC_PART_0", "0" },
@@ -183,6 +188,26 @@ namespace SmartHunter.Config
             { "LOC_PART_13", "13" },
             { "LOC_PART_14", "14" },
             { "LOC_PART_15", "15" },
+            { "LOC_PART_16", "16" },
+            { "LOC_PART_17", "17" },
+            { "LOC_PART_18", "18" },
+            { "LOC_PART_19", "19" },
+            { "LOC_PART_20", "20" },
+            { "LOC_PART_21", "21" },
+            { "LOC_PART_22", "22" },
+            { "LOC_PART_23", "23" },
+            { "LOC_PART_24", "24" },
+            { "LOC_PART_25", "25" },
+            { "LOC_PART_26", "26" },
+            { "LOC_PART_27", "27" },
+            { "LOC_PART_28", "28" },
+            { "LOC_PART_29", "29" },
+            { "LOC_PART_30", "30" },
+            { "LOC_PART_31", "31" },
+            { "LOC_PART_32", "32" },
+
+            //statuses
+            { "LOC_STATUS_0", "Status 0" },
 
             // Hunting Horn
             { "LOC_STATUS_EFFECT_SELF_IMPROVEMENT", "Self-improvement" },
@@ -309,8 +334,10 @@ namespace SmartHunter.Config
 
             { "LOC_EQUIPMENT_ASSASSINS_HOOD", "Assassin's Hood" },
             { "LOC_MONSTER_LESHEN", "Leshen" },
+            { "LOC_MONSTER_ANCIENT_LESHEN", "Ancient Leshen" },
             { "LOC_REMOVABLE_PART_ANTLER_LEFT", "Removable Left Antler" },
             { "LOC_REMOVABLE_PART_ANTLER_RIGHT", "Removable Right Antler" },
+            { "LOC_JAGRAS_SUMMONER", "Jagras Summoner" },
 
             { "LOC_STATUS_EFFECT_RAGE", "Rage" },
             { "LOC_STATUS_EFFECT_STAMINA", "Stamina" },
@@ -319,6 +346,7 @@ namespace SmartHunter.Config
         
         public LocalizationConfig()
         {
+
         }
     }
 }
