@@ -1,7 +1,9 @@
-.vs
-SmartHunter/bin/x64/Debug/*
-obj
-*.user
+SmartHunter/bin/Debug/*
+SmartHunter/bin/Release/
+obj/
+.vs/
 
-!SmartHunter/bin/x64/Debug/SmartHunter.exe
-!SmartHunter/bin/x64/Debug/Newtonsoft.Json.dll
+# allow for auto updates
+!SmartHunter/bin/Debug/Newtonsoft.Json.dll
+!SmartHunter/bin/Debug/SmartHunter.exe
+
