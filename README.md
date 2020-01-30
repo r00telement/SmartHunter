@@ -16,7 +16,7 @@ A complete overlay for Monster Hunter: World on PC. Distributed on [Nexus Mods](
 
 ## How to install
 
-- Download `SmartHunter.exe` and `Newtonsoft.Json.dll` from here https://github.com/gabrielefilipp/SmartHunter/tree/master/SmartHunter/bin/x64/Debug.
+- Download `SmartHunter.exe` and `Newtonsoft.Json.dll` from here https://github.com/gabrielefilipp/SmartHunter/tree/master/SmartHunter/bin/Debug.
 - Place them in a new folder.
 - IMPORTANT: If you are replacing the new `.exe` in the same folder of the old SmartHunter please just follow the instructions `## How to update`.
 - You're ready for the hunt.
