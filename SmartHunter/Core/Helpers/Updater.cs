@@ -23,26 +23,31 @@ namespace SmartHunter.Core.Helpers
                     using var client = new WebClient();
                     using var stream = client.OpenRead("http://google.com/generate_204");// check connection (maybe pointless?)
                     var branch = "master";
-                    var files = new string[5] { "SmartHunter/Game/Config/MemoryConfig.cs", "SmartHunter/Game/Config/PlayerDataConfig.cs", "SmartHunter/Game/Config/MonsterDataConfig.cs", "SmartHunter/Game/Config/LocalizationConfig.cs", "SmartHunter/bin/Debug/SmartHunter.exe" };
-                    foreach (var file in files)
-                    {
-                        var apiUrl = $"{_apiEndpoint}{file}";
-                        var name = Path.GetFileName(file);
-                        var nameWithNoExtension = Path.GetFileNameWithoutExtension(name);
+                    //var files = new string[5] { "SmartHunter/Game/Config/MemoryConfig.cs", "SmartHunter/Game/Config/PlayerDataConfig.cs", "SmartHunter/Game/Config/MonsterDataConfig.cs", "SmartHunter/Game/Config/LocalizationConfig.cs", "SmartHunter/bin/Debug/SmartHunter.exe" };
 
+                    UpdateNode[] nodes = new UpdateNode[5] { new UpdateNode("", "SmartHunter/Game/Config/MemoryConfig.cs", "Memory.json", "", false), new UpdateNode("", "SmartHunter/Game/Config/PlayerDataConfig.cs", "PlayerData.json", "", false), new UpdateNode("", "SmartHunter/Game/Config/MonsterDataConfig.cs", "MonsterData.json", "", false), new UpdateNode("", "SmartHunter/Game/Config/LocalizationConfig.cs", "en-US.json", "", false), new UpdateNode("", "SmartHunter/bin/Debug/SmartHunter.exe", "SmartHunter.exe", "", true)  };
+
+                    foreach (UpdateNode node in nodes)
+                    {
+                        string apiUrl = $"{_apiEndpoint}{node.FilePath}";
                         client.Dispose();
                         client.Headers["User-Agent"] = _dummyUserAgent;
 
-                        var apiResponseStr = client.DownloadString(apiUrl);
-                        var json = JArray.Parse(apiResponseStr);
+                        string apiResponseStr = client.DownloadString(apiUrl);
+                        JArray json = JArray.Parse(apiResponseStr);
                         if (json.Count > 0)
                         {
-                            var lastCommit = (JObject)json[0];
-                            var hash = (string)lastCommit["sha"];
-                            if (!ConfigHelper.Versions.Values.GetType().GetField(nameWithNoExtension).GetValue(ConfigHelper.Versions.Values).Equals(hash))
+                            JObject lastCommit = (JObject)json[0];
+                            string hash = (string)lastCommit["sha"];
+                            if (!ConfigHelper.Versions.Values.GetType().GetField(Path.GetFileNameWithoutExtension(node.FilePath)).GetValue(ConfigHelper.Versions.Values).Equals(hash))
                             {
-                                Log.WriteLine($"Found a new version of '{name}'");
-                                _needUpdates.Add(new UpdateNode(hash, name, $"{_apiRaw}/{branch}/{file}"));
+                                Log.WriteLine($"Found a new version of '{Path.GetFileName(node.FileName)}'");
+                                node.Hash = hash;
+                                if (node.NeedDownload)
+                                {
+                                    node.DownloadUrl = $"{_apiRaw}/{branch}/{node.FilePath}";
+                                }
+                                _needUpdates.Add(node);
                             }
                         }
                     }
@@ -63,23 +68,33 @@ namespace SmartHunter.Core.Helpers
                 using var client = new WebClient();
                 while (_needUpdates.Count > 0)
                 {
-                    var node = _needUpdates.First();
-                    var hash = node.Hash;
-                    var name = node.FileName;
-                    var url = node.DownloadUrl;
-                    var nameWithNoExtension = Path.GetFileNameWithoutExtension(name);
-                    Log.WriteLine($"Downloading file '{name}'");
-                    client.Dispose();
-                    client.Headers["User-Agent"] = _dummyUserAgent;
-                    if (Path.GetExtension(name).Equals(".exe"))
+                    UpdateNode node = _needUpdates.First();
+                    string hash = node.Hash;
+                    string filePath = node.FilePath;
+                    string fileName = node.FileName;
+                    string fileNamePath = Path.GetFileName(filePath);
+                    string fileNamePathWithNoExtension = Path.GetFileNameWithoutExtension(filePath);
+                    if (node.NeedDownload)
                     {
-                        client.DownloadFile(url, $"{nameWithNoExtension}_{hash}.exe");
+                        string url = node.DownloadUrl;
+                        Log.WriteLine($"Downloading file '{fileNamePath}'");
+                        client.Dispose();
+                        client.Headers["User-Agent"] = _dummyUserAgent;
+                        if (Path.GetExtension(fileNamePath).Equals(".exe"))
+                        {
+                            client.DownloadFile(url, $"{fileNamePathWithNoExtension}_{hash}.exe");
+                        }
+                        else
+                        {
+                            client.DownloadFile(url, fileNamePath);
+                        }
                     }
                     else
                     {
-                        client.DownloadFile(url, name);
+                        Log.WriteLine($"Deleting file '{fileName}'");
+                        File.Delete(fileName);
                     }
-                    ConfigHelper.Versions.Values.GetType().GetField(nameWithNoExtension).SetValue(ConfigHelper.Versions.Values, hash);
+                    ConfigHelper.Versions.Values.GetType().GetField(fileNamePathWithNoExtension).SetValue(ConfigHelper.Versions.Values, hash);
                     ConfigHelper.Versions.Save();
                     _needUpdates.Remove(node);
                 }
@@ -91,17 +106,20 @@ namespace SmartHunter.Core.Helpers
             return true;
         }
 
-        private class UpdateNode
+        private class UpdateNode // TODO: Add a variable to contain a function pointer to execute a specific action if that Node needs to be updated
         {
-            public string Hash { get; }
-            public string FileName { get; }
-            public string DownloadUrl { get; }
-
-            public UpdateNode(string h, string name, string url)
+            public string Hash { get; set; }
+            public string FilePath { get; }
+            public string FileName { get; set; }
+            public string DownloadUrl { get; set; }
+            public bool NeedDownload { get; }
+            public UpdateNode(string h, string path, string name, string url, bool download = false)
             {
                 Hash = h;
+                FilePath = path;
                 FileName = name;
                 DownloadUrl = url;
+                NeedDownload = download;
             }
         }
     }
