@@ -444,7 +444,7 @@ namespace SmartHunter.Game.Helpers
 
         private static void UpdateMonsterStatusEffects(Process process, Monster monster)
         {
-            int maxIndex = ConfigHelper.MonsterData.Values.StatusEffects.Where(s => s.GroupId.Equals("StatusEffect")).Count();
+            int maxIndex = ConfigHelper.MonsterData.Values.StatusEffects.Where(s => s.GroupId.Equals("StatusEffect")).Count() - 1;
             var statuses = monster.StatusEffects;
             if (statuses.Where(s => s.GroupId.Equals("StatusEffect")).Any())
             {
@@ -466,11 +466,11 @@ namespace SmartHunter.Game.Helpers
 
                     if (maxBuildup > 0 || maxDuration > 0)
                     {
-                        int index = MemoryHelper.Read<int>(process, status.Address + 0x198);
+                        uint index = MemoryHelper.Read<uint>(process, status.Address + 0x198);
                         if (index <= maxIndex)
                         {
                             var statusEffectConfig = ConfigHelper.MonsterData.Values.StatusEffects[index];
-                            monster.UpdateAndGetStatusEffect(status.Address, index, maxBuildup > 0 ? maxBuildup : 1, !statusEffectConfig.InvertBuildup ? currentBuildup : maxBuildup - currentBuildup, maxDuration, !statusEffectConfig.InvertDuration ? currentDuration : maxDuration - currentDuration, timesActivatedCount);
+                            monster.UpdateAndGetStatusEffect(status.Address, (int)index, maxBuildup > 0 ? maxBuildup : 1, !statusEffectConfig.InvertBuildup ? currentBuildup : maxBuildup - currentBuildup, maxDuration, !statusEffectConfig.InvertDuration ? currentDuration : maxDuration - currentDuration, timesActivatedCount);
                         }
                     }
                 }
@@ -510,11 +510,11 @@ namespace SmartHunter.Game.Helpers
 
                         if (maxBuildup > 0 || maxDuration > 0)
                         {
-                            int index = MemoryHelper.Read<int>(process, currentStatusPointer + 0x198);
+                            uint index = MemoryHelper.Read<uint>(process, currentStatusPointer + 0x198);
                             if (index <= maxIndex && !((index == 14 || index == 15) && monster.isElder)) // skip traps for elders
                             {
                                 var statusEffectConfig = ConfigHelper.MonsterData.Values.StatusEffects[index];
-                                monster.UpdateAndGetStatusEffect(currentStatusPointer, index, maxBuildup > 0 ? maxBuildup : 1, !statusEffectConfig.InvertBuildup ? currentBuildup : maxBuildup - currentBuildup, maxDuration, !statusEffectConfig.InvertDuration ? currentDuration : maxDuration - currentDuration, timesActivatedCount);
+                                monster.UpdateAndGetStatusEffect(currentStatusPointer, (int)index, maxBuildup > 0 ? maxBuildup : 1, !statusEffectConfig.InvertBuildup ? currentBuildup : maxBuildup - currentBuildup, maxDuration, !statusEffectConfig.InvertDuration ? currentDuration : maxDuration - currentDuration, timesActivatedCount);
                             }
                         }
                     }
