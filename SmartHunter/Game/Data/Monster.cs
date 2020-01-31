@@ -185,7 +185,7 @@ namespace SmartHunter.Game.Data
             
             if (statusEffect != null)
             {
-                statusEffect.Address = Address;
+                //statusEffect.Address = Address;
                 statusEffect.Duration.Max = maxDuration;
                 statusEffect.Duration.Current = currentDuration;
                 statusEffect.Buildup.Max = maxBuildup;
