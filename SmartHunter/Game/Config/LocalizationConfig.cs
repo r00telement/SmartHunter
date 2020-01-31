@@ -1,4 +1,4 @@
-﻿using SmartHunter.Core.Config;
+using SmartHunter.Core.Config;
 using System.Collections.Generic;
 
 namespace SmartHunter.Config
@@ -208,6 +208,7 @@ namespace SmartHunter.Config
 
             //statuses
             { "LOC_STATUS_0", "Status 0" },
+            { "LOC_STATUS_EFFECT_CLAW_ATTACK", "Claw Attack" },
 
             // Hunting Horn
             { "LOC_STATUS_EFFECT_SELF_IMPROVEMENT", "Self-improvement" },

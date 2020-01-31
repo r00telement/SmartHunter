@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace SmartHunter.Game.Config
 {
@@ -1219,7 +1219,7 @@ namespace SmartHunter.Game.Config
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_SMOKING"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_20"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_21"),
-            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_22"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_CLAW_ATTACK", true),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_VIOLATED"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_24"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_25"),
@@ -1229,7 +1229,9 @@ namespace SmartHunter.Game.Config
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_29"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_30"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_31"),
-            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_32")
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_32"),
+
+            new MonsterStatusEffectConfig("Rage", "LOC_STATUS_EFFECT_RAGE"),
         };
     }
 }

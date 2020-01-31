@@ -1,4 +1,4 @@
-﻿using SmartHunter.Core.Helpers;
+using SmartHunter.Core.Helpers;
 using SmartHunter.Game.Data;
 using SmartHunter.Game.Data.ViewModels;
 using System;
@@ -444,8 +444,9 @@ namespace SmartHunter.Game.Helpers
 
         private static void UpdateMonsterStatusEffects(Process process, Monster monster)
         {
+            int maxIndex = ConfigHelper.MonsterData.Values.StatusEffects.Where(s => s.GroupId.Equals("StatusEffect")).Count();
             var statuses = monster.StatusEffects;
-            if (statuses.Any())
+            if (statuses.Where(s => s.GroupId.Equals("StatusEffect")).Any())
             {
                 foreach (MonsterStatusEffect status in statuses)
                 {
@@ -466,7 +467,7 @@ namespace SmartHunter.Game.Helpers
                     if (maxBuildup > 0 || maxDuration > 0)
                     {
                         int index = MemoryHelper.Read<int>(process, status.Address + 0x198);
-                        if (index <= 32)
+                        if (index <= maxIndex)
                         {
                             var statusEffectConfig = ConfigHelper.MonsterData.Values.StatusEffects[index];
                             monster.UpdateAndGetStatusEffect(status.Address, index, maxBuildup > 0 ? maxBuildup : 1, !statusEffectConfig.InvertBuildup ? currentBuildup : maxBuildup - currentBuildup, maxDuration, !statusEffectConfig.InvertDuration ? currentDuration : maxDuration - currentDuration, timesActivatedCount);
@@ -478,9 +479,7 @@ namespace SmartHunter.Game.Helpers
             {
                 ulong baseStatus = MemoryHelper.Read<ulong>(process, monster.Address + DataOffsets.Monster.MonsterStartOfStructOffset + 0x78);
                 baseStatus = MemoryHelper.Read<ulong>(process, baseStatus + 0x57A8);
-
                 ulong nani = baseStatus;
-
                 while (nani != 0)
                 {
                     nani = MemoryHelper.Read<ulong>(process, nani + 0x10);
@@ -489,9 +488,7 @@ namespace SmartHunter.Game.Helpers
                         baseStatus = nani;
                     }
                 }
-
                 ulong currentStatusPointer = baseStatus + 0x40;
-
                 while (currentStatusPointer != 0x0)
                 {
                     var currentMonsterInStatus = MemoryHelper.Read<ulong>(process, currentStatusPointer + 0x188);
@@ -514,7 +511,7 @@ namespace SmartHunter.Game.Helpers
                         if (maxBuildup > 0 || maxDuration > 0)
                         {
                             int index = MemoryHelper.Read<int>(process, currentStatusPointer + 0x198);
-                            if (index <= 32 && !((index == 14 || index == 15) && monster.isElder)) // skip traps for elders
+                            if (index <= maxIndex && !((index == 14 || index == 15) && monster.isElder)) // skip traps for elders
                             {
                                 var statusEffectConfig = ConfigHelper.MonsterData.Values.StatusEffects[index];
                                 monster.UpdateAndGetStatusEffect(currentStatusPointer, index, maxBuildup > 0 ? maxBuildup : 1, !statusEffectConfig.InvertBuildup ? currentBuildup : maxBuildup - currentBuildup, maxDuration, !statusEffectConfig.InvertDuration ? currentDuration : maxDuration - currentDuration, timesActivatedCount);
@@ -525,61 +522,26 @@ namespace SmartHunter.Game.Helpers
                 }
             }
 
-            /*
-            ulong statusEffectCollectionAddress = monster.Address + DataOffsets.Monster.StatusEffectCollection;
-
-            for (int index = 0; index < ConfigHelper.MonsterData.Values.StatusEffects.Length; ++index)
+            // Rage
+            ulong rageAddress = monster.Address + 0x1BE20;
+            float maxRageBuildUp = MemoryHelper.Read<float>(process, rageAddress + 0x24);
+            float currentRageBuildUp = 0;
+            if (maxRageBuildUp > 0)
             {
-                var statusEffectConfig = ConfigHelper.MonsterData.Values.StatusEffects[index];
-
-                var rootAddress = statusEffectCollectionAddress;
-
-                if (statusEffectConfig.PointerOffset != null)
-                {
-                    if (TryParseHex(statusEffectConfig.PointerOffset, out var pointerOffset))
-                    {
-                        rootAddress = MemoryHelper.Read<ulong>(process, (ulong)((long)rootAddress + pointerOffset));//MemoryHelper.ReadMultiLevelPointer(false, process, (ulong)((long)rootAddress + pointerOffset), 0);
-                    }
-                }
-                
-                float maxBuildup = 0;
-                float currentBuildup = 0;
-                if (TryParseHex(statusEffectConfig.CurrentBuildupOffset, out var currentBuildupOffset)
-                    && TryParseHex(statusEffectConfig.MaxBuildupOffset, out var maxBuildupOffset)
-                    )
-                {
-                    maxBuildup = MemoryHelper.Read<float>(process, AddOffset(rootAddress, maxBuildupOffset));
-                    if (maxBuildup > 0)
-                    {
-                        currentBuildup = MemoryHelper.Read<float>(process, AddOffset(rootAddress, currentBuildupOffset));
-                    }
-                }
-
-                float maxDuration = 0;
-                float currentDuration = 0;
-                if (TryParseHex(statusEffectConfig.MaxDurationOffset, out var maxDurationOffset)
-                   && TryParseHex(statusEffectConfig.CurrentDurationOffset, out var currentDurationOffset)
-                   )
-                {
-                    maxDuration = MemoryHelper.Read<float>(process, AddOffset(rootAddress, maxDurationOffset));
-                    if (maxDuration > 0)
-                    {
-                        currentDuration = MemoryHelper.Read<float>(process, AddOffset(rootAddress, currentDurationOffset));
-                    }
-                }
-
-                int timesActivatedCount = 0;
-                if (TryParseHex(statusEffectConfig.TimesActivatedOffset, out var timesActivatedOffset))
-                {
-                    timesActivatedCount = MemoryHelper.Read<int>(process, AddOffset(rootAddress, timesActivatedOffset));
-                }
-
-                if (maxBuildup > 0 || maxDuration > 0)
-                {
-                    monster.UpdateAndGetStatusEffect(index, maxBuildup > 0 ? maxBuildup : 1, !statusEffectConfig.InvertBuildup ? currentBuildup : maxBuildup - currentBuildup, maxDuration, !statusEffectConfig.InvertDuration ? currentDuration : maxDuration - currentDuration, timesActivatedCount);
-                }
+                currentRageBuildUp = MemoryHelper.Read<float>(process, rageAddress);
             }
-            */
+            float maxRageDuration = MemoryHelper.Read<float>(process, rageAddress + 0x10);
+            float currentRageDuration = 0;
+            if (maxRageDuration > 0)
+            {
+                currentRageDuration = MemoryHelper.Read<float>(process, rageAddress + 0xC);
+            }
+            int rageActivatedCount = MemoryHelper.Read<int>(process, rageAddress + 0x1C);
+            var rageStatusEffect = ConfigHelper.MonsterData.Values.StatusEffects.SingleOrDefault(s => s.GroupId.Equals("Rage"));//[33]; // 33 is rage
+            if (maxRageBuildUp > 0 || maxRageDuration > 0)
+            {
+                monster.UpdateAndGetStatusEffect(rageAddress, Array.IndexOf(ConfigHelper.MonsterData.Values.StatusEffects, rageStatusEffect), maxRageBuildUp > 0 ? maxRageBuildUp : 1, !rageStatusEffect.InvertBuildup ? currentRageBuildUp : maxRageBuildUp - currentRageBuildUp, maxRageDuration, !rageStatusEffect.InvertDuration ? currentRageDuration : maxRageDuration - currentRageDuration, rageActivatedCount);
+            }
         }
     }
 }
