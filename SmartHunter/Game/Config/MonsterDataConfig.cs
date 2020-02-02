@@ -1209,7 +1209,7 @@ namespace SmartHunter.Game.Config
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_FLASH"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_10"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_KNOW_DOWN"),
-            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_12"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_DUNG"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_13"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_SHOCK_TRAP"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_PITFALL_TRAP"),

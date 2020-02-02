@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -136,7 +136,6 @@ namespace SmartHunter.Core
                             {
                                Process.Start(file);
                             }
-                            
                             System.Environment.Exit(1);
                         })
                }));
@@ -149,13 +148,22 @@ namespace SmartHunter.Core
                         State.ProcessFound,
                         () =>
                         {
-                            var process = Process.GetProcessesByName(ProcessName).FirstOrDefault();
-                            if (process != null && !process.HasExited)
+                            var processes = Process.GetProcesses();
+                            foreach (var p in processes)
                             {
-                                Process = process;
-                                return true;
+                                try
+                                {
+                                    if (p != null && p.ProcessName.Equals(ProcessName) && !p.HasExited)
+                                    {
+                                        Process = p;
+                                        return true;
+                                    }
+                                }
+                                catch
+                                {
+                                    // nothing here
+                                }
                             }
-
                             return false;
                         },
                         null)

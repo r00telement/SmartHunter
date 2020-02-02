@@ -155,22 +155,6 @@ namespace SmartHunter.Config
             { "LOC_REMOVABLE_PART_HORNS", "Removable Horns" },
             { "LOC_REMOVABLE_PART_HORNS_2", "Removable Horn Chip" },
 
-            { "LOC_STATUS_EFFECT_UNKNOWN", "Unknown Status Effect" },
-            { "LOC_STATUS_EFFECT_POISON", "Poison" },
-            { "LOC_STATUS_EFFECT_PARALYSIS", "Paralysis" },
-            { "LOC_STATUS_EFFECT_SLEEP", "Sleep" },
-            { "LOC_STATUS_EFFECT_BLAST", "Blast" },
-            { "LOC_STATUS_EFFECT_MOUNT", "Mount" },
-            { "LOC_STATUS_EFFECT_EXHAUST", "Exhaust" },
-            { "LOC_STATUS_EFFECT_STUN", "Stun" },
-            { "LOC_STATUS_EFFECT_KO", "KO" },
-            { "LOC_STATUS_EFFECT_TRANQUILIZE", "Tranquilize" },
-            { "LOC_STATUS_EFFECT_FLASH", "Flash" },
-            { "LOC_STATUS_EFFECT_DUNG", "Dung" },
-            { "LOC_STATUS_EFFECT_KNOW_DOWN", "Kown Down" },
-            { "LOC_STATUS_EFFECT_SMOKING", "Smoking" },
-            { "LOC_STATUS_EFFECT_VIOLATED", "Violated" },
-
             //To test monster parts
             { "LOC_PART_0", "0" },
             { "LOC_PART_1", "1" },
@@ -208,6 +192,21 @@ namespace SmartHunter.Config
 
             //statuses
             { "LOC_STATUS_0", "Status 0" },
+            { "LOC_STATUS_EFFECT_UNKNOWN", "Unknown Status Effect" },
+            { "LOC_STATUS_EFFECT_POISON", "Poison" },
+            { "LOC_STATUS_EFFECT_PARALYSIS", "Paralysis" },
+            { "LOC_STATUS_EFFECT_SLEEP", "Sleep" },
+            { "LOC_STATUS_EFFECT_BLAST", "Blast" },
+            { "LOC_STATUS_EFFECT_MOUNT", "Mount" },
+            { "LOC_STATUS_EFFECT_EXHAUST", "Exhaust" },
+            { "LOC_STATUS_EFFECT_STUN", "Stun" },
+            { "LOC_STATUS_EFFECT_KO", "KO" },
+            { "LOC_STATUS_EFFECT_TRANQUILIZE", "Tranquilize" },
+            { "LOC_STATUS_EFFECT_FLASH", "Flash" },
+            { "LOC_STATUS_EFFECT_DUNG", "Dung" },
+            { "LOC_STATUS_EFFECT_KNOW_DOWN", "Kown Down" },
+            { "LOC_STATUS_EFFECT_SMOKING", "Smoking" },
+            { "LOC_STATUS_EFFECT_VIOLATED", "Violated" },
             { "LOC_STATUS_EFFECT_CLAW_ATTACK", "Claw Attack" },
 
             // Hunting Horn
