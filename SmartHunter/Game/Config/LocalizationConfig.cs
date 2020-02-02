@@ -208,6 +208,7 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_SMOKING", "Smoking" },
             { "LOC_STATUS_EFFECT_VIOLATED", "Violated" },
             { "LOC_STATUS_EFFECT_CLAW_ATTACK", "Claw Attack" },
+            { "LOC_STATUS_EFFECT_FELVYNE_KNOCK_DOWN_TRAP", "Felvyne Knock Down Trap" },
 
             // Hunting Horn
             { "LOC_STATUS_EFFECT_SELF_IMPROVEMENT", "Self-improvement" },

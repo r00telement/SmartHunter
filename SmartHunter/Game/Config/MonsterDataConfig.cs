@@ -1206,8 +1206,8 @@ namespace SmartHunter.Game.Config
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_EXHAUST"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_STUN"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_TRANQUILIZE"),
-            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_FLASH"),
-            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_10"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_FLASH"), // 9
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_FLASH"), // 10
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_KNOW_DOWN"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_DUNG"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_13"),
@@ -1218,7 +1218,7 @@ namespace SmartHunter.Game.Config
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_ELDERSEAL"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_SMOKING"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_20"),
-            new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_21"),
+            new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_FELVYNE_KNOCK_DOWN_TRAP"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_CLAW_ATTACK", true),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_STATUS_EFFECT_VIOLATED"),
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_24"),
