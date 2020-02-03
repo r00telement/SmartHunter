@@ -190,6 +190,11 @@ namespace SmartHunter.Config
             { "LOC_PART_31", "31" },
             { "LOC_PART_32", "32" },
 
+            //removables
+            { "LOC_REMOVABLE_PART_HEAD", "Removable Head" },
+            { "LOC_REMOVABLE_PART_HEAD_HEAD", "Removable Head+" },
+            { "LOC_REMOVABLE_PART_HEAD_HEAD_HEAD", "Removable Head++" },
+
             //statuses
             { "LOC_STATUS_0", "Status 0" },
             { "LOC_STATUS_EFFECT_UNKNOWN", "Unknown Status Effect" },

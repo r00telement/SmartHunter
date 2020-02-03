@@ -1051,7 +1051,6 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_BANBARO",
                     new MonsterPartConfig[]
                     {
-                        // TODO: horns? and other parts on https://mhw.poedb.tw/eng/monster/Banbaro
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
                         new MonsterPartConfig("Part", "LOC_PART_HORNS"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
@@ -1110,6 +1109,9 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_SHARA_ISHVALDA",
                     new MonsterPartConfig[]
                     {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HEAD", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HEAD_HEAD", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HEAD_HEAD_HEAD", true),
                         new MonsterPartConfig("Part", "LOC_PART_NECK_LEFT_ROCK"),
                         new MonsterPartConfig("Part", "LOC_PART_NECK_RIGHT_ROCK"),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD_ROCK"),
