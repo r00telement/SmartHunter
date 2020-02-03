@@ -204,7 +204,7 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_TRANQUILIZE", "Tranquilize" },
             { "LOC_STATUS_EFFECT_FLASH", "Flash" },
             { "LOC_STATUS_EFFECT_DUNG", "Dung Pods" },
-            { "LOC_STATUS_EFFECT_KNOW_DOWN", "Kown Down" },
+            { "LOC_STATUS_EFFECT_KNOW_DOWN", "Knockdown" },
             { "LOC_STATUS_EFFECT_SMOKING", "Smoking" },
             { "LOC_STATUS_EFFECT_VIOLATED", "Violated" },
             { "LOC_STATUS_EFFECT_CLAW_ATTACK", "Claw Attack" },
