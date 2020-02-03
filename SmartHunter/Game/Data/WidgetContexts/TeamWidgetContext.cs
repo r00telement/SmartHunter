@@ -31,6 +31,13 @@ namespace SmartHunter.Game.Data.WidgetContexts
             set { SetProperty(ref m_ShowPercents, value); }
         }
 
+        int m_dPSTimeWindowInSeconds;
+        public int DPSTimeWindowInSeconds
+        {
+            get => m_dPSTimeWindowInSeconds;
+            set => SetProperty(ref m_dPSTimeWindowInSeconds, value);
+        }
+
         public TeamWidgetContext()
         {
             Players = new ObservableCollection<Player>();
@@ -59,6 +66,16 @@ namespace SmartHunter.Game.Data.WidgetContexts
             {
                 player.Name = LocalizationHelper.GetString(LocalizationHelper.UnknownPlayerStringId);
             }
+
+            int damageDifference = damage - player.Damage;
+            DateTime now = DateTime.Now;
+
+            player.DamageHistory.Enqueue((now, damageDifference));
+            DateTime historyCutoff = now - TimeSpan.FromSeconds(DPSTimeWindowInSeconds);
+            while (player.DamageHistory.Peek().Item1 < historyCutoff)
+                player.DamageHistory.Dequeue();
+            int historyLengthInSeconds = (now - player.DamageHistory.Peek().Item1).Seconds;
+            player.DamagePerSecond = player.DamageHistory.Sum(entry => entry.Item2) / (double)historyLengthInSeconds;
 
             player.Damage = damage;
 
@@ -103,6 +120,7 @@ namespace SmartHunter.Game.Data.WidgetContexts
             ShowBars = ConfigHelper.Main.Values.Overlay.TeamWidget.ShowBars;
             ShowNumbers = ConfigHelper.Main.Values.Overlay.TeamWidget.ShowNumbers;
             ShowPercents = ConfigHelper.Main.Values.Overlay.TeamWidget.ShowPercents;
+            DPSTimeWindowInSeconds = ConfigHelper.Main.Values.Overlay.TeamWidget.DPSTimeWindowInSeconds;
         }
     }
 }
