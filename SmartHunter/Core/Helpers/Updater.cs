@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using Newtonsoft.Json.Linq;
-using System.IO;
 using SmartHunter.Game.Helpers;
 
 namespace SmartHunter.Core.Helpers
@@ -82,7 +82,7 @@ namespace SmartHunter.Core.Helpers
                         client.Headers["User-Agent"] = _dummyUserAgent;
                         if (Path.GetExtension(fileNamePath).Equals(".exe"))
                         {
-                            client.DownloadFile(url, $"{fileNamePathWithNoExtension}_{hash}.exe");
+                            client.DownloadFile(url, $"{fileNamePathWithNoExtension}_NEW.exe");
                         }
                         else
                         {
