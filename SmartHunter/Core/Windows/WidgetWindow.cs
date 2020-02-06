@@ -1,7 +1,7 @@
-﻿using SmartHunter.Core.Data;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using SmartHunter.Core.Data;
 
 namespace SmartHunter.Core.Windows
 {

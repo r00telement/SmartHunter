@@ -1,4 +1,5 @@
-﻿using SmartHunter.Core.Data;
+﻿using System.ComponentModel;
+using SmartHunter.Core.Data;
 using SmartHunter.Game.Helpers;
 
 namespace SmartHunter.Game.Data
@@ -72,7 +73,7 @@ namespace SmartHunter.Game.Data
             Duration.PropertyChanged += Bar_PropertyChanged;
         }
 
-        private void MonsterStatusEffect_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void MonsterStatusEffect_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(TimesActivatedCount))
             {
@@ -80,7 +81,7 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        private void Bar_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Bar_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateLastChangedTime();
         }

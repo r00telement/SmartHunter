@@ -1,4 +1,5 @@
-﻿using SmartHunter.Core.Data;
+﻿using System.ComponentModel;
+using SmartHunter.Core.Data;
 using SmartHunter.Game.Data.WidgetContexts;
 using SmartHunter.Game.Helpers;
 
@@ -15,7 +16,7 @@ namespace SmartHunter.Game.Data.ViewModels
                 {
                     s_Instance = new OverlayViewModel();
 
-                    bool isDesignInstance = System.ComponentModel.LicenseManager.UsageMode == System.ComponentModel.LicenseUsageMode.Designtime;
+                    bool isDesignInstance = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
                     if (isDesignInstance || ConfigHelper.Main.Values.Debug.UseSampleData)
                     {
                         s_Instance.GenerateSampleData();

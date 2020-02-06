@@ -1,11 +1,11 @@
-﻿using SmartHunter.Core;
+﻿using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using SmartHunter.Core;
 using SmartHunter.Core.Helpers;
 using SmartHunter.Core.Windows;
 using SmartHunter.Game.Data.ViewModels;
 using SmartHunter.Game.Helpers;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 
 namespace SmartHunter.Game
 {

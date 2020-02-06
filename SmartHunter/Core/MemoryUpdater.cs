@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Threading;
 using SmartHunter.Core.Helpers;
 using SmartHunter.Game.Helpers;
@@ -127,14 +129,14 @@ namespace SmartHunter.Core
                         {
                             Log.WriteLine("Restarting Application!");
                             string update = ".\\SmartHunter_NEW.exe";
-                            string exec = System.Reflection.Assembly.GetEntryAssembly()?.Location;
+                            string exec = Assembly.GetEntryAssembly()?.Location;
                             if (File.Exists(update) && exec != null && File.Exists(exec))
                             {
                                 File.Move(exec, "SmartHunter_OLD.exe");
                                 File.Move(update, "SmartHunter.exe");
                                 Process.Start("SmartHunter.exe");
                             }
-                            System.Environment.Exit(1);
+                            Environment.Exit(1);
                         })
                }));
 
@@ -275,7 +277,7 @@ namespace SmartHunter.Core
             if (processExited && ShutdownWhenProcessExits)
             {
                 Log.WriteLine("Process exited. Shutting down.");
-                System.Windows.Application.Current.Shutdown();
+                Application.Current.Shutdown();
             }
         }
 

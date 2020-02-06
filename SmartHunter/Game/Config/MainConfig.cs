@@ -1,6 +1,6 @@
-﻿using SmartHunter.Core.Config;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
+using SmartHunter.Core.Config;
 
 namespace SmartHunter.Game.Config
 {
