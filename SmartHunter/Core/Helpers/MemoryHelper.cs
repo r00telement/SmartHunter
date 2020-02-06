@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -86,42 +86,17 @@ namespace SmartHunter.Core.Helpers
                     WindowsApi.ReadProcessMemory(process.Handle, (IntPtr)regionStartAddress, regionBytes, regionBytes.Length, ref lpNumberOfBytesRead);
 
                     var matchIndices = FindPatternMatchIndices(regionBytes, pattern, stopAfterFirst);
-
                     foreach (var matchIndex in matchIndices)
                     {
                         var matchAddress = regionStartAddress + (ulong)matchIndex;
                         matchAddresses.Add(matchAddress);
 
-                        Log.WriteLine($"Found '{pattern.Config.Name}' at address 0x{matchAddress.ToString("X8")}"); //'{pattern.Config.String}'");
-
-                        if (stopAfterFirst)
-                        {
-                            break;
-                        }
+                        Log.WriteLine($"Found '{pattern.Config.Name}' at address 0x{matchAddress.ToString("X8")}");
                     }
-
-                    /*
-                    if (matchIndices.Any() && stopAfterFirst)
+                    if (matchAddresses.Any() && stopAfterFirst)
                     {
-                        var matchAddress = regionStartAddress + (ulong)matchIndices.First();
-                        matchAddresses.Add(matchAddress);
-
                         break;
                     }
-                    else
-                    {
-                        foreach (var matchIndex in matchIndices)
-                        {
-                            var matchAddress = regionStartAddress + (ulong)matchIndex;
-                            matchAddresses.Add(matchAddress);
-                        }
-                    }
-                    */
-                }
-
-                if (matchAddresses.Any() && stopAfterFirst)
-                {
-                    break;
                 }
 
                 currentAddress = memoryRegion.BaseAddress + memoryRegion.RegionSize;

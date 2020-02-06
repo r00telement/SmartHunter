@@ -201,6 +201,25 @@ namespace SmartHunter.Game.Config
                 )
             },
             { // true
+                "em023_00",
+                new MonsterConfig("LOC_MONSTER_RAJANG",
+                    new MonsterPartConfig[]
+                    {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HORNS", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
+                        new MonsterPartConfig("Part", "LOC_PART_HEAD"),
+                        new MonsterPartConfig("Part", "LOC_PART_BODY"),
+                        new MonsterPartConfig("Part", "LOC_PART_ARM_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_ARM_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL")
+                    },
+                    829.11f, 1.0f,
+                    new MonsterCrownConfig(CrownPreset.Alternate)
+                )
+            },
+            { // true
                 "em024_00",
                 new MonsterConfig("LOC_MONSTER_KUSHALA_DAORA",
                     new MonsterPartConfig[]
@@ -1110,8 +1129,6 @@ namespace SmartHunter.Game.Config
                     new MonsterPartConfig[]
                     {
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HEAD", true),
-                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HEAD_HEAD", true),
-                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HEAD_HEAD_HEAD", true),
                         new MonsterPartConfig("Part", "LOC_PART_NECK_LEFT_ROCK"),
                         new MonsterPartConfig("Part", "LOC_PART_NECK_RIGHT_ROCK"),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD_ROCK"),

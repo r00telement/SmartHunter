@@ -194,11 +194,26 @@ namespace SmartHunter.Core
                         State.Working,
                         () =>
                         {
-                            var finishedWithResults = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted && memoryScan.Results.SelectMany(result => result.Matches).Any());
-                            return finishedWithResults.Count() == m_MemoryScans.Count;
+                            var completedScans = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted);
+                            if (completedScans.Count() == m_MemoryScans.Count())
+                            {
+                                var finishedWithResults = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted && memoryScan.Results.SelectMany(result => result.Matches).Any());
+                                return finishedWithResults.Any();
+                            }
+
+                            return false;
                         },
                         () =>
                         {
+                            var failedMemoryScans = m_MemoryScans.Where(memoryScan => !memoryScan.Results.SelectMany(result => result.Matches).Any());
+                            if (failedMemoryScans.Any())
+                            {
+                                string failedPatterns = String.Join(" ", failedMemoryScans.Select(failedMemoryScan => failedMemoryScan.Pattern.Config.Name));
+                                Log.WriteLine($"Failed Patterns [{failedMemoryScans.Count()}/{m_MemoryScans.Count()}]: {failedPatterns}");
+                                Log.WriteLine($"The application will continue to work but with limited functionalities...");
+                                m_MemoryScans.RemoveAll(scan => failedMemoryScans.Contains(scan));
+                            }
+
                             var orderedMatches = m_MemoryScans.Select(memoryScan => memoryScan.Results.Where(result => result.Matches.Any()).First().Matches.First()).OrderBy(match => match);
                             Log.WriteLine($"Match Range: {orderedMatches.First():X} - {orderedMatches.Last():X}");
                         }),
@@ -207,19 +222,17 @@ namespace SmartHunter.Core
                         () =>
                         {
                             var completedScans = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted);
-                            if (completedScans.Count() == m_MemoryScans.Count)
+                            if (completedScans.Count() == m_MemoryScans.Count())
                             {
                                 var finishedWithoutResults = m_MemoryScans.Where(memoryScan => !memoryScan.Results.SelectMany(result => result.Matches).Any());
-                                return finishedWithoutResults.Any();
+                                return finishedWithoutResults.Count() == m_MemoryScans.Count();
                             }
 
                             return false;
                         },
                         () =>
                         {
-                            var failedMemoryScans = m_MemoryScans.Where(memoryScan => !memoryScan.Results.SelectMany(result => result.Matches).Any());
-                            string failedPatterns = String.Join("\r\n", failedMemoryScans.Select(failedMemoryScan => failedMemoryScan.Pattern.Config.String));
-                            Log.WriteLine($"Failed Patterns:\r\n{failedPatterns}");
+                            Log.WriteLine($"All pattern failed... Aborting!");
                         }),
                     new StateMachine<State>.Transition(
                         State.WaitingForProcess,
