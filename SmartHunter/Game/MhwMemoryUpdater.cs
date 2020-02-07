@@ -1,8 +1,8 @@
+using System.Linq;
 using SmartHunter.Core;
 using SmartHunter.Core.Helpers;
 using SmartHunter.Game.Data.ViewModels;
 using SmartHunter.Game.Helpers;
-using System.Linq;
 
 namespace SmartHunter.Game
 {

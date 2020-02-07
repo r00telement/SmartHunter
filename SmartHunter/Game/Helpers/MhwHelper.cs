@@ -1,13 +1,13 @@
-using SmartHunter.Core.Helpers;
-using SmartHunter.Game.Data;
-using SmartHunter.Game.Data.ViewModels;
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SmartHunter.Core.Helpers;
+using SmartHunter.Game.Config;
+using SmartHunter.Game.Data;
+using SmartHunter.Game.Data.ViewModels;
 
 namespace SmartHunter.Game.Helpers
 {
@@ -123,11 +123,11 @@ namespace SmartHunter.Game.Helpers
                 var statusEffectConfig = ConfigHelper.PlayerData.Values.StatusEffects[index];
 
                 ulong sourceAddress = baseAddress;
-                if (statusEffectConfig.Source == Config.StatusEffectConfig.MemorySource.Equipment)
+                if (statusEffectConfig.Source == StatusEffectConfig.MemorySource.Equipment)
                 {
                     sourceAddress = equipmentAddress + 0xEFC; // 0xEFC is a base offset for the mantles
                 }
-                else if (statusEffectConfig.Source == Config.StatusEffectConfig.MemorySource.Weapon)
+                else if (statusEffectConfig.Source == StatusEffectConfig.MemorySource.Weapon)
                 {
                     sourceAddress = weaponAddress;
                 }
@@ -321,7 +321,7 @@ namespace SmartHunter.Game.Helpers
             monster = OverlayViewModel.Instance.MonsterWidget.Context.UpdateAndGetMonster(monsterAddress, id, maxHealth, currentHealth, sizeScale);
 
             
-            if (SmartHunter.Game.Helpers.ConfigHelper.MonsterData.Values.Monsters.ContainsKey(id) && SmartHunter.Game.Helpers.ConfigHelper.MonsterData.Values.Monsters[id].Parts.Count() > 0)
+            if (ConfigHelper.MonsterData.Values.Monsters.ContainsKey(id) && ConfigHelper.MonsterData.Values.Monsters[id].Parts.Count() > 0)
             {
                 // TODO: I think here we can check if the current player is the host of the party, as if's not there's no point on updating monster parts (cause only the host of the party will see those parts)
                 UpdateMonsterParts(process, monster);

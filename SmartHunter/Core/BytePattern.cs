@@ -1,7 +1,7 @@
-﻿using SmartHunter.Game.Config;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using SmartHunter.Game.Config;
 
 namespace SmartHunter.Core
 {

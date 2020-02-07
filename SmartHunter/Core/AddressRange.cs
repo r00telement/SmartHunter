@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SmartHunter.Core
+﻿namespace SmartHunter.Core
 {
     public class AddressRange
     {

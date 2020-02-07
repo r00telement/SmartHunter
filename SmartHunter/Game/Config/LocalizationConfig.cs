@@ -1,5 +1,5 @@
-using SmartHunter.Core.Config;
 using System.Collections.Generic;
+using SmartHunter.Core.Config;
 
 namespace SmartHunter.Config
 {

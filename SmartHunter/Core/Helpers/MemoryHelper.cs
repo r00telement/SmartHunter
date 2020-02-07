@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace SmartHunter.Core.Helpers
 {    
@@ -256,7 +257,7 @@ namespace SmartHunter.Core.Helpers
             if (nullTerminatorIndex >= 0)
             {
                 Array.Resize(ref bytes, nullTerminatorIndex);
-                return System.Text.Encoding.UTF8.GetString(bytes);
+                return Encoding.UTF8.GetString(bytes);
             }
 
             return null;

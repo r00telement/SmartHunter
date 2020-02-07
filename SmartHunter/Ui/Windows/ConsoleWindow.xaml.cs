@@ -1,5 +1,5 @@
-﻿using SmartHunter.Game.Data.ViewModels;
-using System.Windows;
+﻿using System.Windows;
+using SmartHunter.Game.Data.ViewModels;
 
 namespace SmartHunter.Ui.Windows
 {

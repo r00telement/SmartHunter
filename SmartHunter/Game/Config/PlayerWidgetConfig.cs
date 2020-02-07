@@ -1,5 +1,5 @@
-﻿using SmartHunter.Core.Config;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using SmartHunter.Core.Config;
 
 namespace SmartHunter.Game.Config
 {

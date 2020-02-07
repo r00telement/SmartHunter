@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
-using System.Net;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.IO;
 using SmartHunter.Core.Helpers;
 using SmartHunter.Game.Helpers;
 
@@ -131,12 +128,15 @@ namespace SmartHunter.Core
                         () =>
                         {
                             Log.WriteLine("Restarting Application!");
-                            string file = $".\\SmartHunter_{ConfigHelper.Versions.Values.SmartHunter}.exe";
-                            if (File.Exists(file))
+                            string update = ".\\SmartHunter_NEW.exe";
+                            string exec = Assembly.GetEntryAssembly()?.Location;
+                            if (File.Exists(update) && exec != null && File.Exists(exec))
                             {
-                               Process.Start(file);
+                                File.Move(exec, "SmartHunter_OLD.exe");
+                                File.Move(update, "SmartHunter.exe");
+                                Process.Start("SmartHunter.exe");
                             }
-                            System.Environment.Exit(1);
+                            Environment.Exit(1);
                         })
                }));
 
@@ -290,7 +290,7 @@ namespace SmartHunter.Core
             if (processExited && ShutdownWhenProcessExits)
             {
                 Log.WriteLine("Process exited. Shutting down.");
-                System.Windows.Application.Current.Shutdown();
+                Application.Current.Shutdown();
             }
         }
 

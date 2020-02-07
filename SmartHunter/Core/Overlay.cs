@@ -1,7 +1,8 @@
-﻿using SmartHunter.Core.Helpers;
-using SmartHunter.Core.Windows;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using SmartHunter.Core.Helpers;
+using SmartHunter.Core.Windows;
 
 namespace SmartHunter.Core
 {
@@ -31,7 +32,7 @@ namespace SmartHunter.Core
             UpdateWidgetsFromConfig();
         }
 
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             foreach (var widgetWindow in WidgetWindows)
             {

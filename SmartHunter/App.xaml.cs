@@ -1,13 +1,15 @@
-﻿using SmartHunter.Core;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
+using System.Windows;
+using System.Xaml;
+using SmartHunter.Core;
 using SmartHunter.Game;
 using SmartHunter.Game.Data.ViewModels;
 using SmartHunter.Game.Helpers;
 using SmartHunter.Ui.Windows;
-using System;
-using System.IO;
-using System.Reflection;
-using System.Windows;
-using System.Xaml;
+using XamlReader = System.Windows.Markup.XamlReader;
 
 namespace SmartHunter
 {
@@ -42,28 +44,17 @@ namespace SmartHunter
             try
             {
                 string[] files = Directory.GetFiles(".");
-                string v = ConfigHelper.Versions.Values.SmartHunter;
                 foreach (string file in files)
                 {
-                    if (Path.GetExtension(file).Equals(".exe"))
+                    if (Path.GetExtension(file).Equals(".exe") && file.Contains("SmartHunter_"))
                     {
-                        if (file.Contains("SmartHunter_"))
-                        {
-                            if (!file.Contains(v))
-                            {
-                                File.Delete(file);
-                            }
-                        }
-                        else if (file.Contains("SmartHunter"))
-                        {
-                            File.Delete(file); // i feel dirty for this but didn't want to do something else :P
-                        }
+                        File.Delete(file);
                     }
                 }
             }
             catch
             {
-
+                
             }
 
             m_Overlay = new MhwOverlay(new ConsoleWindow(), new TeamWidgetWindow(), new MonsterWidgetWindow(), new PlayerWidgetWindow());
@@ -105,16 +96,16 @@ namespace SmartHunter
             {
                 ResourceDictionary resourceDictionary = null;
 
-                using (var streamReader = new StreamReader(m_SkinFile.FullPathFileName, System.Text.Encoding.UTF8))
+                using (var streamReader = new StreamReader(m_SkinFile.FullPathFileName, Encoding.UTF8))
                 {
                     var xmlReaderSettings = new XamlXmlReaderSettings
                     {
                         LocalAssembly = Assembly.GetExecutingAssembly()
                     };
 
-                    using (var xamlReader = new XamlXmlReader(streamReader.BaseStream, System.Windows.Markup.XamlReader.GetWpfSchemaContext(), xmlReaderSettings))
+                    using (var xamlReader = new XamlXmlReader(streamReader.BaseStream, XamlReader.GetWpfSchemaContext(), xmlReaderSettings))
                     {
-                        resourceDictionary = System.Windows.Markup.XamlReader.Load(xamlReader) as ResourceDictionary;
+                        resourceDictionary = XamlReader.Load(xamlReader) as ResourceDictionary;
                     }
                 }
 
