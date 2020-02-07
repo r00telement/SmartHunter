@@ -321,6 +321,30 @@ namespace SmartHunter.Config
             { "LOC_EQUIPMENT_AFFINITY_BOOSTER", "Affinity Booster" },
             { "LOC_EQUIPMENT_CLEANSER_BOOSTER", "Cleanser Booster" },
             { "LOC_EQUIPMENT_HEALTH_BOOSTER", "Health Booster" },
+            { "LOC_EQUIPMENT_ASSASSINS_HOOD", "Assassin's Hood" },
+
+            // Equipment recharg time
+
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_GHILLIE", "Recharge Ghillie Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_TEMPORAL", "Recharge Temporal Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_ROCKSTEADY", "Recharge Rocksteady Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_CHALLENGER", "Recharge Challenger Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_VITALITY", "Recharge Vitality Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_FIREPROOF", "Recharge Fireproof Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_WATERPROOF", "Recharge Waterproof Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_ICEPROOF", "Recharge Iceproof Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_THUNDERPROOF", "Recharge Thunderproof Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_DRAGONPROOF", "Recharge Dragonproof Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_GLIDER", "Recharge Glider Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_EVASION", "Recharge Evasion Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_IMPACT", "Recharge Impact Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_APOTHECARY", "Recharge Apothecary Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_IMMUNITY", "Recharge Immunity Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_BANDIT", "Recharge Bandit Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_AFFINITY_BOOSTER", "Recharge Affinity Booster" },
+            { "LOC_EQUIPMENT_RECHARGE_CLEANSER_BOOSTER", "Recharge Cleanser Booster" },
+            { "LOC_EQUIPMENT_RECHARGE_HEALTH_BOOSTER", "Recharge Health Booster" },
+            { "LOC_EQUIPMENT_RECHARGE_ASSASSINS_HOOD", "Recharge Assassin's Hood" },
 
             // Weapon
             { "LOC_WEAPON_INSECT_GLAIVE_ATTACK", "Attack Up" },
@@ -345,7 +369,6 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_PITFALL_TRAP", "Pitfall Trap" },
             { "LOC_STATUS_EFFECT_ELDERSEAL", "Elderseal" },
 
-            { "LOC_EQUIPMENT_ASSASSINS_HOOD", "Assassin's Hood" },
             { "LOC_MONSTER_LESHEN", "Leshen" },
             { "LOC_MONSTER_ANCIENT_LESHEN", "Ancient Leshen" },
             { "LOC_REMOVABLE_PART_ANTLER_LEFT", "Removable Left Antler" },

@@ -133,7 +133,7 @@ namespace SmartHunter.Game
 
                 ulong lastBuffAddress = 0x0;
                 ulong currentBuffAddress = buffPtr;
-                while (currentBuffAddress != 0)
+                while (currentBuffAddress != 0) // non va benissimo
                 {
                     lastBuffAddress = currentBuffAddress;
                     currentBuffAddress = MemoryHelper.Read<ulong>(Process, currentBuffAddress + 0x38);
@@ -143,8 +143,8 @@ namespace SmartHunter.Game
                 ulong weaponAddress = MemoryHelper.Read<ulong>(Process, lastBuffAddress + 0x76B0);
                 ulong buffAddress = MemoryHelper.Read<ulong>(Process, lastBuffAddress + 0x7D20);
 
-                var isBuffAddressValid = true; //MemoryHelper.Read<float>(Process, equipmentAddress + 0x20) != 0;
-                var isEquipmentAddressValid = true; //MemoryHelper.Read<ulong>(Process, equipmentAddress + 0x8) == 0;
+                var isBuffAddressValid = MemoryHelper.Read<float>(Process, equipmentAddress + 0x20) != 0;
+                var isEquipmentAddressValid = MemoryHelper.Read<ulong>(Process, equipmentAddress + 0x8) == 0;
                 if (isBuffAddressValid && isEquipmentAddressValid)
                 {
                     MhwHelper.UpdatePlayerWidget(Process, buffAddress, equipmentAddress, weaponAddress);

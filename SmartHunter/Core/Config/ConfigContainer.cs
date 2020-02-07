@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
@@ -36,7 +36,7 @@ namespace SmartHunter.Core.Config
 
         void Load()
         {
-            if (File.Exists(FullPathFileName))
+            if (File.Exists(FullPathFileName))// && FileName.Equals("Config.json"))
             {
                 try
                 {

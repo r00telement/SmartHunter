@@ -15,6 +15,12 @@ namespace SmartHunter.Game.Helpers
     {
         public static bool TryParseHex(string hexString, out long hexNumber)
         {
+            if (hexString.StartsWith("-"))
+            {
+                bool res = long.TryParse(hexString.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out hexNumber);
+                hexNumber = (-1) * hexNumber;
+                return res;
+            }
             return long.TryParse(hexString, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out hexNumber);
         }
 
@@ -125,7 +131,7 @@ namespace SmartHunter.Game.Helpers
                 ulong sourceAddress = baseAddress;
                 if (statusEffectConfig.Source == StatusEffectConfig.MemorySource.Equipment)
                 {
-                    sourceAddress = equipmentAddress + 0xEFC; // 0xEFC is a base offset for the mantles
+                    sourceAddress = equipmentAddress;
                 }
                 else if (statusEffectConfig.Source == StatusEffectConfig.MemorySource.Weapon)
                 {
@@ -184,7 +190,6 @@ namespace SmartHunter.Game.Helpers
                         }
                     }
                 }
-
                 float? timer = null;
                 if (allConditionsPassed && statusEffectConfig.TimerOffset != null)
                 {
@@ -448,8 +453,9 @@ namespace SmartHunter.Game.Helpers
             var statuses = monster.StatusEffects;
             if (statuses.Where(s => s.GroupId.Equals("StatusEffect")).Any())
             {
-                foreach (MonsterStatusEffect status in statuses)
+                for (int i = 0; i < statuses.Count(); i++)
                 {
+                    MonsterStatusEffect status = statuses[i];
                     float currentBuildup = 0;
                     float maxBuildup = MemoryHelper.Read<float>(process, status.Address + DataOffsets.MonsterStatusEffect.MaxBuildup);
                     if (maxBuildup > 0)
