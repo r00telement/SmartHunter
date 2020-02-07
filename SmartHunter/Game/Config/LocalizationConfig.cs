@@ -13,6 +13,8 @@ namespace SmartHunter.Config
             { "LOC_WIDGET_TEAM", "Team Widget" },
             { "LOC_WIDGET_PLAYER", "Player Widget" },
 
+            // Iceborne monsters
+
             { "LOC_MONSTER_NARGACUGA", "Nargacuga" },
             { "LOC_MONSTER_NAMIELLE", "Namielle" },
             { "LOC_MONSTER_SHARA_ISHVALDA", "Shara Ishvalda" },
@@ -40,6 +42,7 @@ namespace SmartHunter.Config
             { "LOC_MONSTER_SCARRED_YIAN_GARUGA", "Scarred Yian Garuga" },
 			{ "LOC_MONSTER_GOLD_RATHIAN", "Gold Rathian" },
 			{ "LOC_MONSTER_SILVER_RATHALOS", "Silver Rathalos" },
+            { "LOC_MONSTER_RAJANG", "Rajang" },
 
             //{ "LOC_MONSTER_UKNOWN", "Unknown Monster" },
             { "LOC_MONSTER_UKNOWN", "Kono Dio da!" },
@@ -118,6 +121,7 @@ namespace SmartHunter.Config
             { "LOC_PART_LIMBS_LEFT", "Left Limbs" },
             { "LOC_PART_LIMBS_RIGHT", "Right Limbs" },
             { "LOC_PART_TAIL", "Tail" },
+            { "LOC_PART_TAIL_BLADE", "Tail Blade" },
             { "LOC_PART_WINGS", "Wings" },
             { "LOC_PART_WING_LEFT", "Left Wing" },
             { "LOC_PART_WING_RIGHT", "Right Wing" },
@@ -293,6 +297,7 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_ARMORSKIN", "Armorskin" },
             { "LOC_STATUS_EFFECT_MEGA_ARMORSKIN", "Mega Armorskin" },
             { "LOC_STATUS_EFFECT_COOL_DRINK", "Cool Drink" },
+            { "LOC_STATUS_EFFECT_HOT_DRINK", "Hot Drink" },
             { "LOC_STATUS_EFFECT_PROTECTIVE_POLISH", "Protective Polish" },
             { "LOC_STATUS_EFFECT_AFFINITY_SLIDING", "Affinity Sliding" },
 
@@ -314,6 +319,8 @@ namespace SmartHunter.Config
             { "LOC_EQUIPMENT_MANTLE_IMMUNITY", "Immunity Mantle" },
             { "LOC_EQUIPMENT_MANTLE_BANDIT", "Bandit Mantle" },
             { "LOC_EQUIPMENT_AFFINITY_BOOSTER", "Affinity Booster" },
+            { "LOC_EQUIPMENT_CLEANSER_BOOSTER", "Cleanser Booster" },
+            { "LOC_EQUIPMENT_HEALTH_BOOSTER", "Health Booster" },
 
             // Weapon
             { "LOC_WEAPON_INSECT_GLAIVE_ATTACK", "Attack Up" },

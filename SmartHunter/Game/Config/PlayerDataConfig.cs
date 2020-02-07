@@ -1,9 +1,12 @@
-﻿namespace SmartHunter.Game.Config
+namespace SmartHunter.Game.Config
 {
     public class PlayerDataConfig
     {
         public StatusEffectConfig[] StatusEffects =
         {
+            /*The commented ones needs the offset to be updated (ergo, are NOT working right now)
+             *
+             * 
             new StatusEffectConfig("Horn", "LOC_STATUS_EFFECT_SELF_IMPROVEMENT", StatusEffectConfig.MemorySource.Base, "38"),
             new StatusEffectConfig("Horn", "LOC_STATUS_EFFECT_ATTACK_UP_S", StatusEffectConfig.MemorySource.Base, "3C"),
             new StatusEffectConfig("Horn", "LOC_STATUS_EFFECT_ATTACK_UP_L", StatusEffectConfig.MemorySource.Base, "40"),
@@ -76,25 +79,55 @@
             new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_ELEMENTAL_RESISTANCE_DOWN", StatusEffectConfig.MemorySource.Base, "584"),
             new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_NO_ITEMS", StatusEffectConfig.MemorySource.Base, "58C"),
             new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_BLASTBLIGHT", StatusEffectConfig.MemorySource.Base, "590"),
+            */
 
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_DASH_JUICE", StatusEffectConfig.MemorySource.Base, "5B8"),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_WIGGLY_LITCHI", StatusEffectConfig.MemorySource.Base, "5BC"),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_IMMUNIZER", StatusEffectConfig.MemorySource.Base, "5C0"),
+            // To test
 
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MIGHT_PILL", StatusEffectConfig.MemorySource.Base, "5C8", new MemoryConditionConfig((byte)1, "5D0")),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MIGHT_SEED", StatusEffectConfig.MemorySource.Base, "5C8", new MemoryConditionConfig((byte)0, "5D0")),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ADAMANT_PILL", StatusEffectConfig.MemorySource.Base, "5D8", new MemoryConditionConfig((byte)1, "5E4")),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ADAMANT_SEED", StatusEffectConfig.MemorySource.Base, "5D8", new MemoryConditionConfig((byte)0, "5E4")),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_DEMON_POWDER", StatusEffectConfig.MemorySource.Base, "5EC"),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_HARDSHELL_POWDER", StatusEffectConfig.MemorySource.Base, "5F0"),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_DEMONDRUG", StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(1, "5FC")),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MEGA_DEMONDRUG", StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(2, "5FC")),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ARMORSKIN", StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(1, "600")),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MEGA_ARMORSKIN", StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(2, "600")),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_COOL_DRINK", StatusEffectConfig.MemorySource.Base, "60C"),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_PROTECTIVE_POLISH", StatusEffectConfig.MemorySource.Base, "644"),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_AFFINITY_SLIDING", StatusEffectConfig.MemorySource.Base, "648"),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_DASH_JUICE", StatusEffectConfig.MemorySource.Base, "694"),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_WIGGLY_LITCHI", StatusEffectConfig.MemorySource.Base, "698"),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_IMMUNIZER", StatusEffectConfig.MemorySource.Base, "69C"),
 
+            // Working
+
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MIGHT_SEED", StatusEffectConfig.MemorySource.Base, "6A4", new MemoryConditionConfig(0, "6AC")),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MIGHT_PILL", StatusEffectConfig.MemorySource.Base, "6A4", new MemoryConditionConfig(1, "6AC")),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ADAMANT_SEED", StatusEffectConfig.MemorySource.Base, "6B4", new MemoryConditionConfig(20, "6B8")),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ADAMANT_PILL", StatusEffectConfig.MemorySource.Base, "6B4", new MemoryConditionConfig(0, "6B8")),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_DEMON_POWDER", StatusEffectConfig.MemorySource.Base, "6C8"),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_HARDSHELL_POWDER", StatusEffectConfig.MemorySource.Base, "6CC"),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_DEMONDRUG", StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(1, "6DE")),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MEGA_DEMONDRUG", StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(2, "6DE")),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ARMORSKIN", StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(1, "6D8")),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MEGA_ARMORSKIN", StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(2, "6D8")),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_COOL_DRINK", StatusEffectConfig.MemorySource.Base, "6F0"), // 6DC -> 6F0
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_HOT_DRINK", StatusEffectConfig.MemorySource.Base, "6F4"),
+
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_GHILLIE", StatusEffectConfig.MemorySource.Equipment, "0"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_TEMPORAL", StatusEffectConfig.MemorySource.Equipment, "4"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_HEALTH_BOOSTER", StatusEffectConfig.MemorySource.Equipment, "8"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_ROCKSTEADY", StatusEffectConfig.MemorySource.Equipment, "C"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_CHALLENGER", StatusEffectConfig.MemorySource.Equipment, "10"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_VITALITY", StatusEffectConfig.MemorySource.Equipment, "14"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_FIREPROOF", StatusEffectConfig.MemorySource.Equipment, "18"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_WATERPROOF", StatusEffectConfig.MemorySource.Equipment, "1C"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_ICEPROOF", StatusEffectConfig.MemorySource.Equipment, "20"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_THUNDERPROOF", StatusEffectConfig.MemorySource.Equipment, "24"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_DRAGONPROOF", StatusEffectConfig.MemorySource.Equipment, "28"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_CLEANSER_BOOSTER", StatusEffectConfig.MemorySource.Equipment, "2C"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_GLIDER", StatusEffectConfig.MemorySource.Equipment, "30"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_EVASION", StatusEffectConfig.MemorySource.Equipment, "34"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_IMPACT", StatusEffectConfig.MemorySource.Equipment, "38"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_APOTHECARY", StatusEffectConfig.MemorySource.Equipment, "3C"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_IMMUNITY", StatusEffectConfig.MemorySource.Equipment, "40"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_AFFINITY_BOOSTER", StatusEffectConfig.MemorySource.Equipment, "44"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_BANDIT", StatusEffectConfig.MemorySource.Equipment, "48"),
+            new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_ASSASSINS_HOOD", StatusEffectConfig.MemorySource.Equipment, "4C"),
+            
+
+            /*
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_PROTECTIVE_POLISH", StatusEffectConfig.MemorySource.Base, "644"), //DUNNO
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_AFFINITY_SLIDING", StatusEffectConfig.MemorySource.Base, "648"), //DUNNO
+            
             new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_GHILLIE", StatusEffectConfig.MemorySource.Equipment, "A8C"),
             new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_TEMPORAL", StatusEffectConfig.MemorySource.Equipment, "A90"),
             new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_ROCKSTEADY", StatusEffectConfig.MemorySource.Equipment, "A98"),
@@ -123,6 +156,7 @@
             new StatusEffectConfig("Weapon", "LOC_WEAPON_CHARGE_BLADE_BLADE_CHARGE", StatusEffectConfig.MemorySource.Weapon, "1FFC", new MemoryConditionConfig(".*caxe[0-9]", "290", "3E0", "10")),
             new StatusEffectConfig("Weapon", "LOC_WEAPON_SWITCH_AXE_AMPED_STATE", StatusEffectConfig.MemorySource.Weapon, "1FD4", new MemoryConditionConfig(".*saxe[0-9]", "290", "3E0", "10")),
             new StatusEffectConfig("Weapon", "LOC_WEAPON_HAMMER_POWER_CHARGE", StatusEffectConfig.MemorySource.Weapon, null, new MemoryConditionConfig((byte)1, "1FC4"), new MemoryConditionConfig(".*ham[0-9]", "290", "3E0", "10"))
+            */
         };
     }
 }

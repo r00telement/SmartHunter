@@ -100,7 +100,7 @@ namespace SmartHunter.Game.Helpers
             public static class PlayerNameCollection
             {
                 public static readonly int PlayerNameLength = 32 + 1; // +1 for null terminator
-                public static readonly ulong FirstPlayerName = 0x526AD;//0x54A45; //0x526AD OR 0x54238
+                public static readonly ulong FirstPlayerName = 0x532ED;//0x526AD;
             }
 
             public static class PlayerDamageCollection
@@ -125,7 +125,7 @@ namespace SmartHunter.Game.Helpers
                 ulong sourceAddress = baseAddress;
                 if (statusEffectConfig.Source == StatusEffectConfig.MemorySource.Equipment)
                 {
-                    sourceAddress = equipmentAddress;
+                    sourceAddress = equipmentAddress + 0xEFC; // 0xEFC is a base offset for the mantles
                 }
                 else if (statusEffectConfig.Source == StatusEffectConfig.MemorySource.Weapon)
                 {
@@ -523,7 +523,7 @@ namespace SmartHunter.Game.Helpers
             }
 
             // Rage
-            ulong rageAddress = monster.Address + 0x1BE20;
+            ulong rageAddress = monster.Address + 0x1BE30; //0x1BE20
             float maxRageBuildUp = MemoryHelper.Read<float>(process, rageAddress + 0x24);
             float currentRageBuildUp = 0;
             if (maxRageBuildUp > 0)
