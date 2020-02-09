@@ -4,7 +4,7 @@ A complete overlay for Monster Hunter: World on PC. Distributed on [Nexus Mods](
 
 - Monster widget - name, health, parts, status effect buildup, and crown.
 - Team widget - name and damage meters.
-- Player widget - buff, debuff, and equipment/mantle timers (NOT working for now).
+- Player widget - buff, debuff, and equipment/mantle timers.
 - Open source - freely learn from and contribute to the project.
 - Skinnable - create and distribute your own rich styles and animations with XAML.
 - Easy localization - create and distribute your own translations for our international friends.
