@@ -41,7 +41,7 @@ namespace SmartHunter.Game.Helpers
                 public static readonly ulong PreviousMonsterOffset = 0x10;
                 public static readonly ulong SizeScale = 0x180;
                 public static readonly ulong PartCollection = 0x14528;
-                public static readonly ulong RemovablePartCollection = PartCollection + 0x22A0 - 0xF0;//0x1ED0;
+                public static readonly ulong RemovablePartCollection = PartCollection + 0x22A0 - 0xF0 - 0xF0 - 0xF0;
                 public static readonly ulong StatusEffectCollection = 0x19900;
             }
 
@@ -426,10 +426,6 @@ namespace SmartHunter.Game.Helpers
                         if (maxHealth > 0)
                         {
                             UpdateMonsterRemovablePart(process, monster, removablePartAddress);
-                        }
-                        else
-                        {
-                            break;
                         }
                     }
 

@@ -114,23 +114,25 @@ namespace SmartHunter.Game.Config
             new StatusEffectConfig("Coral", "LOC_STATUS_EFFECT_EARPLUGS_S", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(79)),
             new StatusEffectConfig("Coral", "LOC_STATUS_EFFECT_WIND_PRESSURE_NEGATED", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(80)),
             new StatusEffectConfig("Coral", "LOC_STATUS_EFFECT_ENVIRONMENTAL_DAMAGE_NEGATED", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(81)),
-            /*
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_POISON", StatusEffectConfig.MemorySource.Base, "554"),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_FIREBLIGHT", StatusEffectConfig.MemorySource.Base, "55C"),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_THUNDERBLIGHT", StatusEffectConfig.MemorySource.Base, "560"),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_WATERBLIGHT", StatusEffectConfig.MemorySource.Base, "564"),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_ICEBLIGHT", StatusEffectConfig.MemorySource.Base, "568"),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_DRAGONBLIGHT", StatusEffectConfig.MemorySource.Base, "56C"),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_BLEEDING", StatusEffectConfig.MemorySource.Base, "570"),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_BLEEDING_RECOVERY", StatusEffectConfig.MemorySource.Base, "574"),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_EFFLUVIA", StatusEffectConfig.MemorySource.Base, "578"),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_DEFENSE_DOWN", StatusEffectConfig.MemorySource.Base, "57C"),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_ELEMENTAL_RESISTANCE_DOWN", StatusEffectConfig.MemorySource.Base, "584"),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_NO_ITEMS", StatusEffectConfig.MemorySource.Base, "58C"),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_BLASTBLIGHT", StatusEffectConfig.MemorySource.Base, "590"),
-            */
+            
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_POISON", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(375)),
 
-            // Working
+
+
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_FIREBLIGHT", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(379)),
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_THUNDERBLIGHT", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(380)),
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_WATERBLIGHT", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(381)),
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_ICEBLIGHT", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(382)),
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_DRAGONBLIGHT", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(383)),
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_BLEEDING", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(384)),
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_BLEEDING_RECOVERY", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(385)),
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_EFFLUVIA", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(386)),
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_DEFENSE_DOWN", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(387)),
+
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_ELEMENTAL_RESISTANCE_DOWN", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(389)),
+
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_NO_ITEMS", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(391)),
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_BLASTBLIGHT", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(392)),
 
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_DASH_JUICE", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(421)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_WIGGLY_LITCHI", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(422)),
@@ -150,8 +152,11 @@ namespace SmartHunter.Game.Config
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_DEMONDRUG", StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(1, "6DE")),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MEGA_DEMONDRUG", StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(2, "6DE")),
             
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_COOL_DRINK", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(444)), // 6DC -> 6F0
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_COOL_DRINK", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(444)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_HOT_DRINK", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(445)),
+
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_PROTECTIVE_POLISH", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(476)),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_AFFINITY_SLIDING", StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(477)),
 
             new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_GHILLIE", StatusEffectConfig.MemorySource.Equipment, indexToHexStrMantles(0)),
             new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_MANTLE_TEMPORAL", StatusEffectConfig.MemorySource.Equipment, indexToHexStrMantles(1)),
@@ -195,20 +200,18 @@ namespace SmartHunter.Game.Config
             new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_RECHARGE_MANTLE_BANDIT", StatusEffectConfig.MemorySource.Equipment, indexToHexStrMantlesRecharging(18), new MemoryConditionConfig(0, indexToHexStrMantles(18))),
             new StatusEffectConfig("Equipment", "LOC_EQUIPMENT_RECHARGE_ASSASSINS_HOOD", StatusEffectConfig.MemorySource.Equipment, indexToHexStrMantlesRecharging(19), new MemoryConditionConfig(0, indexToHexStrMantles(19))),
 
-            /*
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_PROTECTIVE_POLISH", StatusEffectConfig.MemorySource.Base, "644"), //DUNNO
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_AFFINITY_SLIDING", StatusEffectConfig.MemorySource.Base, "648"), //DUNNO
+            // Not working
 
-            new StatusEffectConfig("Weapon", "LOC_WEAPON_INSECT_GLAIVE_ATTACK", StatusEffectConfig.MemorySource.Weapon, "1FE8", new MemoryConditionConfig(".*rod[0-9]", "290", "3E0", "10")),
+            /*new StatusEffectConfig("Weapon", "LOC_WEAPON_INSECT_GLAIVE_ATTACK", StatusEffectConfig.MemorySource.Weapon, "1FE8", new MemoryConditionConfig(".*rod[0-9]", "290", "3E0", "10")),
             new StatusEffectConfig("Weapon", "LOC_WEAPON_INSECT_GLAIVE_SPEED", StatusEffectConfig.MemorySource.Weapon, "1FEC", new MemoryConditionConfig(".*rod[0-9]", "290", "3E0", "10")),
             new StatusEffectConfig("Weapon", "LOC_WEAPON_INSECT_GLAIVE_DEFENSE", StatusEffectConfig.MemorySource.Weapon, "1FF0", new MemoryConditionConfig(".*rod[0-9]", "290", "3E0", "10")),
-            new StatusEffectConfig("Weapon", "LOC_WEAPON_LONGSWORD_SPIRIT_GAUGE_REGEN", StatusEffectConfig.MemorySource.Weapon, "1FF8", new MemoryConditionConfig(".*swo[0-9]", "290", "3E0", "10")),
-            new StatusEffectConfig("Weapon", "LOC_WEAPON_LONGSWORD_STEADY_SPIRIT_LEVEL", StatusEffectConfig.MemorySource.Weapon, "2008", new MemoryConditionConfig(".*swo[0-9]", "290", "3E0", "10")),
-            new StatusEffectConfig("Weapon", "LOC_WEAPON_CHARGE_BLADE_SHIELD_CHARGE", StatusEffectConfig.MemorySource.Weapon, "1FF8", new MemoryConditionConfig(".*caxe[0-9]", "290", "3E0", "10")),
+            new StatusEffectConfig("Weapon", "LOC_WEAPON_LONGSWORD_SPIRIT_GAUGE_REGEN", StatusEffectConfig.MemorySource.Weapon, "1FF8", new MemoryConditionConfig(".*swo[0-9]", "290", "3E0", "10")),*/
+            new StatusEffectConfig("Weapon", "LOC_WEAPON_LONGSWORD_STEADY_SPIRIT_LEVEL", StatusEffectConfig.MemorySource.Weapon, indexToHexStrNoOffset(2408)),//, new MemoryConditionConfig(".*swo[0-9]", "4B8", "240", "A38", "328", "DF8", "50", "4D8", "C80")),
+            /*new StatusEffectConfig("Weapon", "LOC_WEAPON_CHARGE_BLADE_SHIELD_CHARGE", StatusEffectConfig.MemorySource.Weapon, "1FF8", new MemoryConditionConfig(".*caxe[0-9]", "290", "3E0", "10")),
             new StatusEffectConfig("Weapon", "LOC_WEAPON_CHARGE_BLADE_BLADE_CHARGE", StatusEffectConfig.MemorySource.Weapon, "1FFC", new MemoryConditionConfig(".*caxe[0-9]", "290", "3E0", "10")),
             new StatusEffectConfig("Weapon", "LOC_WEAPON_SWITCH_AXE_AMPED_STATE", StatusEffectConfig.MemorySource.Weapon, "1FD4", new MemoryConditionConfig(".*saxe[0-9]", "290", "3E0", "10")),
             new StatusEffectConfig("Weapon", "LOC_WEAPON_HAMMER_POWER_CHARGE", StatusEffectConfig.MemorySource.Weapon, null, new MemoryConditionConfig((byte)1, "1FC4"), new MemoryConditionConfig(".*ham[0-9]", "290", "3E0", "10"))
             */
-        };
+            };
     }
 }
