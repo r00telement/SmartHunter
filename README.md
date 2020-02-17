@@ -9,6 +9,10 @@ A complete overlay for Monster Hunter: World on PC. Distributed on [Nexus Mods](
 - Skinnable - create and distribute your own rich styles and animations with XAML.
 - Easy localization - create and distribute your own translations for our international friends.
 
+## Changelog
+
+- Look [here](https://forums.nexusmods.com/index.php?/topic/8356533-smarthunter-for-iceborne/)
+
 ## Requirements
 
 - Windows.
