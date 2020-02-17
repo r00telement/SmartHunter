@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using SmartHunter.Core.Data;
 using SmartHunter.Game.Data.WidgetContexts;
 using SmartHunter.Game.Helpers;
@@ -30,6 +30,7 @@ namespace SmartHunter.Game.Data.ViewModels
         public ContextualWidget<TeamWidgetContext> TeamWidget { get; private set; }
         public ContextualWidget<MonsterWidgetContext> MonsterWidget { get; private set; }
         public ContextualWidget<PlayerWidgetContext> PlayerWidget { get; private set; }
+        public ContextualWidget<DebugWidgetContext> DebugWidget { get; private set; }
 
         bool m_CanManipulateWindows;
         public bool CanManipulateWindows
@@ -77,6 +78,7 @@ namespace SmartHunter.Game.Data.ViewModels
             TeamWidget = new ContextualWidget<TeamWidgetContext>(ConfigHelper.Main.Values.Overlay.TeamWidget, new TeamWidgetContext());
             MonsterWidget = new ContextualWidget<MonsterWidgetContext>(ConfigHelper.Main.Values.Overlay.MonsterWidget, new MonsterWidgetContext());
             PlayerWidget = new ContextualWidget<PlayerWidgetContext>(ConfigHelper.Main.Values.Overlay.PlayerWidget, new PlayerWidgetContext());
+            DebugWidget = new ContextualWidget<DebugWidgetContext>(ConfigHelper.Main.Values.Overlay.DebugWidget, new DebugWidgetContext());
         }
 
         void GenerateSampleData()

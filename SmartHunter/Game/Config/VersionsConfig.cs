@@ -6,6 +6,7 @@ namespace SmartHunter.Game.Config
         public string LocalizationConfig = "";
         public string MemoryConfig = "";
         public string PlayerDataConfig = "";
+        public string Default = "";
         public string SmartHunter = "";
     }
 }

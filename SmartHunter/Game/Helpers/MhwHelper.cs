@@ -39,7 +39,8 @@ namespace SmartHunter.Game.Helpers
                 public static readonly ulong NextMonsterOffset = 0x18;
                 public static readonly ulong MonsterHealthComponentOffset = 0x7670;
                 public static readonly ulong PreviousMonsterOffset = 0x10;
-                public static readonly ulong SizeScale = 0x180;
+                public static readonly ulong SizeScale = 0x188;
+                public static readonly ulong ScaleModifier = 0x7730;
                 public static readonly ulong PartCollection = 0x14528;
                 public static readonly ulong RemovablePartCollection = PartCollection + 0x22A0 - 0xF0 - 0xF0 - 0xF0;
                 public static readonly ulong StatusEffectCollection = 0x19900;
@@ -81,10 +82,7 @@ namespace SmartHunter.Game.Helpers
             {
                 public static readonly ulong MaxHealth = 0x0C;
                 public static readonly ulong CurrentHealth = 0x10;
-                public static readonly ulong Validity1 = 0x14;
                 public static readonly ulong TimesBrokenCount = 0x18;
-                public static readonly ulong Validity2 = 0x28;
-                public static readonly ulong Validity3 = 0x40;
                 public static readonly ulong NextRemovablePart = 0x78;
             }
 
@@ -105,8 +103,14 @@ namespace SmartHunter.Game.Helpers
 
             public static class PlayerNameCollection
             {
+                public static readonly int IDLength = 12 + 1; // +1 for null terminator
                 public static readonly int PlayerNameLength = 32 + 1; // +1 for null terminator
-                public static readonly ulong FirstPlayerName = 0x532ED;//0x526AD;
+                public static readonly ulong FirstPlayerName = 0x532ED;
+                public static readonly ulong SessionID = FirstPlayerName + 0xF43;
+                public static readonly ulong SessionHostPlayerName = SessionID + 0x3F;
+                public static readonly ulong LobbyID = FirstPlayerName + 0x463;
+                public static readonly ulong LobbyHostPlayerName = LobbyID + 0x29;
+                public static readonly ulong NextLobbyHostName = 0x2F; // Is dis even right?
             }
 
             public static class PlayerDamageCollection
@@ -122,6 +126,50 @@ namespace SmartHunter.Game.Helpers
             }
         }
 
+        public static void UpdateCurrentGame(Process process, ulong playerNameCollectionAddress, ulong currentPlayerNameAddress, ulong currentWeaponAddress, ulong lobbyStatusAddress)
+        {
+            string currentSessionID = MemoryHelper.ReadString(process, playerNameCollectionAddress + DataOffsets.PlayerNameCollection.SessionID, (uint)DataOffsets.PlayerNameCollection.IDLength);
+            string currentSessionPlayerName = "";
+            if (currentSessionID.Length > 0)
+            {
+                currentSessionPlayerName = MemoryHelper.ReadString(process, playerNameCollectionAddress + DataOffsets.PlayerNameCollection.SessionHostPlayerName, (uint)DataOffsets.PlayerNameCollection.PlayerNameLength);
+            }
+
+            string currentPlayerName = MemoryHelper.ReadString(process, currentPlayerNameAddress, (uint)DataOffsets.PlayerNameCollection.PlayerNameLength);
+
+            string currentLobbyID = "";
+            string currentLobbyPlayerName = "";
+            bool isPlayerInMission = MemoryHelper.Read<uint>(process, lobbyStatusAddress + 0x54) != 0x0;
+            bool isPlayerInExpedition = MemoryHelper.Read<uint>(process, lobbyStatusAddress + 0x38) != 0x1;
+            if (isPlayerInMission || isPlayerInExpedition)
+            {
+                if (currentSessionID.Length > 0)
+                {
+                    currentLobbyID = MemoryHelper.ReadString(process, playerNameCollectionAddress + DataOffsets.PlayerNameCollection.LobbyID, (uint)DataOffsets.PlayerNameCollection.IDLength);
+                    if (currentLobbyID.Length > 0)
+                    {
+                        for (int index = 0; index < 4; index++)
+                        {
+                            ulong PlayerNameOffset = DataOffsets.PlayerNameCollection.NextLobbyHostName * (ulong)index;
+                            currentLobbyPlayerName = MemoryHelper.ReadString(process, playerNameCollectionAddress + DataOffsets.PlayerNameCollection.LobbyHostPlayerName + PlayerNameOffset, (uint)DataOffsets.PlayerNameCollection.PlayerNameLength);
+                            if (currentLobbyPlayerName.Length > 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    currentLobbyID = "Not Online";
+                    currentLobbyPlayerName = currentPlayerName;
+                }
+            }
+
+            string currentEquippedWeaponString = MemoryHelper.ReadString(process, currentWeaponAddress, 0x4F);
+            OverlayViewModel.Instance.DebugWidget.Context.UpdateCurrentGame(currentPlayerName, currentEquippedWeaponString, currentSessionID, currentSessionPlayerName, currentLobbyID, currentLobbyPlayerName);
+        }
+
         public static void UpdatePlayerWidget(Process process, ulong baseAddress, ulong equipmentAddress, ulong weaponAddress)
         {
             for (int index = 0; index < ConfigHelper.PlayerData.Values.StatusEffects.Length; ++index)
@@ -129,11 +177,11 @@ namespace SmartHunter.Game.Helpers
                 var statusEffectConfig = ConfigHelper.PlayerData.Values.StatusEffects[index];
 
                 ulong sourceAddress = baseAddress;
-                if (statusEffectConfig.Source == StatusEffectConfig.MemorySource.Equipment)
+                if (statusEffectConfig.Source == (uint)StatusEffectConfig.MemorySource.Equipment)
                 {
                     sourceAddress = equipmentAddress;
                 }
-                else if (statusEffectConfig.Source == StatusEffectConfig.MemorySource.Weapon)
+                else if (statusEffectConfig.Source != (uint)StatusEffectConfig.MemorySource.Base)
                 {
                     sourceAddress = weaponAddress;
                 }
@@ -190,6 +238,13 @@ namespace SmartHunter.Game.Helpers
                         }
                     }
                 }
+                if (statusEffectConfig.Source != (uint)StatusEffectConfig.MemorySource.Base && statusEffectConfig.Source != (uint)StatusEffectConfig.MemorySource.Equipment)
+                {
+                    if (OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.CurrentEquippedWeaponType() != (WeaponType)statusEffectConfig.Source)
+                    {
+                        allConditionsPassed = false;
+                    }
+                }
                 float? timer = null;
                 if (allConditionsPassed && statusEffectConfig.TimerOffset != null)
                 {
@@ -212,6 +267,7 @@ namespace SmartHunter.Game.Helpers
         public static void UpdateTeamWidget(Process process, ulong playerDamageCollectionAddress, ulong playerNameCollectionAddress)
         {
             List<Player> updatedPlayers = new List<Player>();
+
             for (int playerIndex = 0; playerIndex < DataOffsets.PlayerDamageCollection.MaxPlayerCount; ++playerIndex)
             {
                 var player = UpdateAndGetTeamPlayer(process, playerIndex, playerDamageCollectionAddress, playerNameCollectionAddress);
@@ -227,7 +283,7 @@ namespace SmartHunter.Game.Helpers
             }
             else if (OverlayViewModel.Instance.TeamWidget.Context.Players.Any())
             {
-                OverlayViewModel.Instance.TeamWidget.Context.Players.Clear();
+                OverlayViewModel.Instance.TeamWidget.Context.ClearPlayers();
             }
         }
 
@@ -237,7 +293,7 @@ namespace SmartHunter.Game.Helpers
 
             var playerNameOffset = (ulong)DataOffsets.PlayerNameCollection.PlayerNameLength * (ulong)playerIndex;
             string name = MemoryHelper.ReadString(process, playerNameCollectionAddress + DataOffsets.PlayerNameCollection.FirstPlayerName + playerNameOffset, (uint)DataOffsets.PlayerNameCollection.PlayerNameLength);
-            ulong firstPlayerPtr = playerDamageCollectionAddress + DataOffsets.PlayerDamageCollection.FirstPlayerPtr; // check those lines
+            ulong firstPlayerPtr = playerDamageCollectionAddress + DataOffsets.PlayerDamageCollection.FirstPlayerPtr;
             ulong currentPlayerPtr = firstPlayerPtr + ((ulong)playerIndex * DataOffsets.PlayerDamageCollection.NextPlayerPtr);
             ulong currentPlayerAddress = MemoryHelper.Read<ulong>(process, currentPlayerPtr);
             int damage = MemoryHelper.Read<int>(process, currentPlayerAddress + DataOffsets.PlayerDamage.Damage);
@@ -250,8 +306,27 @@ namespace SmartHunter.Game.Helpers
             return player;
         }
 
-        public static void UpdateMonsterWidget(Process process, ulong monsterBaseList)
+        public static void UpdateMonsterWidget(Process process, ulong monsterBaseList, ulong mapBaseAddress)
         {
+            if (mapBaseAddress != 0x0)
+            {
+                bool isMonsterSelected = MemoryHelper.Read<ulong>(process, mapBaseAddress + 0x128) != 0x0;
+                if (isMonsterSelected)
+                {
+                    ulong selectedMonsterAddress = MemoryHelper.Read<ulong>(process, mapBaseAddress + 0x148) - 0X40;
+                    var selectedMonster = UpdateAndGetMonster(process, selectedMonsterAddress);
+                    if (selectedMonster != null)
+                    {
+                        var toRemoveMonsters = OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Where(m => !m.Id.Equals(selectedMonster.Id));
+                        foreach (var obsoleteMonster in toRemoveMonsters.Reverse())
+                        {
+                            OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Remove(obsoleteMonster);
+                        }
+                        return;
+                    }
+                }
+            }
+
             if (monsterBaseList < 0xffffff)
             {
                 OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Clear();
@@ -264,7 +339,7 @@ namespace SmartHunter.Game.Helpers
 
             if (firstMonster == 0x0)
             {
-                firstMonster = monsterBaseList;// + DataOffsets.Monster.MonsterStartOfStructOffset;
+                firstMonster = monsterBaseList;
             }
 
             firstMonster += DataOffsets.Monster.MonsterStartOfStructOffset;
@@ -322,16 +397,39 @@ namespace SmartHunter.Game.Helpers
 
             float currentHealth = MemoryHelper.Read<float>(process, health_component + DataOffsets.MonsterHealthComponent.CurrentHealth);
             float sizeScale = MemoryHelper.Read<float>(process, monsterAddress + DataOffsets.Monster.MonsterStartOfStructOffset + DataOffsets.Monster.SizeScale);
+            float scaleModifier = MemoryHelper.Read<float>(process, monsterAddress + DataOffsets.Monster.MonsterStartOfStructOffset + DataOffsets.Monster.ScaleModifier);
+            if (scaleModifier <= 0 || scaleModifier >= 2)
+            {
+                scaleModifier = 1;
+            }
 
-            monster = OverlayViewModel.Instance.MonsterWidget.Context.UpdateAndGetMonster(monsterAddress, id, maxHealth, currentHealth, sizeScale);
+            monster = OverlayViewModel.Instance.MonsterWidget.Context.UpdateAndGetMonster(monsterAddress, id, maxHealth, currentHealth, sizeScale, scaleModifier);
 
-            
             if (ConfigHelper.MonsterData.Values.Monsters.ContainsKey(id) && ConfigHelper.MonsterData.Values.Monsters[id].Parts.Count() > 0)
             {
-                // TODO: I think here we can check if the current player is the host of the party, as if's not there's no point on updating monster parts (cause only the host of the party will see those parts)
-                UpdateMonsterParts(process, monster);
-                UpdateMonsterRemovableParts(process, monster);
-                UpdateMonsterStatusEffects(process, monster);
+                if (OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsCurrentPlayerLobbyHost() || !OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerOnline())
+                {
+                    UpdateMonsterParts(process, monster);
+                    if (ConfigHelper.MonsterData.Values.Monsters[id].Parts.Where(p => p.IsRemovable).Count() > 0) // In case you are testing add "|| true"
+                    {
+                        UpdateMonsterRemovableParts(process, monster);
+                    }
+                    //UpdateMonsterStatusEffects(process, monster);
+
+                    if (OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerOnline() && !OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerAlone())
+                    {
+                        // Upload DATA to central server
+                    }
+                }
+                else
+                {
+                    if (OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerOnline())
+                    {
+                        // Downlaod DATA from central server
+                    }
+                }
+
+                UpdateMonsterStatusEffects(process, monster); // TODO: Remove
             }
 
             return monster;
@@ -397,35 +495,22 @@ namespace SmartHunter.Game.Helpers
                     {
                         removablePartAddress += 8;
                     }
-                    
-                    // This is rough/hacky but it removes seemingly valid parts that aren't actually "removable".
-                    // TODO: Figure out why Paolumu, Barroth, Radobaan have these mysterious removable parts
-                    bool isValid1 = true;
-                    bool isValid2 = true;
-                    bool isValid3 = true;
 
-                    int validity1 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity1);
-                    isValid1 = validity1 == 1;
-                    if (!ConfigHelper.Main.Values.Debug.ShowWeirdRemovableParts)
-                    {                                           
-                        int validity2 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity2);
-                        int validity3 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity3);
+                    uint maxRemovableParts = (uint)ConfigHelper.MonsterData.Values.Monsters[monster.Id].Parts.Where(p => p.IsRemovable).Count();
+                    bool isLast = MemoryHelper.Read<uint>(process, removablePartAddress + 0x94) == 0x1;
+                    //bool isValid = MemoryHelper.Read<byte>(process, removablePartAddress + 0x15) == 0;
+                    bool isValid = MemoryHelper.Read<uint>(process, removablePartAddress + 0x6C) < maxRemovableParts;
 
-                        isValid2 = validity3 == 0 || validity3 == 1;
-
-                        isValid3 = true;
-                        if (validity3 == 0 && validity2 != 1)
-                        {
-                            isValid3 = false;
-                        }
-                    }
-
-                    if (isValid1 && isValid2 && isValid3)
+                    if (isValid)
                     {
                         float maxHealth = MemoryHelper.Read<float>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.MaxHealth);
                         if (maxHealth > 0)
                         {
                             UpdateMonsterRemovablePart(process, monster, removablePartAddress);
+                            if (isLast || monster.Parts.Where(p => p.IsRemovable).Count() == maxRemovableParts)
+                            {
+                                break;
+                            }
                         }
                     }
 
@@ -447,11 +532,15 @@ namespace SmartHunter.Game.Helpers
         {
             int maxIndex = ConfigHelper.MonsterData.Values.StatusEffects.Where(s => s.GroupId.Equals("StatusEffect")).Count() - 1;
             var statuses = monster.StatusEffects;
-            if (statuses.Where(s => s.GroupId.Equals("StatusEffect")).Any())
+            if (statuses != null && statuses.Where(s => s.GroupId.Equals("StatusEffect")).Any())
             {
                 for (int i = 0; i < statuses.Count(); i++)
                 {
                     MonsterStatusEffect status = statuses[i];
+                    if (status == null)
+                    {
+                        continue;
+                    }
                     float currentBuildup = 0;
                     float maxBuildup = MemoryHelper.Read<float>(process, status.Address + DataOffsets.MonsterStatusEffect.MaxBuildup);
                     if (maxBuildup > 0)
@@ -524,6 +613,37 @@ namespace SmartHunter.Game.Helpers
                 }
             }
 
+            // Stamina
+
+            ulong staminaAddress = monster.Address + 0x1C0D8; //0x1BE20
+            float maxStaminaBuildUp = MemoryHelper.Read<float>(process, staminaAddress + 0x4);
+            float currentStaminaBuildUp = 0;
+            if (maxStaminaBuildUp > 0)
+            {
+                currentStaminaBuildUp = MemoryHelper.Read<float>(process, staminaAddress);
+            }
+            float maxFatigueDuration = MemoryHelper.Read<float>(process, staminaAddress + 0xC);
+            float currentFatigueDuration = 0;
+            if (maxFatigueDuration > 0)
+            {
+                currentFatigueDuration = MemoryHelper.Read<float>(process, staminaAddress + 0x10);
+            }
+            int fatigueActivatedCount = MemoryHelper.Read<int>(process, staminaAddress + 0x14);
+            MonsterStatusEffectConfig statusEffect = null;
+            if (currentFatigueDuration > 0)
+            {
+                statusEffect = ConfigHelper.MonsterData.Values.StatusEffects.SingleOrDefault(s => s.GroupId.Equals("Fatigue"));
+            }
+            else
+            {
+                statusEffect = ConfigHelper.MonsterData.Values.StatusEffects.SingleOrDefault(s => s.GroupId.Equals("Stamina"));
+            }
+            
+            if (maxStaminaBuildUp > 0 || currentFatigueDuration > 0)
+            {
+                monster.UpdateAndGetStatusEffect(staminaAddress, Array.IndexOf(ConfigHelper.MonsterData.Values.StatusEffects, statusEffect), maxStaminaBuildUp > 0 ? maxStaminaBuildUp : 1, !statusEffect.InvertBuildup ? currentStaminaBuildUp : maxStaminaBuildUp - currentStaminaBuildUp, maxFatigueDuration, !statusEffect.InvertDuration ? currentFatigueDuration : maxFatigueDuration - currentFatigueDuration, fatigueActivatedCount);
+            }
+            
             // Rage
             ulong rageAddress = monster.Address + 0x1BE30; //0x1BE20
             float maxRageBuildUp = MemoryHelper.Read<float>(process, rageAddress + 0x24);

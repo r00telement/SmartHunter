@@ -1,4 +1,4 @@
-﻿using SmartHunter.Core.Config;
+using SmartHunter.Core.Config;
 
 namespace SmartHunter.Core.Data
 {

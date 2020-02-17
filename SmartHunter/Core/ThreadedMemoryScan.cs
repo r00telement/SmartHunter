@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -90,7 +90,7 @@ namespace SmartHunter.Core
             }
         }
 
-        public ThreadedMemoryScan(Process process, BytePattern pattern, bool stopAfterFirst, int threads = 2)
+        public ThreadedMemoryScan(Process process, BytePattern pattern, AddressRange addressRange, bool stopAfterFirst, int threads = 2)
         {
             Process = process;
             Pattern = pattern;
@@ -101,7 +101,7 @@ namespace SmartHunter.Core
             m_Stopwatch = new Stopwatch();
             m_Stopwatch.Start();
 
-            var addressRangeDivisions = MemoryHelper.DivideAddressRange(pattern.AddressRange, threads);
+            var addressRangeDivisions = MemoryHelper.DivideAddressRange(addressRange, threads);
             foreach (var addressRangeDivision in addressRangeDivisions)
             {
                 AddScanTask(addressRangeDivision);

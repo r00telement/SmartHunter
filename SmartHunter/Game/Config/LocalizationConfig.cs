@@ -12,6 +12,7 @@ namespace SmartHunter.Config
             { "LOC_WIDGET_MONSTER", "Monster Widget" },
             { "LOC_WIDGET_TEAM", "Team Widget" },
             { "LOC_WIDGET_PLAYER", "Player Widget" },
+            { "LOC_WIDGET_DEBUG", "Debug Widget" },
 
             // Iceborne monsters
 
@@ -158,6 +159,7 @@ namespace SmartHunter.Config
             { "LOC_REMOVABLE_PART_TAIL", "Removable Tail" },
             { "LOC_REMOVABLE_PART_HORNS", "Removable Horns" },
             { "LOC_REMOVABLE_PART_HORNS_2", "Removable Horn Chip" },
+            { "LOC_REMOVABLE_PART_BALOON", "Removable Baloon" },
 
             //To test monster parts
             { "LOC_PART_0", "0" },
@@ -350,8 +352,10 @@ namespace SmartHunter.Config
             { "LOC_WEAPON_INSECT_GLAIVE_ATTACK", "Attack Up" },
             { "LOC_WEAPON_INSECT_GLAIVE_SPEED", "Speed Up" },
             { "LOC_WEAPON_INSECT_GLAIVE_DEFENSE", "Defense Up" },
-            { "LOC_WEAPON_LONGSWORD_SPIRIT_GAUGE_REGEN", "Spirit Gauge Regen" },
             { "LOC_WEAPON_LONGSWORD_STEADY_SPIRIT_LEVEL", "Steady Spirit Level" },
+            { "LOC_WEAPON_LONGSWORD_SPIRIT_GAUGE_REGEN", "Spirit Gauge Regen" },
+            { "LOC_WEAPON_LONGSWORD_SPIRIT_GAUGE_REGEN_HELM_BREAKER", "Spirit Gauge Regen (Helm Breaker)" },
+            { "LOC_WEAPON_LONGSWORD_SPIRIT_GAUGE_REGEN_LAI_SLASH", "Spirit Gauge Regen (Lai Slash)" },
             { "LOC_WEAPON_CHARGE_BLADE_SHIELD_CHARGE", "Shield Charge" },
             { "LOC_WEAPON_CHARGE_BLADE_BLADE_CHARGE", "Blade Charge" },
             { "LOC_WEAPON_SWITCH_AXE_AMPED_STATE", "Amped State" },

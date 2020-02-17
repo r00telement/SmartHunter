@@ -1,8 +1,8 @@
-﻿<windows:WidgetWindow
+<windows:WidgetWindow
         x:Class="SmartHunter.Ui.Windows.MonsterWidgetWindow"
         Left="{Binding MonsterWidget.X, Mode=TwoWay}"
         Top="{Binding MonsterWidget.Y, Mode=TwoWay}"
-    
+
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -26,7 +26,7 @@
         Width="Auto"
         Height="Auto">
 
-    <Grid UseLayoutRounding="True" Margin="25" MinWidth="50" MinHeight="50">
+    <Grid UseLayoutRounding="True" Margin="25" MinWidth="1038" MinHeight="50">
         <Grid>
             <Grid.LayoutTransform>
                 <ScaleTransform ScaleX="{Binding MonsterWidget.Scale}" ScaleY="{Binding MonsterWidget.Scale}" />

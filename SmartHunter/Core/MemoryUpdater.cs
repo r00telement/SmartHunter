@@ -21,6 +21,7 @@ namespace SmartHunter.Core
             Restarting,
             WaitingForProcess,
             ProcessFound,
+            FastPatternScanning,
             PatternScanning,
             PatternScanFailed,
             Working
@@ -28,6 +29,7 @@ namespace SmartHunter.Core
 
         StateMachine<State> m_StateMachine;
         List<ThreadedMemoryScan> m_MemoryScans;
+        List<ThreadedMemoryScan> m_FastMemoryScans;
         DispatcherTimer m_DispatcherTimer;
 
         protected abstract string ProcessName { get; }
@@ -174,14 +176,48 @@ namespace SmartHunter.Core
                 new StateMachine<State>.Transition[]
                 {
                     new StateMachine<State>.Transition(
-                        State.PatternScanning,
+                        State.FastPatternScanning,
                         () => true,
                         () =>
                         {
                             foreach (var pattern in Patterns)
                             {
-                                var memoryScan = new ThreadedMemoryScan(Process, pattern, true, ThreadsPerScan);
-                                m_MemoryScans.Add(memoryScan);
+                                if (pattern.Config.LastResultAddress.Length > 0)
+                                {
+                                    if (MhwHelper.TryParseHex(pattern.Config.LastResultAddress, out var address))
+                                    {
+                                        var memoryScan = new ThreadedMemoryScan(Process, pattern, new AddressRange((ulong)address, (ulong)pattern.Bytes.Length), true, ThreadsPerScan);
+                                        m_FastMemoryScans.Add(memoryScan);
+                                    }
+                                }
+                            }
+                        })
+                }));
+
+            m_StateMachine.Add(State.FastPatternScanning, new StateMachine<State>.StateData(
+                null,
+                new StateMachine<State>.Transition[]
+                {
+                    new StateMachine<State>.Transition(
+                        State.PatternScanning,
+                        () =>
+                        {
+                            var completedScans = m_FastMemoryScans.Where(memoryScan => memoryScan.HasCompleted);
+                            return completedScans.Count() == m_FastMemoryScans.Count();
+                        },
+                        () =>
+                        {
+                            var subPatterns = Patterns.Where(p => p.MatchedAddresses.Count() == 0);
+                            if (subPatterns.Count() > 0)
+                            {
+                                AddressRange addressRange = new AddressRange((ulong)Process.MainModule.BaseAddress.ToInt64(), (ulong)Process.MainModule.ModuleMemorySize);
+                                Log.WriteLine($"Base: 0x{addressRange.Start.ToString("X")}, End: 0x{addressRange.End.ToString("X")}, Size: 0x{addressRange.Size.ToString("X")}");
+
+                                foreach (var pattern in subPatterns)
+                                {
+                                    var memoryScan = new ThreadedMemoryScan(Process, pattern, addressRange, true, ThreadsPerScan);
+                                    m_MemoryScans.Add(memoryScan);
+                                }
                             }
                         })
                 }));
@@ -198,7 +234,7 @@ namespace SmartHunter.Core
                             if (completedScans.Count() == m_MemoryScans.Count())
                             {
                                 var finishedWithResults = m_MemoryScans.Where(memoryScan => memoryScan.HasCompleted && memoryScan.Results.SelectMany(result => result.Matches).Any());
-                                return finishedWithResults.Any();
+                                return finishedWithResults.Any() || m_MemoryScans.Count() == 0 || m_FastMemoryScans.Where(memoryScan => memoryScan.HasCompleted && memoryScan.Results.SelectMany(result => result.Matches).Any()).Any();
                             }
 
                             return false;
@@ -213,7 +249,8 @@ namespace SmartHunter.Core
                                 Log.WriteLine($"The application will continue to work but with limited functionalities...");
                                 m_MemoryScans.RemoveAll(scan => failedMemoryScans.Contains(scan));
                             }
-
+                            ConfigHelper.Memory.Save(false);
+                            m_MemoryScans.AddRange(m_FastMemoryScans.Where(f => f.Results.Where(r => r.Matches.Any()).Any()));
                             var orderedMatches = m_MemoryScans.Select(memoryScan => memoryScan.Results.Where(result => result.Matches.Any()).First().Matches.First()).OrderBy(match => match);
                             Log.WriteLine($"Match Range: {orderedMatches.First():X} - {orderedMatches.Last():X}");
                         }),
@@ -225,7 +262,7 @@ namespace SmartHunter.Core
                             if (completedScans.Count() == m_MemoryScans.Count())
                             {
                                 var finishedWithoutResults = m_MemoryScans.Where(memoryScan => !memoryScan.Results.SelectMany(result => result.Matches).Any());
-                                return finishedWithoutResults.Count() == m_MemoryScans.Count();
+                                return (finishedWithoutResults.Count() == m_MemoryScans.Count()) && m_FastMemoryScans.Where(memoryScan => memoryScan.HasCompleted && memoryScan.Results.SelectMany(result => result.Matches).Any()).Count() == 0;
                             }
 
                             return false;
@@ -285,6 +322,7 @@ namespace SmartHunter.Core
                 }
             }
 
+            m_FastMemoryScans = new List<ThreadedMemoryScan>();
             m_MemoryScans = new List<ThreadedMemoryScan>();
 
             if (processExited && ShutdownWhenProcessExits)
@@ -313,7 +351,7 @@ namespace SmartHunter.Core
         {
             const int max = 60;
             const int min = 1;
-            int clampedUpdatesPerSecond = Math.Min(Math.Max(UpdatesPerSecond, min), max);
+            int clampedUpdatesPerSecond = Math.Min(Math.Max(UpdatesPerSecond, min), max); // TODO: Dynamic updates per second number based on game perfomance
 
             int targetMilliseconds = (int)(1000f / clampedUpdatesPerSecond);
             if (m_DispatcherTimer != null && m_DispatcherTimer.Interval.TotalMilliseconds != targetMilliseconds)

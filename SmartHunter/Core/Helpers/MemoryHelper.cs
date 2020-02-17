@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using SmartHunter.Game.Helpers;
 
 namespace SmartHunter.Core.Helpers
 {    
@@ -23,7 +24,7 @@ namespace SmartHunter.Core.Helpers
             }
         }
 
-        static bool CheckProtection(BytePattern pattern, uint flags)
+        static bool CheckProtection(uint flags)
         {
             var protectionFlags = (WindowsApi.RegionPageProtection)flags;
 
@@ -35,18 +36,7 @@ namespace SmartHunter.Core.Helpers
                 }
             }
 
-            return true; // we need to check only READ?
-            /*
-            foreach (var protectionOrInclusive in pattern.Config.PageProtections)
-            {
-                if (protectionFlags.HasFlag(protectionOrInclusive))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-            */
+            return true;
         }
 
         public static List<ulong> FindPatternAddresses(Process process, AddressRange addressRange, BytePattern pattern, bool stopAfterFirst)
@@ -61,7 +51,7 @@ namespace SmartHunter.Core.Helpers
                 if (WindowsApi.VirtualQueryEx(process.Handle, (IntPtr)currentAddress, out memoryRegion, (uint)Marshal.SizeOf(typeof(WindowsApi.MEMORY_BASIC_INFORMATION64))) > 0
                     && memoryRegion.RegionSize > 0
                     && memoryRegion.State == (uint)WindowsApi.RegionPageState.MEM_COMMIT
-                    && CheckProtection(pattern, memoryRegion.Protect))
+                    && CheckProtection(memoryRegion.Protect))
                 {
                     var regionStartAddress = memoryRegion.BaseAddress;
                     if (addressRange.Start > regionStartAddress)
@@ -92,7 +82,9 @@ namespace SmartHunter.Core.Helpers
                         var matchAddress = regionStartAddress + (ulong)matchIndex;
                         matchAddresses.Add(matchAddress);
 
-                        Log.WriteLine($"Found '{pattern.Config.Name}' at address 0x{matchAddress.ToString("X8")}");
+                        pattern.Config.LastResultAddress = matchAddress.ToString("X8");
+
+                        Log.WriteLine($"Found '{pattern.Config.Name}' at address 0x{matchAddress.ToString("X8")}"); //TODO: Rimetti
                     }
                     if (matchAddresses.Any() && stopAfterFirst)
                     {
@@ -215,7 +207,7 @@ namespace SmartHunter.Core.Helpers
                     endAddress = addressRange.End;
                 }
 
-                addressRangeDivisions.Add(new AddressRange(startAddress, endAddress));
+                addressRangeDivisions.Add(new AddressRange(startAddress, endAddress - startAddress));
 
                 start = end;
                 end += (ulong)Math.Floor(rangePerDivision);

@@ -1,4 +1,4 @@
-﻿namespace SmartHunter.Game.Config
+namespace SmartHunter.Game.Config
 {
     public class OverlayConfig
     {
@@ -11,5 +11,6 @@
         public TeamWidgetConfig TeamWidget = new TeamWidgetConfig(220, 220);
         public MonsterWidgetConfig MonsterWidget = new MonsterWidgetConfig(320, 120);
         public PlayerWidgetConfig PlayerWidget = new PlayerWidgetConfig(120, 320);
+        public DebugWidgetConfig DebugWidget = new DebugWidgetConfig(120, 320);
     }
 }

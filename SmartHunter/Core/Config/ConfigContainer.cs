@@ -36,7 +36,7 @@ namespace SmartHunter.Core.Config
 
         void Load()
         {
-            if (File.Exists(FullPathFileName))// && FileName.Equals("Config.json"))
+            if (File.Exists(FullPathFileName))// && (FileName.Equals("Config.json") || FileName.Equals("Memory.json")))
             {
                 try
                 {
@@ -82,7 +82,7 @@ namespace SmartHunter.Core.Config
             }
         }
 
-        public void Save()
+        public void Save(bool printToLog = true)
         {
             TryPauseWatching();
 
@@ -100,7 +100,10 @@ namespace SmartHunter.Core.Config
 
                 File.WriteAllText(FullPathFileName, jsonString);
 
-                Log.WriteLine($"{FileName} saved");
+                if (printToLog)
+                {
+                    Log.WriteLine($"{FileName} saved");
+                }
             }
             catch (Exception ex)
             {

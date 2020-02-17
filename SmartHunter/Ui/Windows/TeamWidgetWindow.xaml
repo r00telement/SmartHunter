@@ -1,4 +1,4 @@
-﻿<windows:WidgetWindow
+<windows:WidgetWindow
         x:Class="SmartHunter.Ui.Windows.TeamWidgetWindow"
         Left="{Binding TeamWidget.X, Mode=TwoWay}"
         Top="{Binding TeamWidget.Y, Mode=TwoWay}"
