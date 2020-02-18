@@ -52,7 +52,7 @@ namespace SmartHunter.Game.Data.ViewModels
             }
         }
 
-        bool m_IsGameActive = true;
+        bool m_IsGameActive = false;
         public bool IsGameActive
         {
             get { return m_IsGameActive; }

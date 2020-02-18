@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 using SmartHunter.Core.Helpers;
+using SmartHunter.Game.Data.ViewModels;
 using SmartHunter.Game.Helpers;
 
 namespace SmartHunter.Core
@@ -324,6 +325,8 @@ namespace SmartHunter.Core
 
             m_FastMemoryScans = new List<ThreadedMemoryScan>();
             m_MemoryScans = new List<ThreadedMemoryScan>();
+
+            OverlayViewModel.Instance.IsGameActive = false;
 
             if (processExited && ShutdownWhenProcessExits)
             {

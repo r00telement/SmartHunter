@@ -58,13 +58,15 @@ namespace SmartHunter.Core.Helpers
                     {
                         regionStartAddress = addressRange.Start;
                     }
-
                     var regionEndAddress = memoryRegion.BaseAddress + memoryRegion.RegionSize;
                     if (addressRange.End < regionEndAddress)
                     {
                         regionEndAddress = addressRange.End;
                     }
-
+                    if (regionEndAddress <= regionStartAddress)
+                    {
+                        regionEndAddress = regionStartAddress + addressRange.Size;
+                    }
                     ulong regionBytesToRead = regionEndAddress - regionStartAddress;
                     byte[] regionBytes = new byte[regionBytesToRead];
 

@@ -30,6 +30,7 @@ namespace SmartHunter.Core
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateWidgetsFromConfig();
+            /*
             foreach (var widgetWindow in WidgetWindows)
             {
                 if (!widgetWindow.IsVisible)
@@ -39,6 +40,7 @@ namespace SmartHunter.Core
                     widgetWindow.Hide();
                 }
             }
+            */
         }
 
         private void MainWindow_Closing(object sender, CancelEventArgs e)
@@ -51,6 +53,7 @@ namespace SmartHunter.Core
 
         private void ToggleWidgetWindow(WidgetWindow widgetWindow)
         {
+            /*
             widgetWindow.Owner = m_MainWindow;
             if (widgetWindow.Visibility != Visibility.Visible)
             {
@@ -62,6 +65,20 @@ namespace SmartHunter.Core
             else
             {
                 widgetWindow.Opacity = 0.0f;
+                widgetWindow.Hide();
+            }
+            */
+            
+            if (widgetWindow.Visibility != Visibility.Visible)
+            {
+                widgetWindow.Owner = m_MainWindow;
+                widgetWindow.Show();
+                widgetWindow.Owner = null;
+
+                WindowHelper.SetTopMostTransparent(widgetWindow);
+            }
+            else
+            {
                 widgetWindow.Hide();
             }
         }
