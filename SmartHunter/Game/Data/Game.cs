@@ -25,6 +25,8 @@ namespace SmartHunter.Game.Data
     }
     public class Game : Bindable
     {
+        public bool IsValid = false;
+
         string m_SessionHostPlayerName = "";
         public string SessionHostPlayerName
         {

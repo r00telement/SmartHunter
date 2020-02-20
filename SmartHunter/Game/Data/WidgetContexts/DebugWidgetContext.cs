@@ -8,7 +8,6 @@ namespace SmartHunter.Game.Data.WidgetContexts
     public class DebugWidgetContext : WidgetContext
     {
         public Game CurrentGame { get; set; }
-        public string TEST { get { return "Peppaaaaaaaaaaaaaaaaa"; } }
         
         public void UpdateCurrentGame(string playerName, string weaponString, string sessionID, string sessionHostName, string lobbyID, string lobbyHostName)
         {
@@ -18,6 +17,7 @@ namespace SmartHunter.Game.Data.WidgetContexts
             CurrentGame.SessionHostPlayerName = sessionHostName;
             CurrentGame.LobbyID = lobbyID;
             CurrentGame.LobbyHostPlayerName = lobbyHostName;
+            CurrentGame.IsValid = true;
         }
         public DebugWidgetContext()
         {

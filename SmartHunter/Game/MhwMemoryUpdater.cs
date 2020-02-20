@@ -85,7 +85,7 @@ namespace SmartHunter.Game
 
             //Log.WriteLine($"Found {matches.Count()} matches...");
 
-            ulong[] lookingFor = new ulong[1] { 0x144DED900 };
+            ulong[] lookingFor = new ulong[1] { 0x144DF2890 };
 
             var res = new System.Collections.Generic.List<ulong>();
 
@@ -124,7 +124,7 @@ namespace SmartHunter.Game
                 MhwHelper.UpdateCurrentGame(Process, playerNamesAddress, currentPlayerNameAddress, currentWeaponAddress, lobbyStatusAddress);
             }
 
-            if (OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerInLobby())
+            if (!OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsValid || OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerInLobby())
             {
                 if (ConfigHelper.Main.Values.Overlay.MonsterWidget.IsVisible && m_MonsterPattern.MatchedAddresses.Any())
                 {
@@ -144,7 +144,7 @@ namespace SmartHunter.Game
                     OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Clear();
                 }
 
-                if (ConfigHelper.Main.Values.Overlay.TeamWidget.IsVisible && m_PlayerDamagePattern.MatchedAddresses.Any() && m_PlayerNamePattern.MatchedAddresses.Any() && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerOnline())
+                if (ConfigHelper.Main.Values.Overlay.TeamWidget.IsVisible && m_PlayerDamagePattern.MatchedAddresses.Any() && m_PlayerNamePattern.MatchedAddresses.Any() && (!OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsValid || OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerOnline()))
                 {
                     ulong playerNamesPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_PlayerNamePattern.MatchedAddresses.First());
                     ulong playerDamageRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_PlayerDamagePattern.MatchedAddresses.First());
