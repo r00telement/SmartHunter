@@ -55,10 +55,7 @@ A complete overlay for Monster Hunter: World on PC. Distributed on [Nexus Mods](
 
 ## Credits
 
-- [HelloWorld](https://www.nexusmods.com/monsterhunterworld/users/58674841) for inspiring me with [their overlay](https://www.nexusmods.com/monsterhunterworld/mods/142).
-- [Material1](https://www.nexusmods.com/monsterhunterworld/users/61777036) for their efforts in finding monster sizes.
-- [hqvrrsc4](https://www.nexusmods.com/monsterhunterworld/users/7950104) for finding player data in [their overlay](https://www.nexusmods.com/monsterhunterworld/mods/88).
-- [HelloWorld](https://www.nexusmods.com/monsterhunterworld/users/58674841), [amatess2002](https://www.nexusmods.com/users/59866791), [regretofabreath](https://www.nexusmods.com/monsterhunterworld/users/57977516), and [hawk333](https://www.nexusmods.com/monsterhunterworld/users/1939230) for their efforts in indexing monster parts.
+- [r00telement](https://www.nexusmods.com/monsterhunterworld/users/64406676) for he's original [project](https://github.com/r00telement/SmartHunter).
 
 ## Disclaimer
 
