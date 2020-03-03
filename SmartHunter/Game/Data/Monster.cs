@@ -122,7 +122,7 @@ namespace SmartHunter.Game.Data
                 MonsterConfig config = null;
                 if (ConfigHelper.MonsterData.Values.Monsters.TryGetValue(Id, out config) && config.Crowns != null)
                 {
-                    float modifiedSizeScale = ModifiedSizeScale;
+                    float modifiedSizeScale = float.Parse(ModifiedSizeScale.ToString("0.00"));
 
                     if (modifiedSizeScale <= config.Crowns.Mini)
                     {

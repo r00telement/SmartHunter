@@ -3,6 +3,7 @@ SmartHunter/bin/Release/*
 SmartHunter/SmartHunter.csproj.user
 obj/
 .vs/
+SmartHunter/*.pdf
 
 # allow for auto updates
 !SmartHunter/bin/Debug/Default.xaml

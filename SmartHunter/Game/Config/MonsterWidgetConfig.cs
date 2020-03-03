@@ -23,6 +23,8 @@ namespace SmartHunter.Game.Config
         public bool ShowPercents = false;
         public bool UseAnimations = false;
         public bool ShowOnlySelectedMonster = true;
+        public bool AlwaysShowParts = false;
+        public bool UseNetworkServer = false;
 
         public MonsterWidgetConfig(float x, float y) : base(x, y)
         {

@@ -51,6 +51,13 @@ namespace SmartHunter.Game.Data.WidgetContexts
             set { SetProperty(ref m_UseAnimations, value); }
         }
 
+        bool m_AlwaysShowParts = false;
+        public bool AlwaysShowParts
+        {
+            get { return m_AlwaysShowParts; }
+            set { SetProperty(ref m_AlwaysShowParts, value); }
+        }
+
         public MonsterWidgetContext()
         {
             Monsters = new ObservableCollection<Monster>();
@@ -92,6 +99,7 @@ namespace SmartHunter.Game.Data.WidgetContexts
             ShowNumbers = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowNumbers;
             ShowPercents = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowPercents;
             UseAnimations = ConfigHelper.Main.Values.Overlay.MonsterWidget.UseAnimations;
+            AlwaysShowParts = ConfigHelper.Main.Values.Overlay.MonsterWidget.AlwaysShowParts;
 
             foreach (var monster in Monsters)
             {

@@ -25,6 +25,7 @@ namespace SmartHunter.Core
             FastPatternScanning,
             PatternScanning,
             PatternScanFailed,
+            ServerChecking,
             Working
         }
 
@@ -73,10 +74,51 @@ namespace SmartHunter.Core
                         }),
                     new StateMachine<State>.Transition(
                         State.WaitingForProcess,
-                        () => !ConfigHelper.Main.Values.AutomaticallyCheckAndDownloadUpdates,
+                        () => !ConfigHelper.Main.Values.Overlay.MonsterWidget.UseNetworkServer && !ConfigHelper.Main.Values.AutomaticallyCheckAndDownloadUpdates,
                         () =>
                         {
                             Initialize();
+                        }),
+                    new StateMachine<State>.Transition(
+                        State.ServerChecking,
+                        () => ConfigHelper.Main.Values.Overlay.MonsterWidget.UseNetworkServer && !ConfigHelper.Main.Values.AutomaticallyCheckAndDownloadUpdates,
+                        () =>
+                        {
+                            Log.WriteLine("Checking Server...");
+                            ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.ALIVE, "", false, "", (result, ping) =>
+                            {
+                                if (result != null)
+                                {
+                                    if (((string)result["status"]).Equals("ok"))
+                                    {
+                                        Log.WriteLine($"Server is online with response time of {ping} ms");
+                                        ServerManager.Instance.IsServerOline = 1;
+                                    }
+                                    else
+                                    {
+                                        if (((string)result["result"]).Equals("v"))
+                                        {
+                                            Log.WriteLine("You are using an outdated version of SmartHunter please update it to use this feature");
+                                        }
+                                        else
+                                        {
+                                            Log.WriteLine("An internal server error has occured, please restart the application if you want to use this function (The overlay will work fine even withouth the server)");
+                                        }
+                                        ServerManager.Instance.IsServerOline = -1;
+                                    }
+                                }
+                                else
+                                {
+                                    Log.WriteLine("Server appears to be offline. Please check your connection (The overlay will work fine even withouth the server)");
+                                    ServerManager.Instance.IsServerOline = -1;
+                                }
+                                ServerManager.Instance.ResetStats();
+                            }, (error) =>
+                            {
+                                Log.WriteLine("An error has occured while performing the request, please restart the application if you want to use this function (The overlay will work fine even withouth the server)");
+                                ServerManager.Instance.IsServerOline = -1;
+                                ServerManager.Instance.ResetStats();
+                            });
                         })
                 }));
 
@@ -86,7 +128,7 @@ namespace SmartHunter.Core
                 {
                     new StateMachine<State>.Transition(
                         State.WaitingForProcess,
-                        () => !updater.CheckForUpdates(),
+                        () => !ConfigHelper.Main.Values.Overlay.MonsterWidget.UseNetworkServer && !updater.CheckForUpdates(),
                         () =>
                         {
                             Initialize();
@@ -97,6 +139,47 @@ namespace SmartHunter.Core
                         () =>
                         {
                             Log.WriteLine("Starting to download Updates!");
+                        }),
+                    new StateMachine<State>.Transition(
+                        State.ServerChecking,
+                        () => ConfigHelper.Main.Values.Overlay.MonsterWidget.UseNetworkServer && !updater.CheckForUpdates(),
+                        () =>
+                        {
+                            Log.WriteLine("Checking Server...");
+                            ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.ALIVE, "", false, "", (result, ping) =>
+                            {
+                                if (result != null)
+                                {
+                                    if (((string)result["status"]).Equals("ok"))
+                                    {
+                                        Log.WriteLine($"Server is online with response time of {ping} ms");
+                                        ServerManager.Instance.IsServerOline = 1;
+                                    }
+                                    else
+                                    {
+                                        if (((string)result["result"]).Equals("v"))
+                                        {
+                                            Log.WriteLine("You are using an outdated version of SmartHunter please update it to use this feature");
+                                        }
+                                        else
+                                        {
+                                            Log.WriteLine("An internal server error has occured, please restart the application if you want to use this function (The overlay will work fine even withouth the server)");
+                                        }
+                                        ServerManager.Instance.IsServerOline = -1;
+                                    }
+                                }
+                                else
+                                {
+                                    Log.WriteLine("Server appears to be offline. Please check your connection (The overlay will work fine even withouth the server)");
+                                    ServerManager.Instance.IsServerOline = -1;
+                                }
+                                ServerManager.Instance.ResetStats();
+                            }, (error) =>
+                            {
+                                Log.WriteLine("An error has occured while performing the request, please restart the application if you want to use this function (The overlay will work fine even withouth the server)");
+                                ServerManager.Instance.IsServerOline = -1;
+                                ServerManager.Instance.ResetStats();
+                            });
                         })
                 }));
 
@@ -142,6 +225,19 @@ namespace SmartHunter.Core
                             Environment.Exit(1);
                         })
                }));
+
+            m_StateMachine.Add(State.ServerChecking, new StateMachine<State>.StateData(
+                null,
+                new StateMachine<State>.Transition[]
+                {
+                    new StateMachine<State>.Transition(
+                        State.WaitingForProcess,
+                        () => ServerManager.Instance.IsServerOline != 0,
+                        () =>
+                        {
+                            Initialize();
+                        })
+                }));
 
             m_StateMachine.Add(State.WaitingForProcess, new StateMachine<State>.StateData(
                 null,
@@ -330,7 +426,7 @@ namespace SmartHunter.Core
 
             if (processExited && ShutdownWhenProcessExits)
             {
-                Log.WriteLine("Process exited. Shutting down.");
+                Log.WriteLine("Process exited. Shutting down");
                 Application.Current.Shutdown();
             }
         }
