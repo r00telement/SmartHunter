@@ -89,14 +89,14 @@ namespace SmartHunter.Core
                             {
                                 if (result != null)
                                 {
-                                    if (((string)result["status"]).Equals("ok"))
+                                    if (result["status"].ToString().Equals("ok"))
                                     {
                                         Log.WriteLine($"Server is online with response time of {ping} ms");
                                         ServerManager.Instance.IsServerOline = 1;
                                     }
                                     else
                                     {
-                                        if (((string)result["result"]).Equals("v"))
+                                        if (result["result"].ToString().Equals("v"))
                                         {
                                             Log.WriteLine("You are using an outdated version of SmartHunter please update it to use this feature");
                                         }
@@ -150,14 +150,14 @@ namespace SmartHunter.Core
                             {
                                 if (result != null)
                                 {
-                                    if (((string)result["status"]).Equals("ok"))
+                                    if (result["status"].ToString().Equals("ok"))
                                     {
                                         Log.WriteLine($"Server is online with response time of {ping} ms");
                                         ServerManager.Instance.IsServerOline = 1;
                                     }
                                     else
                                     {
-                                        if (((string)result["result"]).Equals("v"))
+                                        if (result["result"].ToString().Equals("v"))
                                         {
                                             Log.WriteLine("You are using an outdated version of SmartHunter please update it to use this feature");
                                         }

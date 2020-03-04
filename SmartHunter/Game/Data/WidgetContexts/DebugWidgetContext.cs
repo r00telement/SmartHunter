@@ -35,7 +35,7 @@ namespace SmartHunter.Game.Data.WidgetContexts
                         {
                             ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.DONE, Convert.ToBase64String(sha.ComputeHash(Encoding.UTF8.GetBytes(CurrentGame.SessionID + CurrentGame.OutdatedLobbyID))), wasHost, null, (result, ping) =>
                             {
-                                if (result != null && !((string)result["status"]).Equals("error"))
+                                if (result != null && !result["status"].ToString().Equals("error"))
                                 {
                                     Core.Log.WriteLine($"Left lobby with id '{result["result"]}'");
                                 }
@@ -49,18 +49,18 @@ namespace SmartHunter.Game.Data.WidgetContexts
                         networkOperationDone = false;
                         ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.HELLO, CurrentGame.key, CurrentGame.IsCurrentPlayerLobbyHost(), null, (result, ping) =>
                         {
-                            if (result != null && ((string)result["status"]).Equals("ok"))
+                            if (result != null && result["status"].ToString().Equals("ok"))
                             {
-                                if (CurrentGame.key.Equals((string)result["result"]))
+                                if (CurrentGame.key.Equals(result["result"].ToString()))
                                 {
                                     Core.Log.WriteLine($"Joined lobby with id '{result["result"]}'");
                                     CurrentGame.helloDone = true;
                                 }
                                 else
                                 {
-                                    ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.DONE, (string)result["result"], wasHost, null, (result, ping) =>
+                                    ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.DONE, result["result"].ToString(), wasHost, null, (result, ping) =>
                                     {
-                                        if (result != null && !((string)result["status"]).Equals("error"))
+                                        if (result != null && !result["status"].ToString().Equals("error"))
                                         {
                                             Core.Log.WriteLine($"Left lobby with id '{result["result"]}'");
                                         }
@@ -84,11 +84,11 @@ namespace SmartHunter.Game.Data.WidgetContexts
                         networkOperationDone = false;
                         ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.CHECK, CurrentGame.key, CurrentGame.IsCurrentPlayerLobbyHost(), null, (result, ping) =>
                         {
-                            if (result != null && ((string)result["status"]).Equals("ok"))
+                            if (result != null && result["status"].ToString().Equals("ok"))
                             {
-                                CurrentGame.checkDone = ((string)result["result"]).Equals("true");
+                                CurrentGame.checkDone = result["result"].ToString().Equals("true");
                             }
-                            else if (((string)result["result"]).Equals("0"))
+                            else if (result != null && result["result"].ToString().Equals("0"))
                             {
                                 CurrentGame.helloDone = false;
                                 CurrentGame.checkDone = false;
@@ -113,7 +113,7 @@ namespace SmartHunter.Game.Data.WidgetContexts
                     {
                         ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.DONE, CurrentGame.key, wasHost, null, (result, ping) =>
                         {
-                            if (result != null && !((string)result["status"]).Equals("error"))
+                            if (result != null && !result["status"].ToString().Equals("error"))
                             {
                                 Core.Log.WriteLine($"Left lobby with id '{result["result"]}'");
                             }

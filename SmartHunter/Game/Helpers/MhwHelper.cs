@@ -431,16 +431,20 @@ namespace SmartHunter.Game.Helpers
                                     networkOperationDone = false;
                                     ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.PUSH, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.key, true, JsonConvert.SerializeObject(data), (result, ping) =>
                                     {
+                                        if (result != null && result["status"].ToString().Equals("error"))
+                                        {
+                                            if (result["result"].ToString().Equals("false"))
+                                            {
+                                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                                            }
+                                            else if (result["result"].ToString().Equals("0"))
+                                            {
+                                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
+                                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                                            }
+                                        }
                                         networkOperationDone = true;
                                         lastNetworkOperationTime = DateTime.Now.Second;
-                                        if (((string)result["result"]).Equals("false"))
-                                        {
-                                            OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
-                                        }else if (((string)result["result"]).Equals("0"))
-                                        {
-                                            OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
-                                            OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
-                                        }
                                     }, (error) =>
                                     {
                                         networkOperationDone = true;
@@ -459,33 +463,44 @@ namespace SmartHunter.Game.Helpers
                             networkOperationDone = false;
                             ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.PULL, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.key, false, null, (result, ping) =>
                             {
-                                string str = (string)result["result"]["data"];
-                                str = str.Replace("\\", "");
-                                var monstersData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, int[]>>>>(str);
-                                foreach (var id in monstersData.Keys)
+                                if (result != null)
                                 {
-                                    var m = OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Where(m => m.Id.Equals(id));
-                                    if (m.Any())
+                                    if (result["status"].ToString().Equals("ok"))
                                     {
-                                        var monster = m.First();
-                                        var monsterData = monstersData[monster.Id];
-                                        var monsterPartsData = monsterData["parts"];
-                                        var monsterStatusesData = monsterData["statuses"];
+                                        var monstersData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, int[]>>>>(result["result"].ToString());//.ToObject<Dictionary<string, Dictionary<string, Dictionary<string, int[]>>>>();
+                                        foreach (var id in monstersData.Keys)
+                                        {
+                                            var m = OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Where(m => m.Id.Equals(id));
+                                            if (m.Any())
+                                            {
+                                                var monster = m.First();
+                                                var monsterData = monstersData[monster.Id];
+                                                var monsterPartsData = monsterData["parts"];
+                                                var monsterStatusesData = monsterData["statuses"];
 
-                                        UpdateMonsterParts(monsterPartsData, monster);
-                                        UpdateMonsterStatusEffects(monsterStatusesData, monster);
+                                                UpdateMonsterParts(monsterPartsData, monster);
+                                                UpdateMonsterStatusEffects(monsterStatusesData, monster);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (result["status"].ToString().Equals("error"))
+                                        {
+                                            if (result["result"].ToString().Equals("false"))
+                                            {
+                                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                                            }
+                                            else if (result["result"].ToString().Equals("0"))
+                                            {
+                                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
+                                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                                            }
+                                        }
                                     }
                                 }
                                 networkOperationDone = true;
                                 lastNetworkOperationTime = DateTime.Now.Second;
-                                if (((string)result["result"]["check"]).Equals("false"))
-                                {
-                                    OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
-                                }else if (((string)result["result"]).Equals("0"))
-                                {
-                                    OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
-                                    OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
-                                }
                             }, (error) =>
                             {
                                 networkOperationDone = true;

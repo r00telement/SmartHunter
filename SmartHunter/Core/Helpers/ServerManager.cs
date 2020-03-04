@@ -29,7 +29,7 @@ namespace SmartHunter.Core.Helpers
         {
             get
             {
-                return "1.0";
+                return "1.0-1";
             }
         }
         private static string commandToStr(Command cmd)
