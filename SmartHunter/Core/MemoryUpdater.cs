@@ -85,7 +85,7 @@ namespace SmartHunter.Core
                         () =>
                         {
                             Log.WriteLine("Checking Server...");
-                            ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.ALIVE, "", false, "", (result, ping) =>
+                            ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.ALIVE, null, null, false, 0, null, (result, ping) =>
                             {
                                 if (result != null)
                                 {
@@ -146,7 +146,7 @@ namespace SmartHunter.Core
                         () =>
                         {
                             Log.WriteLine("Checking Server...");
-                            ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.ALIVE, "", false, "", (result, ping) =>
+                            ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.ALIVE, null, null, false, 0, null, (result, ping) =>
                             {
                                 if (result != null)
                                 {

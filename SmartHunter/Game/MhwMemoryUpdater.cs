@@ -4,6 +4,7 @@ using SmartHunter.Core.Helpers;
 using SmartHunter.Game.Data.ViewModels;
 using SmartHunter.Game.Helpers;
 using System.Security.Cryptography;
+using System;
 
 namespace SmartHunter.Game
 {
@@ -17,6 +18,7 @@ namespace SmartHunter.Game
         BytePattern m_PlayerBuffPattern = new BytePattern(ConfigHelper.Memory.Values.PlayerBuffPattern);
         BytePattern m_SelectedMonsterPattern = new BytePattern(ConfigHelper.Memory.Values.SelectedMonsterPattern);
         BytePattern m_LobbyStatusPattern = new BytePattern(ConfigHelper.Memory.Values.LobbyStatusPattern);
+        BytePattern m_DamageOnScreenPattern = new BytePattern(ConfigHelper.Memory.Values.DamageOnScreenPattern);
 
         protected override string ProcessName
         {
@@ -47,7 +49,8 @@ namespace SmartHunter.Game
                     m_MonsterPattern,
                     m_PlayerBuffPattern,
                     m_SelectedMonsterPattern,
-                    m_LobbyStatusPattern
+                    m_LobbyStatusPattern,
+                    m_DamageOnScreenPattern
                 };
             }
         }
@@ -56,7 +59,7 @@ namespace SmartHunter.Game
         {
             get
             {
-                return ConfigHelper.Main.Values.Overlay.UpdatesPerSecond;
+                return Math.Max(ConfigHelper.Main.Values.Overlay.UpdatesPerSecond, 2);
             }
         }
 
@@ -85,7 +88,7 @@ namespace SmartHunter.Game
 
             //Log.WriteLine($"Found {matches.Count()} matches...");
 
-            ulong[] lookingFor = new ulong[1] { 0x144DF2890 };
+            ulong[] lookingFor = new ulong[1] { 0x144FA8720 };
 
             var res = new System.Collections.Generic.List<ulong>();
 
@@ -152,6 +155,13 @@ namespace SmartHunter.Game
                     ulong playerNamesAddress = MemoryHelper.Read<uint>(Process, playerNamesPtr);
 
                     MhwHelper.UpdateTeamWidget(Process, playerDamageCollectionAddress, playerNamesAddress);
+
+                    if (m_DamageOnScreenPattern.MatchedAddresses.Any() && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerInExpedition)
+                    {
+                        ulong damageOnScreenRootPtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_DamageOnScreenPattern.MatchedAddresses.First());
+                        ulong damageOnScreePtr = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, damageOnScreenRootPtr, 0x580, 0x58, 0xC0, 0x518, 0x0);
+                        MhwHelper.UpdateDamageOnScreen(Process, damageOnScreePtr);
+                    }
                 }
                 else if (OverlayViewModel.Instance.TeamWidget.Context.Players.Any())
                 {

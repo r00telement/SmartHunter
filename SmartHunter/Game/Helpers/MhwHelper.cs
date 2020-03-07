@@ -125,11 +125,15 @@ namespace SmartHunter.Game.Helpers
             public static class PlayerDamage
             {
                 public static readonly ulong Damage = 0x48;
+                public static readonly int MaxOnScreenDamages = 14;
             }
         }
 
         private static int lastNetworkOperationTime = 0;
         private static bool networkOperationDone = true;
+        private static int lastNetworkOperationTimeD = 0;
+        private static bool networkOperationDoneD = true;
+        private static int[,] expeditionDamageChecker = new int[DataOffsets.PlayerDamage.MaxOnScreenDamages, 2];
 
         public static void UpdateCurrentGame(Process process, ulong playerNameCollectionAddress, ulong currentPlayerNameAddress, ulong currentWeaponAddress, ulong lobbyStatusAddress)
         {
@@ -172,7 +176,7 @@ namespace SmartHunter.Game.Helpers
             }
 
             string currentEquippedWeaponString = MemoryHelper.ReadString(process, currentWeaponAddress, 0x4F);
-            OverlayViewModel.Instance.DebugWidget.Context.UpdateCurrentGame(currentPlayerName, currentEquippedWeaponString, currentSessionID, currentSessionPlayerName, currentLobbyID, currentLobbyPlayerName);
+            OverlayViewModel.Instance.DebugWidget.Context.UpdateCurrentGame(currentPlayerName, currentEquippedWeaponString, currentSessionID, currentSessionPlayerName, currentLobbyID, currentLobbyPlayerName, !isPlayerInMission && isPlayerInExpedition);
         }
 
         public static void UpdatePlayerWidget(Process process, ulong baseAddress, ulong equipmentAddress, ulong weaponAddress)
@@ -315,6 +319,73 @@ namespace SmartHunter.Game.Helpers
             return player;
         }
 
+        public static void UpdateDamageOnScreen(Process process, ulong damageOnScreenPtr)
+        {
+            var p = OverlayViewModel.Instance.TeamWidget.Context.Players.Where(p => p.Name.Equals(OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.CurrentPlayerName));
+            if (p.Any())
+            {
+                var currentPlayer = p.First();
+                ulong startOfList = damageOnScreenPtr + 0x2900;
+                ulong currentItem = startOfList;
+                for (int i = 0; i < DataOffsets.PlayerDamage.MaxOnScreenDamages; i++)
+                {
+                    int id1 = MemoryHelper.Read<int>(process, currentItem + 0x20);
+                    int id2 = MemoryHelper.Read<int>(process, currentItem + 0x24);
+
+                    if (expeditionDamageChecker[i, 0] != id1 && expeditionDamageChecker[i, 1] != id2)
+                    {
+                        expeditionDamageChecker[i, 0] = id1;
+                        expeditionDamageChecker[i, 1] = id2;
+
+                        int value = MemoryHelper.Read<int>(process, currentItem + 0x34);
+
+                        currentPlayer.Damage += value;
+                    }
+                    currentItem += 0x90;
+                }
+                if (OverlayViewModel.Instance.TeamWidget.Context.Players.Count > 1 && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone && networkOperationDoneD && DateTime.Now.Second != lastNetworkOperationTimeD)
+                {
+                    networkOperationDoneD = false;
+                    ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.DAMAGE, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.key, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.CurrentPlayerName, true, currentPlayer.Damage, null, (result, ping) =>
+                    {
+                        if (result != null && result["status"].ToString().Equals("error"))
+                        {
+                            if (result["result"].ToString().Equals("false"))
+                            {
+                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                            }
+                            else if (result["result"].ToString().Equals("0"))
+                            {
+                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
+                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                            }
+                        }
+                        else if (result != null && result["status"].ToString().Equals("ok"))
+                        {
+                            var damageData = JsonConvert.DeserializeObject<Dictionary<string, int>>(result["result"].ToString());
+                            foreach (var id in damageData.Keys)
+                            {
+                                if (!id.Equals(OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.CurrentPlayerName))
+                                {
+                                    var p = OverlayViewModel.Instance.TeamWidget.Context.Players.Where(p => p.Name.Equals(id));
+                                    if (p.Any())
+                                    {
+                                        p.First().Damage = damageData[id];
+                                    }
+                                }
+                            }
+                        }
+                        networkOperationDoneD = true;
+                        lastNetworkOperationTimeD = DateTime.Now.Second;
+                    }, (error) =>
+                    {
+                        networkOperationDoneD = true;
+                        lastNetworkOperationTimeD = DateTime.Now.Second;
+                    });
+                }
+            }
+        }
+
         public static void UpdateMonsterWidget(Process process, ulong monsterBaseList, ulong mapBaseAddress)
         {
             bool flg = false;
@@ -429,7 +500,7 @@ namespace SmartHunter.Game.Helpers
                                 if (data.Keys.Count > 0)
                                 {
                                     networkOperationDone = false;
-                                    ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.PUSH, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.key, true, JsonConvert.SerializeObject(data), (result, ping) =>
+                                    ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.PUSH, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.key, null, true, 0, JsonConvert.SerializeObject(data), (result, ping) =>
                                     {
                                         if (result != null && result["status"].ToString().Equals("error"))
                                         {
@@ -461,7 +532,7 @@ namespace SmartHunter.Game.Helpers
                         if (networkOperationDone && DateTime.Now.Second != lastNetworkOperationTime)
                         {
                             networkOperationDone = false;
-                            ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.PULL, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.key, false, null, (result, ping) =>
+                            ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.PULL, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.key, null, false, 0, null, (result, ping) =>
                             {
                                 if (result != null)
                                 {

@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SmartHunter.Game.Data.ViewModels;
 using SmartHunter.Game.Helpers;
 
 namespace SmartHunter.Core.Helpers
@@ -20,6 +21,8 @@ namespace SmartHunter.Core.Helpers
             DONE,
             CHECK,
             PUSH,
+            ELEVATE,
+            DAMAGE,
             PULL
         }
 
@@ -56,6 +59,14 @@ namespace SmartHunter.Core.Helpers
             else if (cmd == Command.PULL)
             {
                 return "pull";
+            }
+            else if (cmd == Command.ELEVATE)
+            {
+                return "elevate";
+            }
+            else if (cmd == Command.DAMAGE)
+            {
+                return "damage";
             }
             return "";
         }
@@ -129,7 +140,7 @@ namespace SmartHunter.Core.Helpers
                     Log.WriteLine($"Sent {Stats[cmd][0]} {commandToStr(cmd).ToUpper()}, failed {Stats[cmd][1]}, sent {ConvertSize(Stats[cmd][2])}, received {ConvertSize(Stats[cmd][3])} with an average response time of {Stats[cmd][4] / (Stats[cmd][0] > 0 ? Stats[cmd][0] : 1)} ms");
                 }
             }
-            Log.WriteLine($"Total network operations {total}, failed {failed}, sent {ConvertSize(sent)}, received {ConvertSize(received)} with average an response time of {ping / (total > 0 ? total : 1)} ms");
+            Log.WriteLine($"Total network operations {total}, failed {failed}, sent {ConvertSize(sent)}, received {ConvertSize(received)} with an average response time of {ping / (total > 0 ? total : 1)} ms");
         }
 
         private ServerManager()
@@ -145,7 +156,7 @@ namespace SmartHunter.Core.Helpers
             }
         }
 
-        public async void RequestCommadWithHandler(Command cmd, string key, bool isHost, string data, Action<JObject, long> callback = null, Action<Exception> onError = null)
+        public async void RequestCommadWithHandler(Command cmd, string key, string player, bool isHost, int damage, string data, Action<JObject, long> callback = null, Action<Exception> onError = null)
         {
             try
             {
@@ -154,7 +165,9 @@ namespace SmartHunter.Core.Helpers
                 string command = commandToStr(cmd);
                 parameters.Add("command", command);
                 parameters.Add("key", key);
+                parameters.Add("player", player);
                 parameters.Add("host", isHost ? "true" : "false");
+                parameters.Add("damage", damage.ToString());
                 parameters.Add("data", data);
                 parameters.Add("version", Version);
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using SmartHunter.Core.Data;
+using SmartHunter.Game.Data.ViewModels;
 using SmartHunter.Game.Helpers;
 
 namespace SmartHunter.Game.Data.WidgetContexts
@@ -90,7 +91,10 @@ namespace SmartHunter.Game.Data.WidgetContexts
                 player.Name = LocalizationHelper.GetString(LocalizationHelper.UnknownPlayerStringId);
             }
 
-            player.Damage = damage;
+            if (!OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerInExpedition)
+            {
+                player.Damage = damage;
+            }
 
             return player;
         }

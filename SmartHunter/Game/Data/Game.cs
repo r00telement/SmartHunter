@@ -33,7 +33,7 @@ namespace SmartHunter.Game.Data
 
         public bool checkDone = false;
 
-        public string OutdatedLobbyID = "";
+        public bool IsPlayerInExpedition = false;
 
         string m_SessionHostPlayerName = "";
         public string SessionHostPlayerName
