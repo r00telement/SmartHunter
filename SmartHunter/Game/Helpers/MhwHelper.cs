@@ -343,34 +343,47 @@ namespace SmartHunter.Game.Helpers
                     }
                     currentItem += 0x90;
                 }
-                if (OverlayViewModel.Instance.TeamWidget.Context.Players.Count > 1 && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone && networkOperationDoneD && DateTime.Now.Second != lastNetworkOperationTimeD)
+                if (!OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerAlone() && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.playersCheckDone && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone && networkOperationDoneD && DateTime.Now.Second != lastNetworkOperationTimeD)
                 {
                     networkOperationDoneD = false;
-                    ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.DAMAGE, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.key, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.CurrentPlayerName, true, currentPlayer.Damage, null, (result, ping) =>
+                    ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.DAMAGE, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.key, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.CurrentPlayerName, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsCurrentPlayerLobbyHost(), currentPlayer.Damage, null, (result, ping) =>
                     {
                         if (result != null && result["status"].ToString().Equals("error"))
                         {
-                            if (result["result"].ToString().Equals("false"))
-                            {
-                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
-                            }
-                            else if (result["result"].ToString().Equals("0"))
+                            if (result["result"].ToString().Equals("0"))
                             {
                                 OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
                                 OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.playersCheckDone = false;
+                            }
+                            else if (result["result"].ToString().Equals("false"))
+                            {
+                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.playersCheckDone = false;
+                            }else if (result["result"].ToString().Equals("v"))
+                            {
+                                ServerManager.Instance.IsServerOline = -1;
+                                Core.Log.WriteLine("A new version is available, please update if you want to use the server!");
+                            }
+                            else if (result["result"].ToString().Equals("dev"))
+                            {
+                                ServerManager.Instance.IsServerOline = -1;
+                                Core.Log.WriteLine("The server is under maintenance!");
                             }
                         }
                         else if (result != null && result["status"].ToString().Equals("ok"))
                         {
-                            var damageData = JsonConvert.DeserializeObject<Dictionary<string, int>>(result["result"].ToString());
-                            foreach (var id in damageData.Keys)
+                            if (!result["result"].ToString().Equals(""))
                             {
-                                if (!id.Equals(OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.CurrentPlayerName))
+                                var damageData = JsonConvert.DeserializeObject<Dictionary<string, int>>(result["result"].ToString());
+                                foreach (var id in damageData.Keys)
                                 {
-                                    var p = OverlayViewModel.Instance.TeamWidget.Context.Players.Where(p => p.Name.Equals(id));
-                                    if (p.Any())
+                                    if (!id.Equals(OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.CurrentPlayerName))
                                     {
-                                        p.First().Damage = damageData[id];
+                                        var p = OverlayViewModel.Instance.TeamWidget.Context.Players.Where(p => p.Name.Equals(id));
+                                        if (p.Any())
+                                        {
+                                            p.First().Damage = damageData[id];
+                                        }
                                     }
                                 }
                             }
@@ -512,6 +525,15 @@ namespace SmartHunter.Game.Helpers
                                             {
                                                 OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
                                                 OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                                            }else if (result["result"].ToString().Equals("v"))
+                                            {
+                                                ServerManager.Instance.IsServerOline = -1;
+                                                Core.Log.WriteLine("A new version is available, please update if you want to use the server!");
+                                            }
+                                            else if (result["result"].ToString().Equals("dev"))
+                                            {
+                                                ServerManager.Instance.IsServerOline = -1;
+                                                Core.Log.WriteLine("The server is under maintenance!");
                                             }
                                         }
                                         networkOperationDone = true;
@@ -538,19 +560,22 @@ namespace SmartHunter.Game.Helpers
                                 {
                                     if (result["status"].ToString().Equals("ok"))
                                     {
-                                        var monstersData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, int[]>>>>(result["result"].ToString());//.ToObject<Dictionary<string, Dictionary<string, Dictionary<string, int[]>>>>();
-                                        foreach (var id in monstersData.Keys)
+                                        if (!result["result"].ToString().Equals(""))
                                         {
-                                            var m = OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Where(m => m.Id.Equals(id));
-                                            if (m.Any())
+                                            var monstersData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, int[]>>>>(result["result"].ToString());//.ToObject<Dictionary<string, Dictionary<string, Dictionary<string, int[]>>>>();
+                                            foreach (var id in monstersData.Keys)
                                             {
-                                                var monster = m.First();
-                                                var monsterData = monstersData[monster.Id];
-                                                var monsterPartsData = monsterData["parts"];
-                                                var monsterStatusesData = monsterData["statuses"];
+                                                var m = OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Where(m => m.Id.Equals(id));
+                                                if (m.Any())
+                                                {
+                                                    var monster = m.First();
+                                                    var monsterData = monstersData[monster.Id];
+                                                    var monsterPartsData = monsterData["parts"];
+                                                    var monsterStatusesData = monsterData["statuses"];
 
-                                                UpdateMonsterParts(monsterPartsData, monster);
-                                                UpdateMonsterStatusEffects(monsterStatusesData, monster);
+                                                    UpdateMonsterParts(monsterPartsData, monster);
+                                                    UpdateMonsterStatusEffects(monsterStatusesData, monster);
+                                                }
                                             }
                                         }
                                     }
@@ -566,6 +591,15 @@ namespace SmartHunter.Game.Helpers
                                             {
                                                 OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
                                                 OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                                            }else if (result["result"].ToString().Equals("v"))
+                                            {
+                                                ServerManager.Instance.IsServerOline = -1;
+                                                Core.Log.WriteLine("A new version is available, please update if you want to use the server!");
+                                            }
+                                            else if (result["result"].ToString().Equals("dev"))
+                                            {
+                                                ServerManager.Instance.IsServerOline = -1;
+                                                Core.Log.WriteLine("The server is under maintenance!");
                                             }
                                         }
                                     }

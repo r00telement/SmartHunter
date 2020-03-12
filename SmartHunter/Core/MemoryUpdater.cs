@@ -100,6 +100,10 @@ namespace SmartHunter.Core
                                         {
                                             Log.WriteLine("You are using an outdated version of SmartHunter please update it to use this feature");
                                         }
+                                        else if (result["result"].ToString().Equals("dev"))
+                                        {
+                                            Log.WriteLine("Server is under maintenance, a new version should be available soon");
+                                        }
                                         else
                                         {
                                             Log.WriteLine("An internal server error has occured, please restart the application if you want to use this function (The overlay will work fine even withouth the server)");
@@ -160,6 +164,10 @@ namespace SmartHunter.Core
                                         if (result["result"].ToString().Equals("v"))
                                         {
                                             Log.WriteLine("You are using an outdated version of SmartHunter please update it to use this feature");
+                                        }
+                                        else if (result["result"].ToString().Equals("dev"))
+                                        {
+                                            Log.WriteLine("Server is under maintenance, a new version should be available soon");
                                         }
                                         else
                                         {

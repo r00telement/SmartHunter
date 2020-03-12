@@ -33,6 +33,8 @@ namespace SmartHunter.Game.Data
 
         public bool checkDone = false;
 
+        public bool playersCheckDone = false;
+
         public bool IsPlayerInExpedition = false;
 
         string m_SessionHostPlayerName = "";
