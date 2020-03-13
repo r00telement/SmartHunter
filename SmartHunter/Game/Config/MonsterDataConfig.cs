@@ -449,6 +449,7 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_ZINOGRE",
                     new MonsterPartConfig[]
                     {
+                        //Head?
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
@@ -466,6 +467,7 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_STYGIAN_ZINOGRE",
                     new MonsterPartConfig[]
                     {
+                        //Head?
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
@@ -715,6 +717,17 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_22"),
                         new MonsterPartConfig("Part", "LOC_PART_23")
                         */
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
+                        new MonsterPartConfig("Part", "LOC_PART_HEAD"),
+                        new MonsterPartConfig("Part", "LOC_PART_BODY"),
+                        new MonsterPartConfig("Part", "LOC_PART_ABDOMEN"),
+                        new MonsterPartConfig("Part", "LOC_PART_NECK"), // to check
+                        new MonsterPartConfig("Part", "LOC_PART_BACK"), // to check
+                        new MonsterPartConfig("Part", "LOC_PART_ARM_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_ARM_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
                     4799.78f,
                     new MonsterCrownConfig(CrownPreset.Standard),

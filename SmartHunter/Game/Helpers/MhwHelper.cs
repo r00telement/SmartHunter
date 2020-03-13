@@ -653,7 +653,7 @@ namespace SmartHunter.Game.Helpers
 
             monster = OverlayViewModel.Instance.MonsterWidget.Context.UpdateAndGetMonster(monsterAddress, id, maxHealth, currentHealth, sizeScale, scaleModifier);
 
-            if (ConfigHelper.MonsterData.Values.Monsters.ContainsKey(id) && ConfigHelper.MonsterData.Values.Monsters[id].Parts.Count() > 0)
+            if (ConfigHelper.MonsterData.Values.Monsters.ContainsKey(id) && ConfigHelper.MonsterData.Values.Monsters[id].Parts != null && ConfigHelper.MonsterData.Values.Monsters[id].Parts.Count() > 0)
             {
                 if (OverlayViewModel.Instance.MonsterWidget.Context.AlwaysShowParts || (!OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsValid || OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsCurrentPlayerLobbyHost() || !OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerOnline()))
                 {
