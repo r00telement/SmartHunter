@@ -44,6 +44,8 @@ namespace SmartHunter.Config
 			{ "LOC_MONSTER_GOLD_RATHIAN", "Gold Rathian" },
 			{ "LOC_MONSTER_SILVER_RATHALOS", "Silver Rathalos" },
             { "LOC_MONSTER_RAJANG", "Rajang" },
+            { "LOC_MONSTER_STYGIAN_ZINOGRE", "Stygian Zinogre" },
+            { "LOC_MONSTER_SAFI_JIIVA", "Safi'Jiiva" },
 
             //{ "LOC_MONSTER_UKNOWN", "Unknown Monster" },
             { "LOC_MONSTER_UKNOWN", "Kono Dio da!" },
