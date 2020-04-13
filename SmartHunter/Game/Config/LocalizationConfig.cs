@@ -28,6 +28,7 @@ namespace SmartHunter.Config
             { "LOC_MONSTER_ANJANATH_FULGUR", "Fulgur Anjanath" },
             { "LOC_MONSTER_PUKEI_PUKEI_CORAL", "Coral Pukei-Pukei" },
             { "LOC_MONSTER_BRACHYDIOS", "Brachydios" },
+            { "LOC_MONSTER_RAGING_BRACHYDIOS", "Raging Brachydios" },
             { "LOC_MONSTER_VELKHANA", "Velkhana" },
             { "LOC_MONSTER_BEOTODUS", "Beotodus" },
             { "LOC_MONSTER_GLAVENUS", "Glavenus" },
@@ -41,9 +42,10 @@ namespace SmartHunter.Config
             { "LOC_MONSTER_SEETHING_BAZELGEUSE", "Seething Bazelgeuse" },
             { "LOC_MONSTER_YIAN_GARUGA", "Yian Garuga" },
             { "LOC_MONSTER_SCARRED_YIAN_GARUGA", "Scarred Yian Garuga" },
-			{ "LOC_MONSTER_GOLD_RATHIAN", "Gold Rathian" },
-			{ "LOC_MONSTER_SILVER_RATHALOS", "Silver Rathalos" },
+            { "LOC_MONSTER_GOLD_RATHIAN", "Gold Rathian" },
+            { "LOC_MONSTER_SILVER_RATHALOS", "Silver Rathalos" },
             { "LOC_MONSTER_RAJANG", "Rajang" },
+            { "LOC_MONSTER_FURIOUS_RAJANG", "Furious Rajang" },
             { "LOC_MONSTER_STYGIAN_ZINOGRE", "Stygian Zinogre" },
             { "LOC_MONSTER_SAFI_JIIVA", "Safi'Jiiva" },
 
@@ -125,6 +127,7 @@ namespace SmartHunter.Config
             { "LOC_PART_LIMBS_RIGHT", "Right Limbs" },
             { "LOC_PART_TAIL", "Tail" },
             { "LOC_PART_TAIL_BLADE", "Tail Blade" },
+            { "LOC_PART_TAIL_CLAW", "Tail Claw" },
             { "LOC_PART_WINGS", "Wings" },
             { "LOC_PART_WING_LEFT", "Left Wing" },
             { "LOC_PART_WING_RIGHT", "Right Wing" },
@@ -323,13 +326,13 @@ namespace SmartHunter.Config
             // Buffs
             { "LOC_STATUS_EFFECT_DASH_JUICE", "Dash Juice" },
             { "LOC_STATUS_EFFECT_WIGGLY_LITCHI", "Wiggly Litchi" },
-            { "LOC_STATUS_EFFECT_IMMUNIZER", "Immunizer" },            
+            { "LOC_STATUS_EFFECT_IMMUNIZER", "Immunizer" },
             { "LOC_STATUS_EFFECT_MIGHT_PILL", "Might Pill" },
-            { "LOC_STATUS_EFFECT_MIGHT_SEED", "Might Seed" },            
+            { "LOC_STATUS_EFFECT_MIGHT_SEED", "Might Seed" },
             { "LOC_STATUS_EFFECT_ADAMANT_PILL", "Adamant Pill" },
-            { "LOC_STATUS_EFFECT_ADAMANT_SEED", "Adamant Seed" },            
+            { "LOC_STATUS_EFFECT_ADAMANT_SEED", "Adamant Seed" },
             { "LOC_STATUS_EFFECT_DEMON_POWDER", "Demon Powder" },
-            { "LOC_STATUS_EFFECT_HARDSHELL_POWDER", "Hardshell Powder" },            
+            { "LOC_STATUS_EFFECT_HARDSHELL_POWDER", "Hardshell Powder" },
             { "LOC_STATUS_EFFECT_DEMONDRUG", "Demondrug" },
             { "LOC_STATUS_EFFECT_MEGA_DEMONDRUG", "Mega Demondrug" },
             { "LOC_STATUS_EFFECT_ARMORSKIN", "Armorskin" },
@@ -419,7 +422,7 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_STAMINA", "Stamina" },
             { "LOC_STATUS_EFFECT_FATIGUE", "Fatigue" },
         };
-        
+
         public LocalizationConfig()
         {
 

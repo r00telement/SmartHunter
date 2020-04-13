@@ -9,8 +9,8 @@
     <LangVersion>latest</LangVersion>
     <AssemblyTitle>SmartHunter</AssemblyTitle>
     <Deterministic>false</Deterministic>
-    <AssemblyVersion>1.2.2.0</AssemblyVersion>
-    <FileVersion>1.2.2.0</FileVersion>
+    <AssemblyVersion>2020.04.13</AssemblyVersion>
+    <FileVersion>2020.04.13</FileVersion>
     <OutputPath>bin\$(Configuration)</OutputPath>
     <UseWPF>true</UseWPF>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
