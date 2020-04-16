@@ -902,7 +902,7 @@ namespace SmartHunter.Game.Helpers
             }
             
             // Rage
-            ulong rageAddress = monster.Address + 0x1BE30; //0x1BE20
+            ulong rageAddress = monster.Address + 0x1BE88; //0x1BE20(???) 0x1BE30(old) 0x1BE88(now)
             float maxRageBuildUp = MemoryHelper.Read<float>(process, rageAddress + 0x24);
             float currentRageBuildUp = 0;
             if (maxRageBuildUp > 0)
