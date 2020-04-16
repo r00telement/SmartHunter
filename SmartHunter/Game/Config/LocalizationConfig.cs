@@ -244,6 +244,7 @@ namespace SmartHunter.Config
             { "LOC_STATUS_0", "Status 0" },
             { "LOC_STATUS_EFFECT_UNKNOWN", "Unknown Status Effect" },
             { "LOC_STATUS_EFFECT_POISON", "Poison" },
+            { "LOC_STATUS_EFFECT_VENOM", "Venom"},
             { "LOC_STATUS_EFFECT_PARALYSIS", "Paralysis" },
             { "LOC_STATUS_EFFECT_SLEEP", "Sleep" },
             { "LOC_STATUS_EFFECT_BLAST", "Blast" },
@@ -322,6 +323,7 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_ELEMENTAL_RESISTANCE_DOWN", "Elemental Resistance Down" },
             { "LOC_STATUS_EFFECT_NO_ITEMS", "No Items" },
             { "LOC_STATUS_EFFECT_BLASTBLIGHT", "Blastblight" },
+            { "LOC_STATUS_EFFECT_BLASTBSCOURGE", "Blastscourge" },
             
             // Buffs
             { "LOC_STATUS_EFFECT_DASH_JUICE", "Dash Juice" },
@@ -339,6 +341,14 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_MEGA_ARMORSKIN", "Mega Armorskin" },
             { "LOC_STATUS_EFFECT_COOL_DRINK", "Cool Drink" },
             { "LOC_STATUS_EFFECT_HOT_DRINK", "Hot Drink" },
+            //testing
+            
+            { "LOC_STATUS_EFFECT_HEALTH_RECOVERY(HOT_SPRING)","Health Recovery (Hot Spring)"},
+            { "LOC_STATUS_EFFECT_CLODPROOF(HOT_SPRING)","Clodproof (Hot Spring)"},
+            { "LOC_STATUS_EFFECT_ATTACK_UP(GHOST_FRUIT)","Attack UP (Ghost Fruit)"},
+            { "LOC_STATUS_EFFECT_ICEPROOF(ICEPROOF_GRASS)","Iceproof (Iceproof Grass)"},
+            
+            //
             { "LOC_STATUS_EFFECT_PROTECTIVE_POLISH", "Protective Polish" },
             { "LOC_STATUS_EFFECT_AFFINITY_SLIDING", "Affinity Sliding" },
 
