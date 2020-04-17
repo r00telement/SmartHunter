@@ -105,7 +105,7 @@ namespace SmartHunter.Game.Config
 
             //statuses
             new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_POISON", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(375)),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_VENOM", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(376)),
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_VIRULENT", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(376)),
             new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_FIREBLIGHT", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(379)),
             new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_THUNDERBLIGHT", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(380)),
             new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_WATERBLIGHT", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(381)),
@@ -122,27 +122,23 @@ namespace SmartHunter.Game.Config
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_DASH_JUICE", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(420)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_WIGGLY_LITCHI", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(421)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_IMMUNIZER", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(422)),
-
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MIGHT_SEED", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(424), new MemoryConditionConfig(0, indexToHexStrNoOffset(426))),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MIGHT_PILL", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(424), new MemoryConditionConfig(1, indexToHexStrNoOffset(426))),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MIGHT_SEED", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(424), new MemoryConditionConfig(10, indexToHexStrNoOffset(425))),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MIGHT_PILL", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(424), new MemoryConditionConfig(25, indexToHexStrNoOffset(425))),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ADAMANT_SEED", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(428), new MemoryConditionConfig(20, indexToHexStrNoOffset(429))),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ADAMANT_PILL", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(428), new MemoryConditionConfig(0, indexToHexStrNoOffset(429))),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_DEMON_POWDER", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(433)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_HARDSHELL_POWDER", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(434)),
-
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_DEMONDRUG", (uint)StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(1, indexToHexStrNoOffset(437))),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MEGA_DEMONDRUG", (uint)StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(2, indexToHexStrNoOffset(437))),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ARMORSKIN", (uint)StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(1, indexToHexStrNoOffset(438))),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_MEGA_ARMORSKIN", (uint)StatusEffectConfig.MemorySource.Base, null, new MemoryConditionConfig(2, indexToHexStrNoOffset(438))),
-
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_COOL_DRINK", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(443)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_HOT_DRINK", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(444)),
-            //testing
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_HEALTH_RECOVERY(HOT_SPRING)", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(446)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_CLODPROOF(HOT_SPRING)", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(447)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ATTACK_UP(GHOST_FRUIT)", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(454)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ICEPROOF(ICEPROOF_GRASS)", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(455)),
-            //
+
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_PROTECTIVE_POLISH", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(475)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_AFFINITY_SLIDING", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(476)),
 

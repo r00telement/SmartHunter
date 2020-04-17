@@ -80,13 +80,13 @@ namespace SmartHunter.Game
         {
             UpdateVisibility();
             /*
-            var range = new AddressRange(0x140000000, 0x226a3000);
+            var range = new AddressRange(0x140000000, 0x169233000);
             //var pattern = new BytePattern(new Config.BytePatternConfig("48 8B 05 ?? ?? ?? ?? 41 8B", "140000000", "163B0A000", null));
 
             var pattern = new BytePattern(new Config.BytePatternConfig("null", "48 8B 0D ?? ?? ?? ??", null));
             var matches = MemoryHelper.FindPatternAddresses(Process, range, pattern, false);
 
-            //Log.WriteLine($"Found {matches.Count()} matches...");
+            Log.WriteLine($"Found {matches.Count()} matches...");
 
             ulong[] lookingFor = new ulong[1] { 0x144FA8720 };
 
@@ -100,7 +100,7 @@ namespace SmartHunter.Game
                     if (looking == lear)
                     {
                         res.Add(address);
-                        //Log.WriteLine($"Found match for 0x{looking} at 0x{address}");
+                        Log.WriteLine($"Found match for 0x{looking} at 0x{address}");
                     }
                 }
             }
