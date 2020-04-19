@@ -118,7 +118,8 @@ namespace SmartHunter.Game.Config
             new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_ELEMENTAL_RESISTANCE_DOWN", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(389)),
             new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_NO_ITEMS", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(391)),
             new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_BLASTBLIGHT", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(392)),
-            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_BLASTBSCOURGE", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(399)),
+            //BLASTSCOURGE Always Display?
+            new StatusEffectConfig("Debuff", "LOC_STATUS_EFFECT_BLASTSCOURGE", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(399)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_DASH_JUICE", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(420)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_WIGGLY_LITCHI", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(421)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_IMMUNIZER", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(422)),
@@ -136,8 +137,8 @@ namespace SmartHunter.Game.Config
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_HOT_DRINK", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(444)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_HEALTH_RECOVERY(HOT_SPRING)", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(446)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_CLODPROOF(HOT_SPRING)", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(447)),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ATTACK_UP(GHOST_FRUIT)", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(454)),
-            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ICEPROOF(ICEPROOF_GRASS)", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(455)),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ATTACK_UP(POWERCONE)", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(454)),
+            new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_ICEPROOF(THAWPUFF)", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(455)),
 
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_PROTECTIVE_POLISH", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(475)),
             new StatusEffectConfig("Buff", "LOC_STATUS_EFFECT_AFFINITY_SLIDING", (uint)StatusEffectConfig.MemorySource.Base, indexToHexStrNoOffset(476)),

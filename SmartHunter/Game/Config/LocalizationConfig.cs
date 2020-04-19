@@ -323,7 +323,7 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_ELEMENTAL_RESISTANCE_DOWN", "Elemental Resistance Down" },
             { "LOC_STATUS_EFFECT_NO_ITEMS", "No Items" },
             { "LOC_STATUS_EFFECT_BLASTBLIGHT", "Blastblight" },
-            { "LOC_STATUS_EFFECT_BLASTBSCOURGE", "Blastscourge" },
+            { "LOC_STATUS_EFFECT_BLASTSCOURGE", "Blastscourge" },
             
             // Buffs
             { "LOC_STATUS_EFFECT_DASH_JUICE", "Dash Juice" },
@@ -343,8 +343,8 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_HOT_DRINK", "Hot Drink" },    
             { "LOC_STATUS_EFFECT_HEALTH_RECOVERY(HOT_SPRING)","Health Recovery (Hot Spring)"},
             { "LOC_STATUS_EFFECT_CLODPROOF(HOT_SPRING)","Clodproof (Hot Spring)"},
-            { "LOC_STATUS_EFFECT_ATTACK_UP(GHOST_FRUIT)","Attack UP (Ghost Fruit)"},
-            { "LOC_STATUS_EFFECT_ICEPROOF(ICEPROOF_GRASS)","Iceproof (Iceproof Grass)"},
+            { "LOC_STATUS_EFFECT_ATTACK_UP(POWERCONE)","Attack UP (Powercone)"},
+            { "LOC_STATUS_EFFECT_ICEPROOF(THAWPUFF)","Iceproof (Thawpuff)"},
 
             { "LOC_STATUS_EFFECT_PROTECTIVE_POLISH", "Protective Polish" },
             { "LOC_STATUS_EFFECT_AFFINITY_SLIDING", "Affinity Sliding" },
