@@ -22,7 +22,12 @@ namespace SmartHunter.Game.Config
         public Dictionary<InputControl, Key> Keybinds = new Dictionary<InputControl, Key>()
         {
             { InputControl.ManipulateWidget, Key.LeftAlt },
-            { InputControl.HideWidgets, Key.F1 }
+            { InputControl.HideWidgets, Key.F1 },
+            { InputControl.CopyTeamDamage, Key.F5 },
+            { InputControl.CopyPlayer1Damage, Key.F6},
+            { InputControl.CopyPlayer2Damage, Key.F7},
+            { InputControl.CopyPlayer3Damage, Key.F9},
+            { InputControl.CopyPlayer4Damage, Key.F10}
         };
 
         public DebugConfig Debug = new DebugConfig();

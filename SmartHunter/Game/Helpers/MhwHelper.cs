@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SmartHunter.Core;
 using SmartHunter.Core.Helpers;
 using SmartHunter.Game.Config;
 using SmartHunter.Game.Data;
