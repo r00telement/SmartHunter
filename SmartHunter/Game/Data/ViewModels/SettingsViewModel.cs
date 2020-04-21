@@ -42,7 +42,7 @@ namespace SmartHunter.Game.Data.ViewModels
         {
             Settings = new List<Setting>();
 
-            Settings.Add(new Setting(ConfigHelper.Main.Values.Overlay.MonsterWidget.UseNetworkServer, "Use Server", "By enabling this option you'll be able to receive Monster Parts and Statuses even if you are not current host and to receive other party members damages in expeditions.\nPlease note taht this will work only if also other members have this option on. There is a great PDF explaining how that work on my repo, so be sure to check it out", new Command(_ =>
+            Settings.Add(new Setting(ConfigHelper.Main.Values.Overlay.MonsterWidget.UseNetworkServer, "Use Server", "By enabling this option you'll be able to receive Monster Parts and Statuses even if you are not current host and to receive other party members damages in expeditions.\nPlease note that this will work only if also other members have this option on. There is a great PDF explaining how that work on my repo, so be sure to check it out", new Command(_ =>
             {
                 ConfigHelper.Main.Values.Overlay.MonsterWidget.UseNetworkServer = !ConfigHelper.Main.Values.Overlay.MonsterWidget.UseNetworkServer;
                 ConfigHelper.Main.Save();
