@@ -10,8 +10,8 @@ namespace SmartHunter.Core.Helpers
     public class Updater
     {
         private readonly List<UpdateNode> _needUpdates = new List<UpdateNode>();
-        private readonly string _apiEndpoint = "https://api.github.com/repos/gabrielefilipp/SmartHunter/commits?path=";
-        private readonly string _apiRaw = "https://github.com/gabrielefilipp/SmartHunter/raw";
+        private readonly string _apiEndpoint = "https://api.github.com/repos/dragonyue0417/SmartHunter/commits?path=";
+        private readonly string _apiRaw = "https://github.com/dragonyue0417/SmartHunter/raw";
         private readonly string _dummyUserAgent = "Mozilla/4.0 (Compatible; Windows NT 5.1; MSIE 6.0) (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";
 
         public bool CheckForUpdates(bool forceCheck = false)

@@ -1,8 +1,10 @@
+using System;
+using System.Collections.Generic;
 using SmartHunter.Core.Data;
 
 namespace SmartHunter.Game.Data
 {
-    public class Player : Bindable
+    public class Player : Bindable, IComparable<Player>
     {
         int m_Index;
 
@@ -38,6 +40,18 @@ namespace SmartHunter.Game.Data
         {
             get { return m_BarFraction; }
             set { SetProperty(ref m_BarFraction, value); }
+        }
+
+        public int CompareTo(Player other)
+        {
+            if (this.Damage == 0 && other.Damage == 0)
+                return -1;
+            return this.DamageFraction > other.DamageFraction ? 0 : 1;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1} {2}%", this.Name, this.Damage, (this.DamageFraction * 100).ToString("0.##"));
         }
     }
 }

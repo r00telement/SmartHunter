@@ -42,7 +42,7 @@ namespace SmartHunter.Game.Config
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
-			{
+            {
                 "em001_02", // true
                 new MonsterConfig("LOC_MONSTER_GOLD_RATHIAN",
                     new MonsterPartConfig[]
@@ -96,7 +96,7 @@ namespace SmartHunter.Game.Config
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
-			{
+            {
                 "em002_02", // true
                 new MonsterConfig("LOC_MONSTER_SILVER_RATHALOS",
                     new MonsterPartConfig[]
@@ -209,6 +209,25 @@ namespace SmartHunter.Game.Config
                     {
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HORNS", true),
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
+                        // TODO: One other removable part?
+                        new MonsterPartConfig("Part", "LOC_PART_HEAD"),
+                        new MonsterPartConfig("Part", "LOC_PART_BODY"),
+                        new MonsterPartConfig("Part", "LOC_PART_ARM_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_ARM_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL")
+                    },
+                    829.11f,
+                    new MonsterCrownConfig(CrownPreset.Rajang)
+                )
+            },
+            { // true
+                "em023_05",
+                new MonsterConfig("LOC_MONSTER_FURIOUS_RAJANG",
+                    new MonsterPartConfig[]
+                    {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HORNS", true),
                         // TODO: One other removable part?
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
@@ -499,6 +518,26 @@ namespace SmartHunter.Game.Config
                 )
             },
             { // true
+                "em063_05",
+                new MonsterConfig("LOC_MONSTER_RAGING_BRACHYDIOS",
+                    new MonsterPartConfig[]
+                    {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
+                        new MonsterPartConfig("Part", "LOC_PART_HORNS"),
+                        new MonsterPartConfig("Part", "LOC_PART_HEAD"),
+                        new MonsterPartConfig("Part", "LOC_PART_BODY"),
+                        new MonsterPartConfig("Part", "LOC_PART_ARM_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_ARM_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL_CLAW")
+                    },
+                    2282.77f,
+                    new MonsterCrownConfig(CrownPreset.Standard)
+                )
+            },
+            { // true
                 "em080_00",
                 new MonsterConfig("LOC_MONSTER_GLAVENUS",
                     new MonsterPartConfig[]
@@ -720,9 +759,9 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
-                        new MonsterPartConfig("Part", "LOC_PART_ABDOMEN"),
-                        new MonsterPartConfig("Part", "LOC_PART_NECK"), // to check
-                        new MonsterPartConfig("Part", "LOC_PART_BACK"), // to check
+                        new MonsterPartConfig("Part", "LOC_PART_NECK"),
+                        new MonsterPartConfig("Part", "LOC_PART_BACK"),
+                        new MonsterPartConfig("Part", "LOC_PART_CHEST"),
                         new MonsterPartConfig("Part", "LOC_PART_ARM_LEFT"),
                         new MonsterPartConfig("Part", "LOC_PART_ARM_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_LEG_LEFT"),
