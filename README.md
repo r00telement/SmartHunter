@@ -55,7 +55,7 @@ A complete overlay for Monster Hunter: World on PC. Distributed on [Nexus Mods](
 
 ## Credits
 
-- [r00telement](https://www.nexusmods.com/monsterhunterworld/users/64406676) for he's original [project](https://github.com/r00telement/SmartHunter).
+- [r00telement](https://www.nexusmods.com/monsterhunterworld/users/64406676) for his original [project](https://github.com/r00telement/SmartHunter).
 - [Phil-Pa](https://github.com/Phil-Pa) for his [idea](https://github.com/gabrielefilipp/SmartHunter/pull/57/commits/4e2394e98ca63626b2ddcb4503a0ba0b0ed70c72)
 
 ## Disclaimer
