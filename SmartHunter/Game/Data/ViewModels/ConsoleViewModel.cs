@@ -1,4 +1,4 @@
-﻿using SmartHunter.Core;
+using SmartHunter.Core;
 using SmartHunter.Core.Data;
 
 namespace SmartHunter.Game.Data.ViewModels
