@@ -1,4 +1,10 @@
-.vs
-bin
-obj
-*.user
+SmartHunter/bin/Debug/*
+SmartHunter/bin/Release/*
+SmartHunter/SmartHunter.csproj.user
+obj/
+.vs/
+
+# allow for auto updates
+!SmartHunter/bin/Debug/Default.xaml
+!SmartHunter/bin/Debug/Newtonsoft.Json.dll
+!SmartHunter/bin/Debug/SmartHunter.exe

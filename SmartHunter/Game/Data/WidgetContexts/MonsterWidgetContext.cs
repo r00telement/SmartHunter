@@ -1,13 +1,20 @@
-﻿using SmartHunter.Core.Data;
-using SmartHunter.Game.Helpers;
 using System.Collections.ObjectModel;
 using System.Linq;
+using SmartHunter.Core.Data;
+using SmartHunter.Game.Helpers;
 
 namespace SmartHunter.Game.Data.WidgetContexts
 {
     public class MonsterWidgetContext : WidgetContext
     {
         public ObservableCollection<Monster> Monsters { get; private set; }
+
+        bool m_ShowSize = false;
+        public bool ShowSize
+        {
+            get { return m_ShowSize; }
+            set { SetProperty(ref m_ShowSize, value); }
+        }
 
         bool m_ShowCrown = true;
         public bool ShowCrown
@@ -37,6 +44,20 @@ namespace SmartHunter.Game.Data.WidgetContexts
             set { SetProperty(ref m_ShowPercents, value); }
         }
 
+        bool m_UseAnimations = true;
+        public bool UseAnimations
+        {
+            get { return m_UseAnimations; }
+            set { SetProperty(ref m_UseAnimations, value); }
+        }
+
+        bool m_AlwaysShowParts = false;
+        public bool AlwaysShowParts
+        {
+            get { return m_AlwaysShowParts; }
+            set { SetProperty(ref m_AlwaysShowParts, value); }
+        }
+
         public MonsterWidgetContext()
         {
             Monsters = new ObservableCollection<Monster>();
@@ -44,7 +65,7 @@ namespace SmartHunter.Game.Data.WidgetContexts
             UpdateFromConfig();
         }
 
-        public Monster UpdateAndGetMonster(ulong address, string id, float maxHealth, float currentHealth, float sizeScale)
+        public Monster UpdateAndGetMonster(ulong address, string id, float maxHealth, float currentHealth, float sizeScale, float scaleModifier)
         {
             Monster monster = null;
 
@@ -55,10 +76,11 @@ namespace SmartHunter.Game.Data.WidgetContexts
                 monster.Health.Max = maxHealth;
                 monster.Health.Current = currentHealth;
                 monster.SizeScale = sizeScale;
+                monster.ScaleModifier = scaleModifier;
             }
             else
             {
-                monster = new Monster(address, id, maxHealth, currentHealth, sizeScale);
+                monster = new Monster(address, id, maxHealth, currentHealth, sizeScale, scaleModifier);
                 Monsters.Add(monster);
             }
 
@@ -71,10 +93,13 @@ namespace SmartHunter.Game.Data.WidgetContexts
         {
             base.UpdateFromConfig();
 
+            ShowSize = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowSize;
             ShowCrown = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowCrown;
             ShowBars = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowBars;
             ShowNumbers = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowNumbers;
             ShowPercents = ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowPercents;
+            UseAnimations = ConfigHelper.Main.Values.Overlay.MonsterWidget.UseAnimations;
+            AlwaysShowParts = ConfigHelper.Main.Values.Overlay.MonsterWidget.AlwaysShowParts;
 
             foreach (var monster in Monsters)
             {

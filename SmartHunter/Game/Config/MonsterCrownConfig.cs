@@ -1,11 +1,13 @@
-﻿using SmartHunter.Core;
+using SmartHunter.Core;
 
 namespace SmartHunter.Game.Config
 {
     public enum CrownPreset
     {
         Standard,
-        Alternate
+        Alternate,
+        Savage,
+        Rajang
     }
 
     public class MonsterCrownConfig
@@ -31,6 +33,18 @@ namespace SmartHunter.Game.Config
                 Mini = 0.9f;
                 Silver = 1.1f;
                 Gold = 1.2f;
+            }
+            else if (crownPreset == CrownPreset.Savage)
+            {
+                Mini = 0.99f;
+                Silver = 1.14f;
+                Gold = 1.2f;
+            }
+            else if (crownPreset == CrownPreset.Rajang)
+            {
+                Mini = 0.9f;
+                Silver = 1.12f;
+                Gold = 1.18f;
             }
             else
             {

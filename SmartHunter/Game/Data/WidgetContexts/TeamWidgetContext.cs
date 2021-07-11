@@ -1,14 +1,24 @@
-﻿using SmartHunter.Core.Data;
-using SmartHunter.Game.Helpers;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using SmartHunter.Core;
+using SmartHunter.Core.Data;
+using SmartHunter.Game.Data.ViewModels;
+using SmartHunter.Game.Helpers;
 
 namespace SmartHunter.Game.Data.WidgetContexts
 {
     public class TeamWidgetContext : WidgetContext
     {
-        public ObservableCollection<Player> Players { get; private set; }
+        public Collection<Player> Players { get; private set; }
+        public ObservableCollection<Player> Fake_Players { get; private set; } // TODO: Can dis be done inside the xaml file?
+
+        bool m_DontShowIfAlone = false;
+        public bool DontShowIfAlone
+        {
+            get { return m_DontShowIfAlone; }
+            set { SetProperty(ref m_DontShowIfAlone, value); }
+        }
 
         bool m_ShowBars = true;
         public bool ShowBars
@@ -33,7 +43,8 @@ namespace SmartHunter.Game.Data.WidgetContexts
 
         public TeamWidgetContext()
         {
-            Players = new ObservableCollection<Player>();
+            Players = new Collection<Player>();
+            Fake_Players = new ObservableCollection<Player>();
 
             UpdateFromConfig();
         }
@@ -42,12 +53,33 @@ namespace SmartHunter.Game.Data.WidgetContexts
         {
             if (String.IsNullOrEmpty(name) && damage == 0)
             {
+                if (index < Players.Count)
+                {
+                    Players.RemoveAt(index);
+                    if (DontShowIfAlone && Players.Count() <= 1)
+                    {
+                        Fake_Players.Clear();
+                    }
+                    else
+                    {
+                        Fake_Players.RemoveAt(index);
+                    }
+                }
                 return null;
             }
-            
+
             while (index >= Players.Count)
             {
                 Players.Add(new Player() { Index = Players.Count, Name = LocalizationHelper.GetString(LocalizationHelper.UnknownPlayerStringId) });
+
+                if (DontShowIfAlone && Players.Count() <= 1)
+                {
+                    Fake_Players.Clear();
+                }
+                else
+                {
+                    Fake_Players.Add(Players[Players.Count() - 1]);
+                }
             }
 
             Player player = Players[index];
@@ -60,7 +92,10 @@ namespace SmartHunter.Game.Data.WidgetContexts
                 player.Name = LocalizationHelper.GetString(LocalizationHelper.UnknownPlayerStringId);
             }
 
-            player.Damage = damage;
+            if (!OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerInExpedition)
+            {
+                player.Damage = damage;
+            }
 
             return player;
         }
@@ -87,7 +122,7 @@ namespace SmartHunter.Game.Data.WidgetContexts
                 var highestDamagePlayer = highestDamagePlayers.First();
                 highestDamagePlayer.DamageFraction = (float)highestDamagePlayer.Damage / (float)totalDamage;
                 highestDamagePlayer.BarFraction = 1;
-
+                //Log.WriteLine(String.Format("{0} {1} {2}", highestDamagePlayer.Damage.ToString(), highestDamagePlayer.DamageFraction.ToString(), highestDamagePlayer.BarFraction.ToString()));
                 foreach (var otherPlayer in Players.Except(highestDamagePlayers))
                 {
                     otherPlayer.DamageFraction = (float)otherPlayer.Damage / (float)totalDamage;
@@ -96,10 +131,17 @@ namespace SmartHunter.Game.Data.WidgetContexts
             }
         }
 
+        public void ClearPlayers()
+        {
+            Players.Clear();
+            Fake_Players.Clear();
+        }
+
         public override void UpdateFromConfig()
         {
             base.UpdateFromConfig();
 
+            DontShowIfAlone = ConfigHelper.Main.Values.Overlay.TeamWidget.DontShowIfAlone;
             ShowBars = ConfigHelper.Main.Values.Overlay.TeamWidget.ShowBars;
             ShowNumbers = ConfigHelper.Main.Values.Overlay.TeamWidget.ShowNumbers;
             ShowPercents = ConfigHelper.Main.Values.Overlay.TeamWidget.ShowPercents;
